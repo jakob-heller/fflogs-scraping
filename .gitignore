@@ -1,0 +1,5 @@
+# Ignore __pycache__
+data/pycache
+
+# Ignore geckodriver logs
+*.log
