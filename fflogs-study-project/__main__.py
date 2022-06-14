@@ -9,8 +9,13 @@ from data import data_scraping as ds
 def main():
     """Get links from user, scrape data, combine and visualize."""
     links = ui.user_input()
-    data = ds.scrape()
-    print(data)
+    spider = ds.Scraping(links, "kills", headless=True)
+
+    spider.parse_logs()
+
+    print(spider.comp)
+    print(f"List of healing done dfs: {spider.hd_dfs}.")
+    print(f"List of damage dealt dfs: {spider.dd_dfs}.")
 
 
 main()
