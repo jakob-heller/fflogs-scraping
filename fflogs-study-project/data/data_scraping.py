@@ -99,7 +99,7 @@ class Scraping:
         comp = list(re.findall("\"[a-zA-Z]*\"", comp_html))
         comp = [s.strip('"') for s in comp]
 
-        if not all(self.comp) and sorted(self.comp) != sorted(tuple(comp)):
+        if len(self.comp) > 0 and sorted(self.comp) != sorted(tuple(comp)):
             self.quit()
             raise AttributeError(("Group comps in provided logs don't match."))
         else:
@@ -153,13 +153,3 @@ class Scraping:
             self.get_healing_done()
 
         self.quit()
-
-
-logs = list(("https://www.fflogs.com/reports/VwfG79rj4dF3gLqK",
-            "https://www.fflogs.com/reports/VwfG79rj4dF3gLqK"))
-soup = Scraping(logs, "kills", False)
-soup.parse_logs()
-
-print(soup.comp)
-print(f"List of healing done dfs: {soup.hd_dfs}.")
-print(f"List of damage dealt dfs: {soup.dd_dfs}.")
