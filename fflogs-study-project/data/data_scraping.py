@@ -151,5 +151,4 @@ class Scraping:
             self.get_damage_dealt()
             self.to_healing_done()
             self.get_healing_done()
-
         self.quit()
