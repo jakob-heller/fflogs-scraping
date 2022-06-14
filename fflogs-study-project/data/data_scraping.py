@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
+from selenium.webdriver.firefox.options import Options
 
 
 class Scraping:
@@ -16,15 +17,21 @@ class Scraping:
     Attributes:
       logs: list of logs (links) to be scraped.
       enc_type: int indicating what encounters should be taken into account.
-      driver: Selenium webdriver, Firefox (visible) or PhantomJS (invisible).
+      driver: Firefox webdriver object.
 
       comp: 8-tuple of job-composition in logs.
       dd_dfs: list containing damage dealt pandas dataframes.
       hd_dfs: list containing healing done pandas dataframes.
     """
 
-    def __init__(self, logs: list, encounters_type: str, browser: str):
-        """Initialize object with given attributes, start according driver."""
+    def __init__(self, logs: list, encounters_type: str, headless=True):
+        """Initialize object with given attributes, start driver.
+
+        Args:
+          logs: list of log links (user input)
+          encounters_type: include either wipes, kills or all encounters.
+          headless: True if browser should be invisible, false if visible.
+        """
         self.logs = logs
         self.comp = ()
         self.dd_dfs = list()
@@ -39,12 +46,10 @@ class Scraping:
         else:
             raise AttributeError("Select a valid encounter type.")
 
-        if browser == "Firefox":
-            self.driver = webdriver.Firefox()
-        elif browser == "PhantomJS":
-            self.driver = webdriver.PhantomJS()
-        else:
-            raise AttributeError("Select a valid browser.")
+        options = Options()
+        if headless:
+            options.headless = True
+        self.driver = webdriver.Firefox(options=options)
 
     def quit(self):
         """Close browser/ quit driver."""
@@ -152,7 +157,7 @@ class Scraping:
 
 logs = list(("https://www.fflogs.com/reports/VwfG79rj4dF3gLqK",
             "https://www.fflogs.com/reports/VwfG79rj4dF3gLqK"))
-soup = Scraping(logs, "kills", "Firefox")
+soup = Scraping(logs, "kills", False)
 soup.parse_logs()
 
 print(soup.comp)
