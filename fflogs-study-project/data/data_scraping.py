@@ -8,11 +8,10 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
-from selenium.webdriver.firefox.options import Options
 from selenium.common.exceptions import NoSuchElementException
 
 # for logging
-from datetime import datetime
+# from datetime import datetime
 import logging
 
 logging.basicConfig(level=logging.INFO)
@@ -53,7 +52,7 @@ class Scraping:
         else:
             raise AttributeError("Select a valid encounter type.")
 
-        options = Options()
+        options = webdriver.FirefoxOptions()
         if headless:
             options.headless = True
 
@@ -71,7 +70,7 @@ class Scraping:
         """Need to accept pop-up when visiting fflogs for the first time."""
         self.driver.get("https://www.fflogs.com/")
 
-        time.sleep(0.5)
+        time.sleep(0.25)
 
         # I am using xpaths, and this one seems to vary for some reason.
         try:
