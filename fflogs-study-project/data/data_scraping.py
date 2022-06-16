@@ -85,9 +85,9 @@ class Scraping:
         self.driver.get(self.logs[log_num])
         time.sleep(0.5)
 
-        fights_xp = ("/html/body/div[2]/div[2]/div[5]/div/div/div/div[2]/div/a[1]",  # noqa: E501
-                     "/html/body/div[2]/div[2]/div[5]/div/div/div/div[2]/div/a[2]",  # noqa: E501
-                     "/html/body/div[2]/div[2]/div[5]/div/div/div/div[2]/div/a[3]")  # noqa: E501
+        fights_xp = ("//div[@class='report-overview-boss-pulls ']/a[contains(., 'All Wipes')]",  # noqa: E501
+                     "//div[@class='report-overview-boss-pulls ']/a[contains(., 'All Kills')]",  # noqa: E501
+                     "//div[@class='report-overview-boss-pulls ']/a[contains(., 'All Encounters')]")  # noqa: E501
 
         self.driver.find_element(By.XPATH, fights_xp[self.enc_type]).click()
 
@@ -164,4 +164,4 @@ class Scraping:
             self.get_damage_dealt()
             self.to_healing_done()
             self.get_healing_done()
-        self.quit()
+        # self.quit()
