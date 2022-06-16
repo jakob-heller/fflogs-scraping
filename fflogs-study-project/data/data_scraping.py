@@ -1,14 +1,13 @@
 """Includes implementation of Scraping class."""
 
 import re
-import time
 import pandas as pd
 
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 # for logging
 # from datetime import datetime
@@ -30,7 +29,7 @@ class Scraping:
       hd_dfs: list containing healing done pandas dataframes.
     """
 
-    def __init__(self, logs: list, encounters_type: str, headless=True):
+    def __init__(self, logs: list, encounters_type: str, headless=True, adblock=True):
         """Initialize object with given attributes, start driver.
 
         Args:
@@ -56,8 +55,11 @@ class Scraping:
         if headless:
             options.headless = True
 
-        # Set profile to profile including ublock origin extension (adblock)
-        ffprofile = webdriver.FirefoxProfile("firefox profile with adblock")
+        # Set profile to either profile including ublock or default
+        if adblock:
+            ffprofile = webdriver.FirefoxProfile("firefox profile with adblock")
+        else:
+            ffprofile = webdriver.FirefoxProfile()
 
         # Start Firefox driver with options (headless or not) and profile
         self.driver = webdriver.Firefox(ffprofile, options=options)
@@ -66,35 +68,36 @@ class Scraping:
         """Close browser/ quit driver."""
         self.driver.quit()
 
+    def wait_until(self, xpath: str, timeout: int = 10, type: str = "present"):
+        """Wait till specified element is loaded (or timeout) and return it."""
+        if type == "clickable":
+            return WebDriverWait(self.driver, timeout).until(
+                EC.element_to_be_clickable((By.XPATH, xpath)))
+        elif type == "present":
+            return WebDriverWait(self.driver, timeout).until(
+                EC.presence_of_element_located((By.XPATH, xpath)))
+
     def first_popup(self):
         """Need to accept pop-up when visiting fflogs for the first time."""
         self.driver.get("https://www.fflogs.com/")
 
-        time.sleep(0.25)
-
-        # I am using xpaths, and this one seems to vary for some reason.
-        try:
-            popup_xp = "/html/body/div[1]/div/div/div/div[2]/div/button[1]"
-            self.driver.find_element(By.XPATH, popup_xp).send_keys(Keys.ENTER)
-        except NoSuchElementException:
-            popup_xp = "/html/body/div[2]/div/div/div/div[2]/div/button[1]"
-            self.driver.find_element(By.XPATH, popup_xp).send_keys(Keys.ENTER)
+        popup_xp = "//button/span[./text()='AGREE']"
+        self.wait_until(popup_xp, type="clickable").click()
 
     def to_summary(self, log_num: int = 0) -> None:
         """Open log link from list and navigate to all encounters summary."""
         self.driver.get(self.logs[log_num])
-        time.sleep(0.5)
 
         fights_xp = ("//div[@class='report-overview-boss-pulls ']/a[contains(., 'All Wipes')]",  # noqa: E501
                      "//div[@class='report-overview-boss-pulls ']/a[contains(., 'All Kills')]",  # noqa: E501
                      "//div[@class='report-overview-boss-pulls ']/a[contains(., 'All Encounters')]")  # noqa: E501
 
-        self.driver.find_element(By.XPATH, fights_xp[self.enc_type]).click()
-
-        time.sleep(0.5)
+        self.wait_until(fights_xp[self.enc_type], type="clickable").click()
 
     def get_comp(self) -> str:
         """Get html of summary page an return the composition table."""
+        self.wait_until("//table[@class='composition-table']", type="present")
+
         parsed_summary = BeautifulSoup(self.driver.page_source, "html.parser")
         comp_html = parsed_summary.find_all(class_="composition-entry")
 
@@ -129,6 +132,8 @@ class Scraping:
         """Create and return pandas dataframe made from html table."""
         dd_df = pd.DataFrame()
 
+        self.wait_until("//div[@id='table-container']", type="present")
+
         parsed_damage = BeautifulSoup(self.driver.page_source, "html.parser")
         dd_html = parsed_damage.find(id="main-table-0")
 
@@ -147,6 +152,8 @@ class Scraping:
         """Create and return pandas dataframe made from html table."""
         hd_df = pd.DataFrame()
 
+        self.wait_until("//div[@id='table-container']", type="present")
+
         parsed_healing = BeautifulSoup(self.driver.page_source, "html.parser")
         hd_html = parsed_healing.find(id="main-table-0")
 
@@ -164,4 +171,4 @@ class Scraping:
             self.get_damage_dealt()
             self.to_healing_done()
             self.get_healing_done()
-        # self.quit()
+        self.quit()
