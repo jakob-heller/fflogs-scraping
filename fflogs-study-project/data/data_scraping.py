@@ -9,6 +9,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options
+from selenium.common.exceptions import NoSuchElementException
 
 # for logging
 from datetime import datetime
@@ -72,13 +73,17 @@ class Scraping:
 
         time.sleep(0.5)
 
-        popup_xp = "/html/body/div[1]/div/div/div/div[2]/div/button[1]"
-        self.driver.find_element(By.XPATH, popup_xp).send_keys(Keys.ENTER)
+        # I am using xpaths, and this one seems to vary for some reason.
+        try:
+            popup_xp = "/html/body/div[1]/div/div/div/div[2]/div/button[1]"
+            self.driver.find_element(By.XPATH, popup_xp).send_keys(Keys.ENTER)
+        except NoSuchElementException:
+            popup_xp = "/html/body/div[2]/div/div/div/div[2]/div/button[1]"
+            self.driver.find_element(By.XPATH, popup_xp).send_keys(Keys.ENTER)
 
     def to_summary(self, log_num: int = 0) -> None:
         """Open log link from list and navigate to all encounters summary."""
         self.driver.get(self.logs[log_num])
-
         time.sleep(0.5)
 
         fights_xp = ("/html/body/div[2]/div[2]/div[5]/div/div/div/div[2]/div/a[1]",  # noqa: E501
@@ -87,8 +92,7 @@ class Scraping:
 
         self.driver.find_element(By.XPATH, fights_xp[self.enc_type]).click()
 
-        # Some of the contents I want to parse take a few seconds to load.
-        time.sleep(2)
+        time.sleep(0.5)
 
     def get_comp(self) -> str:
         """Get html of summary page an return the composition table."""
