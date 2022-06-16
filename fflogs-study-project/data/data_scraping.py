@@ -10,6 +10,11 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options
 
+from datetime import datetime
+import logging
+
+logging.basicConfig(level=logging.INFO)
+
 
 class Scraping:
     """Implementation of all necessary scraping methods.
@@ -51,23 +56,32 @@ class Scraping:
             options.headless = True
         self.driver = webdriver.Firefox(options=options)
 
+        logging.info(f"{datetime.now().time()}: Scraping object created.")
+
     def quit(self):
         """Close browser/ quit driver."""
         self.driver.quit()
+
+        logging.info(f"{datetime.now().time()}: Driver quit.")
 
     def first_popup(self):
         """Need to accept pop-up when visiting fflogs for the first time."""
         self.driver.get("https://www.fflogs.com/")
 
+        logging.info(f"{datetime.now().time()}: Navigated to first popup.")
+
         time.sleep(0.5)
 
-        # Pop-up which needs to be accepted:
         popup_xp = "/html/body/div[2]/div/div/div/div[2]/div/button[1]"
         self.driver.find_element(By.XPATH, popup_xp).send_keys(Keys.ENTER)
+
+        logging.info(f"{datetime.now().time()}: First popup accepted.")
 
     def to_summary(self, log_num: int = 0) -> None:
         """Open log link from list and navigate to all encounters summary."""
         self.driver.get(self.logs[log_num])
+
+        logging.info(f"{datetime.now().time()}: Navigated to log.")
 
         time.sleep(0.5)
 
@@ -75,7 +89,11 @@ class Scraping:
                      "/html/body/div[3]/div[2]/div[5]/div/div/div/div[2]/div/a[2]",  # noqa: E501
                      "/html/body/div[3]/div[2]/div[5]/div/div/div/div[2]/div/a[3]")  # noqa: E501
 
+        logging.info(f"{datetime.now().time()}: Before search/ click.")
+
         self.driver.find_element(By.XPATH, fights_xp[self.enc_type]).click()
+
+        logging.info(f"{datetime.now().time()}: After clicking.")
 
         # Some of the contents I want to parse take a few seconds to load.
         time.sleep(2)
@@ -88,7 +106,7 @@ class Scraping:
         return str(comp_html)
 
     def check_comp(self, comp_html: str) -> tuple[str]:
-        """Parse html string with regex and check group composition.
+        """Parse html string with regex and check/ update group composition.
 
         Args:
           comb_html: html string of the composition table.
@@ -143,9 +161,13 @@ class Scraping:
 
     def parse_logs(self) -> None:
         """Parse and scrape all given logs."""
+        logging.info(f"{datetime.now().time()}: Before first_popup().")
         self.first_popup()
+        logging.info(f"{datetime.now().time()}: After first_popup().")
         for log in range(len(self.logs)):
+            logging.info(f"{datetime.now().time()}: Before to_summary().")
             self.to_summary(log)
+            logging.info(f"{datetime.now().time()}: After to_summary().")
             self.check_comp(self.get_comp())
             self.to_damage_dealt()
             self.get_damage_dealt()

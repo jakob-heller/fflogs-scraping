@@ -9,7 +9,7 @@ from data import data_scraping as ds
 def main():
     """Get links from user, scrape data, combine and visualize."""
     links = ui.user_input()
-    spider = ds.Scraping(links, "kills", headless=True)
+    spider = ds.Scraping(links, "kills", headless=False)
 
     spider.parse_logs()
 
