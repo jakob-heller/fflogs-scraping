@@ -1,3 +1,0 @@
-https:www.google-analytics.com:443:.:^partitionKey=%28https%2Cmozilla.org%29:3	0	19159	https:www.google-analytics.com:443:www.google-analytics.com:443::n:1657951647:h3:y:1655359627:n:^partitionKey=%28https%2Cmozilla.org%29:|n:y:
-https:safebrowsing.googleapis.com:443:.:^firstPartyDomain=safebrowsing.86868755-6b82-4842-b301-72671a0db32e.mozilla:3	0	19159	https:safebrowsing.googleapis.com:443:safebrowsing.googleapis.com:443::n:1657952035:h3:y:1655360021:n:^firstPartyDomain=safebrowsing.86868755-6b82-4842-b301-72671a0db32e.mozilla:|n:y:
-https:easylist.to:443:.::3	0	19159	https:easylist.to:443:easylist.to:443::n:1655446047:h3:y:1655359627:n::|n:y:
