@@ -1,19 +1,14 @@
 """Includes implementation of Scraping class."""
 
+import time
+import os
 import re
-import pandas as pd
 
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-
-# for logging
-# from datetime import datetime
-import logging
-
-logging.basicConfig(level=logging.INFO)
 
 
 class Scraping:
@@ -25,8 +20,6 @@ class Scraping:
       driver: Firefox webdriver object.
 
       comp: 8-tuple of job-composition in logs.
-      dd_dfs: list containing damage dealt pandas dataframes.
-      hd_dfs: list containing healing done pandas dataframes.
     """
 
     def __init__(self, logs: list, encounters_type: str, headless=True, adblock=True):
@@ -39,8 +32,6 @@ class Scraping:
         """
         self.logs = logs
         self.comp = ()
-        self.dd_dfs = list()
-        self.hd_dfs = list()
 
         if encounters_type == "wipes":
             self.enc_type = 0
@@ -61,6 +52,21 @@ class Scraping:
         else:
             ffprofile = webdriver.FirefoxProfile()
 
+        # Get relative path to folder for saving csv files
+        dirname = os.path.dirname(__file__)
+        csv_path = os.path.join(dirname, "csv")
+
+        # Delete previous csv files
+        for filename in os.listdir(csv_path):
+            file_path = os.path.join(csv_path, filename)
+            os.unlink(file_path)
+
+        # Adjust profile to automatically download csv files to specified path
+        ffprofile.set_preference("browser.download.folderList", 2)
+        ffprofile.set_preference("browser.download.manager.showWhenStarting", False)
+        ffprofile.set_preference("browser.download.dir", csv_path)
+        ffprofile.set_preference("browser.helperApps.neverAsk.saveToDisk", "csv")
+
         # Start Firefox driver with options (headless or not) and profile
         self.driver = webdriver.Firefox(ffprofile, options=options)
 
@@ -77,12 +83,15 @@ class Scraping:
             return WebDriverWait(self.driver, timeout).until(
                 EC.presence_of_element_located((By.XPATH, xpath)))
 
-    def first_popup(self):
+    def first_popups(self):
         """Need to accept pop-up when visiting fflogs for the first time."""
         self.driver.get("https://www.fflogs.com/")
 
         popup_xp = "//button/span[./text()='AGREE']"
         self.wait_until(popup_xp, type="clickable").click()
+
+        cookies = "//div[@class='cc-compliance']"
+        self.wait_until(cookies, type="clickable").click()
 
     def to_summary(self, log_num: int = 0) -> None:
         """Open log link from list and navigate to all encounters summary."""
@@ -129,17 +138,9 @@ class Scraping:
         self.driver.get(dd_url)
 
     def get_damage_dealt(self) -> None:  # TODO
-        """Create and return pandas dataframe made from html table."""
-        dd_df = pd.DataFrame()
-
-        self.wait_until("//div[@id='table-container']", type="present")
-
-        parsed_damage = BeautifulSoup(self.driver.page_source, "html.parser")
-        dd_html = parsed_damage.find(id="main-table-0")
-
-        # print(dd_html.prettify)
-
-        self.dd_dfs.append(dd_df)
+        """Download csv from damage tab."""
+        dd_csv_xp = "//button/span[./text()='CSV']"
+        self.wait_until(dd_csv_xp, type="clickable").click()
 
     def to_healing_done(self) -> None:
         """Navigate from "damage dealt" to "healing" tab."""
@@ -149,21 +150,15 @@ class Scraping:
         self.driver.get(hd_url)
 
     def get_healing_done(self) -> None:  # TODO
-        """Create and return pandas dataframe made from html table."""
-        hd_df = pd.DataFrame()
+        """Download csv from healing tab."""
+        time.sleep(0.4)
 
-        self.wait_until("//div[@id='table-container']", type="present")
-
-        parsed_healing = BeautifulSoup(self.driver.page_source, "html.parser")
-        hd_html = parsed_healing.find(id="main-table-0")
-
-        # print(hd_html.prettify)
-
-        self.hd_dfs.append(hd_df)
+        hd_csv_xp = "//button/span[./text()='CSV']"
+        self.wait_until(hd_csv_xp, type="clickable").click()
 
     def parse_logs(self) -> None:
         """Parse and scrape all given logs."""
-        self.first_popup()
+        self.first_popups()
         for log in range(len(self.logs)):
             self.to_summary(log)
             self.check_comp(self.get_comp())
