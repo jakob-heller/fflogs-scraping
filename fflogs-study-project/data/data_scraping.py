@@ -10,6 +10,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import StaleElementReferenceException
+
 
 class Scraping:
     """Implementation of all necessary scraping methods.
@@ -76,11 +79,14 @@ class Scraping:
 
     def wait_until(self, xpath: str, timeout: int = 10, type: str = "present"):
         """Wait till specified element is loaded (or timeout) and return it."""
+        ignored_exceptions = (NoSuchElementException,
+                              StaleElementReferenceException)
+
         if type == "clickable":
-            return WebDriverWait(self.driver, timeout).until(
+            return WebDriverWait(self.driver, timeout, ignored_exceptions=ignored_exceptions).until(
                 EC.element_to_be_clickable((By.XPATH, xpath)))
         elif type == "present":
-            return WebDriverWait(self.driver, timeout).until(
+            return WebDriverWait(self.driver, timeout, ignored_exceptions=ignored_exceptions).until(
                 EC.presence_of_element_located((By.XPATH, xpath)))
 
     def first_popups(self):
