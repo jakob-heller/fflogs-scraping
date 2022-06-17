@@ -49,13 +49,7 @@ class Scraping:
         if headless:
             options.headless = True
 
-        # Set profile to either profile including ublock or default
-        if adblock:
-            ffprofile = webdriver.FirefoxProfile("firefox profile with adblock")
-        else:
-            ffprofile = webdriver.FirefoxProfile()
-
-        # Get relative path to folder for saving csv files
+        # Get relative path to csv folder
         dirname = os.path.dirname(__file__)
         csv_path = os.path.join(dirname, "csv")
 
@@ -64,7 +58,8 @@ class Scraping:
             file_path = os.path.join(csv_path, filename)
             os.unlink(file_path)
 
-        # Adjust profile to automatically download csv files to specified path
+        # Create FirefoxProfile and adjust download preferences
+        ffprofile = webdriver.FirefoxProfile()
         ffprofile.set_preference("browser.download.folderList", 2)
         ffprofile.set_preference("browser.download.manager.showWhenStarting", False)
         ffprofile.set_preference("browser.download.dir", csv_path)
@@ -72,6 +67,11 @@ class Scraping:
 
         # Start Firefox driver with options (headless or not) and profile
         self.driver = webdriver.Firefox(ffprofile, options=options)
+
+        # If adblock, install and activate ublock origin from xpi
+        if adblock:
+            self.driver.install_addon("ublock_origin-1.43.0.xpi", temporary=True)
+            ffprofile.add_extension(extension="ublock_origin-1.43.0.xpi")
 
     def quit(self):
         """Close browser/ quit driver."""
