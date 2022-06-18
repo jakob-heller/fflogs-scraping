@@ -66,7 +66,8 @@ class Scraping:
         ffprofile.set_preference("browser.helperApps.neverAsk.saveToDisk", "csv")
 
         # Start Firefox driver with options (headless or not) and profile
-        self.driver = webdriver.Firefox(ffprofile, options=options)
+        self.driver = webdriver.Firefox(ffprofile, options=options,
+                                        executable_path="geckodriver.exe")
 
         # If adblock, install and activate ublock origin from xpi
         if adblock:
