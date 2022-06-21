@@ -1,6 +1,8 @@
 # fflogs-study-project
 Scrape fflog entries for limited metrics, combine and visualize the data.
 
+## (README is still WIP – this is just the preliminary project description)
+
 # Combination (and Visualization) of Logs uploaded to FFlogs.com[^1]
 
 
