@@ -74,7 +74,7 @@ class Scraping:
             self.driver.install_addon("ublock_origin-1.43.0.xpi", temporary=True)
             ffprofile.add_extension(extension="ublock_origin-1.43.0.xpi")
 
-    def quit(self):
+    def quit(self) -> None:
         """Close browser/ quit driver."""
         self.driver.quit()
 
@@ -90,12 +90,13 @@ class Scraping:
             return WebDriverWait(self.driver, timeout, ignored_exceptions=ignored_exceptions).until(
                 EC.presence_of_element_located((By.XPATH, xpath)))
 
-    def first_popups(self):
+    def first_popups(self) -> None:
         """Need to accept pop-up when visiting fflogs for the first time."""
         self.driver.get("https://www.fflogs.com/")
 
-        popup_xp = "//button/span[./text()='AGREE']"
-        self.wait_until(popup_xp, type="clickable").click()
+        # This first popup has apparently been removed at some point.
+        # popup_xp = "//button/span[./text()='AGREE']"
+        # self.wait_until(popup_xp, type="clickable").click()
 
         cookies = "//div[@class='cc-compliance']"
         self.wait_until(cookies, type="clickable").click()
