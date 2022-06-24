@@ -21,6 +21,7 @@ class Scraping:
       logs: list of logs (links) to be scraped.
       enc_type: int indicating what encounters should be taken into account.
       driver: Firefox webdriver object.
+      adblock: bool, True if adblock (ublock origin) is enabled.
 
       comp: 8-tuple of job-composition in logs.
     """
@@ -30,11 +31,13 @@ class Scraping:
 
         Args:
           logs: list of log links (user input)
-          encounters_type: include either wipes, kills or all encounters.
-          headless: True if browser should be invisible, false if visible.
+          encounters_type: str, include either wipes, kills or all encounters.
+          headless: bool, True if browser should be invisible.
+          adblock: bool, True if adblock should be enabled/ installed.
         """
         self.logs = logs
         self.comp = ()
+        self.adblock = adblock
 
         if encounters_type == "wipes":
             self.enc_type = 0
@@ -94,9 +97,9 @@ class Scraping:
         """Need to accept pop-up when visiting fflogs for the first time."""
         self.driver.get("https://www.fflogs.com/")
 
-        # This first popup has apparently been removed at some point.
-        # popup_xp = "//button/span[./text()='AGREE']"
-        # self.wait_until(popup_xp, type="clickable").click()
+        # if not self.adblock:
+        #     popup_xp = "//button/span[./text()='AGREE']"
+        #     self.wait_until(popup_xp, type="clickable").click()
 
         cookies = "//div[@class='cc-compliance']"
         self.wait_until(cookies, type="clickable").click()
