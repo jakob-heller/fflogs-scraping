@@ -20,8 +20,12 @@ def csv_to_dfs() -> tuple:
 
     for filename in all_csvs:
         df = pd.read_csv(filename, na_values=["-"])
-        # "Limit Break" contains useless information.
-        df = df.set_index("Name").drop(labels="Limit Break").reset_index()
+        # "Limit Break" contains useless information (if present at all).
+        try:
+            df = df.set_index("Name").drop(labels="Limit Break").reset_index()
+        except KeyError:
+            pass
+        # Append to dd_dfs if it contains column "DPS", to hd_dfs if not.
         try:
             df.loc[:, "DPS"]
             dd_dfs.append(df)
