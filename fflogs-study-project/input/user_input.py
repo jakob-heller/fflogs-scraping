@@ -1,7 +1,7 @@
 """Manages user inputs to get links to log files."""
 
 
-def user_input() -> list[str]:
+def user_input(num: int) -> list[str]:
     """Asks for direct links or log specific code.
 
     Returns: list, where each element is either a complete link or the log
@@ -33,4 +33,6 @@ def user_input() -> list[str]:
               "https://www.fflogs.com/reports/Wm6THJ1VXDBRvpfQ",
               "https://www.fflogs.com/reports/f4QzaWYpkr7wLJnv"]
 
-    return links4
+    links = (links1, links2, links3, links4, links5)
+
+    return links[num-1]
