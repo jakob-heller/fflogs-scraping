@@ -8,8 +8,8 @@ from data import data_combination as dc
 
 def main():
     """Get links from user, scrape data, combine and visualize."""
-    links = ui.user_input()
-    spider = ds.Scraping(links, "wipes", headless=True)
+    links = ui.user_input(2)
+    spider = ds.Scraping(links, headless=True)
 
     spider.parse_logs()
 

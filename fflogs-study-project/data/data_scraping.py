@@ -10,41 +10,33 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-from selenium.common.exceptions import NoSuchElementException
-from selenium.common.exceptions import StaleElementReferenceException
-
 
 class Scraping:
     """Implementation of all necessary scraping methods.
 
     Attributes:
-      logs: list of logs (links) to be scraped.
-      enc_type: int indicating what encounters should be taken into account.
+      logs: list of logs (urls) to be scraped.
+      enc_type: indicates what encounters should be taken into account.
       driver: Firefox webdriver object.
-      adblock: bool, True if adblock (ublock origin) is enabled.
-
+      cookies: bool, True if cookies should be accepted.
       comp: 8-tuple of job-composition in logs.
     """
 
-    def __init__(self, logs: list, encounters_type: str, headless=True, adblock=True):
+    def __init__(self, logs, type="all", headless=True, cookies=False):
         """Initialize object with given attributes, start driver.
 
         Args:
           logs: list of log links (user input)
           encounters_type: str, include either wipes, kills or all encounters.
           headless: bool, True if browser should be invisible.
-          adblock: bool, True if adblock should be enabled/ installed.
+          cookies: bool, True if cookies should be accepted.
         """
         self.logs = logs
         self.comp = ()
-        self.adblock = adblock
+        self.cookies = cookies
 
-        if encounters_type == "wipes":
-            self.enc_type = 0
-        elif encounters_type == "kills":
-            self.enc_type = 1
-        elif encounters_type == "all":
-            self.enc_type = 2
+        if type == "wipes" or "kills" or "all":
+            self.enc_type = type
         else:
             raise AttributeError("Select a valid encounter type.")
 
@@ -72,10 +64,22 @@ class Scraping:
         self.driver = webdriver.Firefox(ffprofile, options=options,
                                         executable_path="geckodriver.exe")
 
-        # If adblock, install and activate ublock origin from xpi
-        if adblock:
-            self.driver.install_addon("ublock_origin-1.43.0.xpi", temporary=True)
-            ffprofile.add_extension(extension="ublock_origin-1.43.0.xpi")
+        # Install and activate ublock origin (adblock) from xpi
+        self.driver.install_addon("ublock_origin-1.43.0.xpi", temporary=True)
+        ffprofile.add_extension(extension="ublock_origin-1.43.0.xpi")
+
+    def parse_logs(self) -> None:
+        """Parse and scrape all given logs."""
+        if self.cookies:
+            self.accept_cookies()
+        for log in self.logs:
+            self.to_summary(log)
+            self.check_comp(self.get_comp())
+            self.to_damage_dealt()
+            self.get_damage_dealt()
+            self.to_healing_done()
+            self.get_healing_done()
+        self.quit()
 
     def quit(self) -> None:
         """Close browser/ quit driver."""
@@ -83,36 +87,29 @@ class Scraping:
 
     def wait_until(self, xpath: str, timeout: int = 10, type: str = "present"):
         """Wait till specified element is loaded (or timeout) and return it."""
-        ignored_exceptions = (NoSuchElementException,
-                              StaleElementReferenceException)
-
         if type == "clickable":
-            return WebDriverWait(self.driver, timeout, ignored_exceptions=ignored_exceptions).until(
+            return WebDriverWait(self.driver, timeout).until(
                 EC.element_to_be_clickable((By.XPATH, xpath)))
         elif type == "present":
-            return WebDriverWait(self.driver, timeout, ignored_exceptions=ignored_exceptions).until(
+            return WebDriverWait(self.driver, timeout).until(
                 EC.presence_of_element_located((By.XPATH, xpath)))
 
-    def first_popups(self) -> None:
-        """Need to accept pop-up when visiting fflogs for the first time."""
+    def accept_cookies(self) -> None:
+        """Accept cookies."""
         self.driver.get("https://www.fflogs.com/")
-
-        # if not self.adblock:
-        #     popup_xp = "//button/span[./text()='AGREE']"
-        #     self.wait_until(popup_xp, type="clickable").click()
-
         cookies = "//div[@class='cc-compliance']"
         self.wait_until(cookies, type="clickable").click()
 
-    def to_summary(self, log_num: int = 0) -> None:
-        """Open log link from list and navigate to all encounters summary."""
-        self.driver.get(self.logs[log_num])
+    def to_summary(self, log_url: str) -> None:
+        """Modify url and open summary page."""
+        url = (log_url + "#boss=-2")
 
-        fights_xp = ("//div[@class='report-overview-boss-pulls ']/a[contains(., 'All Wipes')]",  # noqa: E501
-                     "//div[@class='report-overview-boss-pulls ']/a[contains(., 'All Kills')]",  # noqa: E501
-                     "//div[@class='report-overview-boss-pulls ']/a[contains(., 'All Encounters')]")  # noqa: E501
-
-        self.wait_until(fights_xp[self.enc_type], type="clickable").click()
+        if self.enc_type == "wipes":
+            url = (url + "&wipes=1")
+        elif self.enc_type == "kills":
+            url = (url + "&wipes=2")
+        # "All" encounters is baseline, no need to add anything for that case.
+        self.driver.get(url)
 
     def get_comp(self) -> str:
         """Get html of summary page an return the composition table."""
@@ -123,15 +120,8 @@ class Scraping:
 
         return str(comp_html)
 
-    def check_comp(self, comp_html: str) -> tuple[str]:
-        """Parse html string with regex and check/ update group composition.
-
-        Args:
-          comb_html: html string of the composition table.
-
-        Raises:
-          AttributeError: if comp is different to already existing comp.
-        """
+    def check_comp(self, comp_html: str) -> None:
+        """Parse html string with regex and check group composition."""
         comp = list(re.findall("\"[a-zA-Z]*\"", comp_html))
         comp = [s.strip('"') for s in comp]
 
@@ -148,6 +138,9 @@ class Scraping:
 
         self.driver.get(dd_url)
 
+        # Scroll down so the cookies don't obscure the field we want to click
+        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+
     def get_damage_dealt(self) -> None:  # TODO
         """Download csv from damage tab."""
         dd_csv_xp = "//button/span[./text()='CSV']"
@@ -160,21 +153,11 @@ class Scraping:
 
         self.driver.get(hd_url)
 
+        # No need to scroll down again, we stay at the bottom of the page
+
     def get_healing_done(self) -> None:  # TODO
         """Download csv from healing tab."""
         time.sleep(0.4)
 
         hd_csv_xp = "//button/span[./text()='CSV']"
         self.wait_until(hd_csv_xp, type="clickable").click()
-
-    def parse_logs(self) -> None:
-        """Parse and scrape all given logs."""
-        self.first_popups()
-        for log in range(len(self.logs)):
-            self.to_summary(log)
-            self.check_comp(self.get_comp())
-            self.to_damage_dealt()
-            self.get_damage_dealt()
-            self.to_healing_done()
-            self.get_healing_done()
-        self.quit()
