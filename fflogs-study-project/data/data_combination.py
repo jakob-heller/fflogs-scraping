@@ -19,17 +19,13 @@ def csv_to_dfs() -> tuple:
     all_csvs = glob.glob(os.path.join(csv_path, "*.csv"))
 
     for filename in all_csvs:
-        df = pd.read_csv(filename, na_values=["-"])
-        # "Limit Break" contains useless information (if present at all).
-        try:
-            df = df.set_index("Name").drop(labels="Limit Break").reset_index()
-        except KeyError:
-            pass
-        # Append to dd_dfs if it contains column "DPS", to hd_dfs if not.
-        try:
-            df.loc[:, "DPS"]
+        df = pd.read_csv(filename, na_values=["-"]).fillna(0)
+        # "Limit Break" contains useless information.
+        df = (df.set_index("Name").drop(labels="Limit Break", errors="ignore")
+              .reset_index())
+        if "DPS" in df.columns:
             dd_dfs.append(df)
-        except KeyError:
+        else:
             hd_dfs.append(df)
 
     return (dd_dfs, hd_dfs)
@@ -58,7 +54,11 @@ def join_dd_dfs(dd_df_list: list) -> pd.DataFrame:
         rDPS=("rDPS", "mean")
     ).reset_index()
 
-    return dd_df
+    columns_titles = ["parse_pct", "Name", "amount_pct",
+                      "amount", "active_pct", "DPS", "rDPS"]
+    dd_df = dd_df.reindex(columns=columns_titles)
+
+    return dd_df.round(decimals=2)
 
 
 def join_hd_dfs(hd_df_list: list) -> pd.DataFrame:
@@ -77,13 +77,17 @@ def join_hd_dfs(hd_df_list: list) -> pd.DataFrame:
     hd_df["amt_pct"] = pd.to_numeric(amt_series.str[1].str.split("%").str[0])
 
     hd_df = hd_df.set_index("Name").groupby("Name").agg(
-        Parse_pct=("Parse %", "mean"),
-        Amount_pct=("amt_pct", "mean"),
-        Amount=("amt", "sum"),
-        Overheal=("Overheal", "mean"),
-        Active_pct=("Active", "mean"),
-        DPS=("HPS", "mean"),
-        rDPS=("rHPS", "mean")
+        parse_pct=("Parse %", "mean"),
+        amount_pct=("amt_pct", "mean"),
+        amount=("amt", "sum"),
+        overheal=("Overheal", "mean"),
+        active_pct=("Active", "mean"),
+        HPS=("HPS", "mean"),
+        rHPS=("rHPS", "mean")
     ).reset_index()
 
-    return hd_df
+    columns_titles = ["parse_pct", "Name", "amount_pct",
+                      "amount", "overheal", "active_pct", "HPS", "rHPS"]
+    hd_df = hd_df.reindex(columns=columns_titles)
+
+    return hd_df.round(decimals=2)
