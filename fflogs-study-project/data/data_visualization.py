@@ -7,10 +7,19 @@ import pandas as pd
 
 
 def dash(df1: pd.DataFrame, df2: pd.DataFrame) -> Dash():
-    """Do this."""
+    """Create an interactive Dashboard with 2 tabs.
+
+    Args:
+      df1: pd.DataFrame, dataframe of summarized damage done.
+      df2: pd.DataFrame, dataframe of summarized healing done.
+
+    Returns:
+      Object of Dash class.
+    """
     external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
     app = Dash(__name__, external_stylesheets=external_stylesheets)
 
+    # Text to be displayed at the bottom of the page.
     notice = """
         Select a column to plot metric against player names.
         When sorting columns, you have to change the column
@@ -18,6 +27,7 @@ def dash(df1: pd.DataFrame, df2: pd.DataFrame) -> Dash():
         graph. This is a bug that I have not been able to fix.
     """
 
+    # Convert dataframes to selectable, sortable dash datatables.
     table1 = dt.DataTable(df1.to_dict('records'),
                           [{"name": i, "id": i, "selectable": True} for i in df1.columns],
                           id='tbl1',
@@ -29,6 +39,7 @@ def dash(df1: pd.DataFrame, df2: pd.DataFrame) -> Dash():
                           sort_action="native",
                           column_selectable="single")
 
+    # Dashboard structure/ layout. 2 tabs, each with a table and a graph.
     app.layout = html.Div([
         dcc.Tabs(id="tabs", value='tab-1', children=[
             dcc.Tab(label='Damage Done', value='tab-1', children=[
@@ -43,6 +54,8 @@ def dash(df1: pd.DataFrame, df2: pd.DataFrame) -> Dash():
         html.Div(id='tabs-content')
     ])
 
+    # Callbacks provide the interactivity in dash.
+    # This one allows changing tabs.
     @app.callback(Output('tabs-content', 'children'),
                   Input('tabs', 'value'))
     def render_content(tab):
@@ -55,6 +68,7 @@ def dash(df1: pd.DataFrame, df2: pd.DataFrame) -> Dash():
                 html.H3(notice)
             ])
 
+    # Callback for the table in tab 1. Plot "Name" and selected column.
     @app.callback(Output("dyn-graph-1", "figure"),
                   Input('tbl1', "derived_viewport_data"),
                   Input("tbl1", "derived_viewport_selected_columns"))
@@ -65,6 +79,7 @@ def dash(df1: pd.DataFrame, df2: pd.DataFrame) -> Dash():
         fig.update_layout(transition_duration=500)
         return fig
 
+    # Callback for the table in tab 2. Plot "Name" and selected column.
     @app.callback(Output("dyn-graph-2", "figure"),
                   Input('tbl2', "derived_viewport_data"),
                   Input("tbl2", "derived_viewport_selected_columns"))

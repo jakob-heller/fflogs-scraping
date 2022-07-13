@@ -44,27 +44,27 @@ class Scraping:
         if headless:
             options.headless = True
 
-        # Get relative path to csv folder
+        # Get relative path to csv folder.
         dirname = os.path.dirname(__file__)
         csv_path = os.path.join(dirname, "csv")
 
-        # Delete previous csv files
+        # Delete previous csv files.
         for filename in os.listdir(csv_path):
             file_path = os.path.join(csv_path, filename)
             os.unlink(file_path)
 
-        # Create FirefoxProfile and adjust download preferences
+        # Create FirefoxProfile and adjust download preferences.
         ffprofile = webdriver.FirefoxProfile()
         ffprofile.set_preference("browser.download.folderList", 2)
         ffprofile.set_preference("browser.download.manager.showWhenStarting", False)
         ffprofile.set_preference("browser.download.dir", csv_path)
         ffprofile.set_preference("browser.helperApps.neverAsk.saveToDisk", "csv")
 
-        # Start Firefox driver with options (headless or not) and profile
+        # Start Firefox driver with options (headless or not) and profile.
         self.driver = webdriver.Firefox(ffprofile, options=options,
                                         executable_path="geckodriver.exe")
 
-        # Install and activate ublock origin (adblock) from xpi
+        # Install and activate ublock origin (adblock) from xpi file.
         self.driver.install_addon("ublock_origin-1.43.0.xpi", temporary=True)
         ffprofile.add_extension(extension="ublock_origin-1.43.0.xpi")
 
@@ -85,8 +85,18 @@ class Scraping:
         """Close browser/ quit driver."""
         self.driver.quit()
 
-    def wait_until(self, xpath: str, timeout: int = 10, type: str = "present"):
-        """Wait till specified element is loaded (or timeout) and return it."""
+    def wait_until(self, xpath: str, timeout=10, type="present"):
+        """Wait till element is loaded (helper function).
+
+        Args:
+          xpath: str, relative xpath of element to be found.
+          timeout: int, amount of maximum seconds to wait till timeout.
+          type: str, 'clickable' if element needs to be clickable, 'present'
+                if presence is sufficient.
+
+        Returns:
+          Object of seleniums WebElement class.
+        """
         if type == "clickable":
             return WebDriverWait(self.driver, timeout).until(
                 EC.element_to_be_clickable((By.XPATH, xpath)))
@@ -101,7 +111,7 @@ class Scraping:
         self.wait_until(cookies, type="clickable").click()
 
     def to_summary(self, log_url: str) -> None:
-        """Modify url and open summary page."""
+        """Modify given url and open summary page."""
         url = (log_url + "#boss=-2")
 
         if self.enc_type == "wipes":
@@ -117,7 +127,6 @@ class Scraping:
 
         parsed_summary = BeautifulSoup(self.driver.page_source, "html.parser")
         comp_html = parsed_summary.find_all(class_="composition-entry")
-
         return str(comp_html)
 
     def check_comp(self, comp_html: str) -> None:
@@ -125,6 +134,7 @@ class Scraping:
         comp = list(re.findall("\"[a-zA-Z]*\"", comp_html))
         comp = [s.strip('"') for s in comp]
 
+        # Compare given composition with comp attribute.
         if len(self.comp) > 0 and sorted(self.comp) != sorted(tuple(comp)):
             self.quit()
             raise AttributeError(("Group comps in provided logs don't match."))
@@ -135,13 +145,12 @@ class Scraping:
         """Navigate from "summary" to "damage dealt" tab."""
         sum_url = self.driver.current_url
         dd_url = (sum_url + "&type=damage-done")
-
         self.driver.get(dd_url)
 
         # Scroll down so the cookies don't obscure the field we want to click
         self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
-    def get_damage_dealt(self) -> None:  # TODO
+    def get_damage_dealt(self) -> None:
         """Download csv from damage tab."""
         dd_csv_xp = "//button/span[./text()='CSV']"
         self.wait_until(dd_csv_xp, type="clickable").click()
@@ -150,14 +159,12 @@ class Scraping:
         """Navigate from "damage dealt" to "healing" tab."""
         dd_url = self.driver.current_url
         hd_url = dd_url.replace("&type=damage-done", "&type=healing")
-
         self.driver.get(hd_url)
 
         # No need to scroll down again, we stay at the bottom of the page
 
-    def get_healing_done(self) -> None:  # TODO
+    def get_healing_done(self) -> None:
         """Download csv from healing tab."""
         time.sleep(0.4)
-
         hd_csv_xp = "//button/span[./text()='CSV']"
         self.wait_until(hd_csv_xp, type="clickable").click()
