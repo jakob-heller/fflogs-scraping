@@ -12,7 +12,7 @@ def csv_to_dfs() -> tuple:
     to a "damage", or to a "healing" list, depending on their structure.
 
     Returns:
-        2-tuple of lists of dataframes, one for damage and one for healing.
+      2-tuple of lists of dataframes, one for damage and one for healing.
     """
     dd_dfs = []
     hd_dfs = []
@@ -43,13 +43,13 @@ def join_dd_dfs(dd_df_list: list) -> pd.DataFrame:
     columns.
 
     Args:
-        dd_df_list:
-          A list of pandas dataframes with identical structure and data
-          referring to the "damage done" metric.
+      dd_df_list:
+        A list of pandas dataframes with identical structure and data
+        referring to the "damage done" metric.
 
     Returns:
-        The returned pd.DataFrame is the summary of the given dataframes, ready
-        to be visualized.
+      The returned pd.DataFrame is the summary of the given dataframes, ready
+      to be visualized.
     """
     dd_df = pd.concat(dd_df_list)
 
@@ -95,13 +95,13 @@ def join_hd_dfs(hd_df_list: list) -> pd.DataFrame:
     different.
 
     Args:
-        dd_df_list:
-          A list of pandas dataframes with identical structure and data
-          referring to the "healing done" metric.
+      dd_df_list:
+        A list of pandas dataframes with identical structure and data
+        referring to the "healing done" metric.
 
     Returns:
-        The returned pd.DataFrame is the summary of the given dataframes, ready
-        to be visualized.
+      The returned pd.DataFrame is the summary of the given dataframes, ready
+      to be visualized.
     """
     hd_df = pd.concat(hd_df_list)
 
