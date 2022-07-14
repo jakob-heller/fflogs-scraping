@@ -9,6 +9,7 @@ def user_input() -> namedtuple:
     text = """
 Input '1-5' to analyze one of the log-sets previously defined.
 (3 is an invalid comp, the rest is valid!)
+(4 and 5 don't have kills)
 
 Input full log url to add to the list of logs to be summarized.
 
