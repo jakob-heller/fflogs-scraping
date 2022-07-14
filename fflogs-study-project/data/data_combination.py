@@ -54,11 +54,22 @@ def join_dd_dfs(dd_df_list: list) -> pd.DataFrame:
         rDPS=("rDPS", "mean")
     ).reset_index()
 
+    # Fix column order (after using "Name" as an index)
     columns_titles = ["parse_pct", "Name", "amount_pct",
                       "amount", "active_pct", "DPS", "rDPS"]
     dd_df = dd_df.reindex(columns=columns_titles)
 
-    return dd_df.round(decimals=2)
+    # Rounding ("Parse %" to int, rest 2 decimals)
+    dd_df.parse_pct = dd_df.parse_pct.round()
+    dd_df = dd_df.round(decimals=2)
+
+    # Rename columns
+    new_titles = {"parse_pct": "Parse %", "Name": "Player Name",
+                  "amount_pct": "Amount %", "amount": "Amount Total",
+                  "active_pct": "Active %", "HPS": "HPS", "rDPS": "rDPS"}
+    dd_df = dd_df.rename(columns=new_titles)
+
+    return dd_df
 
 
 def join_hd_dfs(hd_df_list: list) -> pd.DataFrame:
@@ -86,8 +97,20 @@ def join_hd_dfs(hd_df_list: list) -> pd.DataFrame:
         rHPS=("rHPS", "mean")
     ).reset_index()
 
-    columns_titles = ["parse_pct", "Name", "amount_pct",
-                      "amount", "overheal", "active_pct", "HPS", "rHPS"]
+    # Fix column order (after using "Name" as an index)
+    columns_titles = ["parse_pct", "Name", "amount_pct", "amount",
+                      "overheal", "active_pct", "HPS", "rHPS"]
     hd_df = hd_df.reindex(columns=columns_titles)
 
-    return hd_df.round(decimals=2)
+    # Rounding ("Parse %" to int, rest 2 decimals)
+    hd_df.parse_pct = hd_df.parse_pct.round()
+    hd_df = hd_df.round(decimals=2)
+
+    # Rename columns
+    new_titles = {"parse_pct": "Parse %", "Name": "Player Name",
+                  "amount_pct": "Amount %", "amount": "Amount Total",
+                  "overheal": "Overheal", "active_pct": "Active %",
+                  "HPS": "HPS", "rHPS": "rHPS"}
+    hd_df = hd_df.rename(columns=new_titles)
+
+    return hd_df
