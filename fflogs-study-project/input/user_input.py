@@ -5,7 +5,14 @@ import re
 
 
 def user_input() -> namedtuple:
-    """"""
+    """User-interface.
+
+    Utilizes match-case environment, as introduced in python 3.10.
+
+    Returns:
+      A namedtuple with either the baseline attributes, or the attributes as
+      indicated by the user.
+    """
     text = """
 Input '1-5' to analyze one of the log-sets previously defined.
 (3 is an invalid comp, the rest is valid!)
@@ -27,15 +34,13 @@ Input 'y' to start the process, 'q' to abort.
     print(text)
 
     FullInput = namedtuple("FullInput", ["logs", "headless", "type", "debug"])
-    logs = []
+    logs = predef_links()
     type = "all"
     headless = True
     debug = False
 
     while True:
         user_input = input("Input: ")
-
-        # match-case, introduced in python 3.10
         match user_input:
             case "1" | "2" | "3" | "4" | "5":
                 logs = predef_links(int(user_input))
@@ -69,40 +74,41 @@ Input 'y' to start the process, 'q' to abort.
                     else:
                         print("The log seems to be invalid.")
                 print("This does not seem to be a valid input.")
-
     full_input = FullInput(logs, headless, type, debug)
     print("Processing...")
     return full_input
 
 
 def check_url(url: str) -> bool:
-    """Check url for valid log, return True if valid."""
+    """Checks str (url) for valid log and returns True if it is valid."""
     regex = r"https:\/\/www.fflogs.com\/reports\/(a:)?[a-zA-Z0-9]{16}(\/*)?"
     return re.match(regex, url)
 
 
-def predef_links(num: int) -> list[str]:
-    """Predefined links for testing purposes.
+def predef_links(num: int = 1) -> list[str]:
+    """Predefines links to logs for testing purposes.
 
-    Returns: list, where each element is a link.
+    Args:
+      num: Integer between 1 and 5, corresponding to 5 different test sets of
+        log urls.
+
+      1: 1 log, kills, wipes, valid group
+      2: 2 logs, kills, wipes, valid group
+      3: 3 logs, kills, wipes, invalid group
+      4: 2 logs, no kills, wipes, valid group
+      5: 8 logs, no kills, wipes, valid group
+
+    Returns:
+      A list of strings, each being the url of an fflog.
     """
-    # 1 log, kills
     links1 = ["https://www.fflogs.com/reports/LnjBh2tfZRyv8rpD"]
-
-    # 2 logs, kills, valid comp
     links2 = ["https://www.fflogs.com/reports/LnjBh2tfZRyv8rpD",
               "https://www.fflogs.com/reports/hacvwXKb8mFYrAdx"]
-
-    # 3 logs, kills, invalid comp
     links3 = ["https://www.fflogs.com/reports/LnjBh2tfZRyv8rpD",
               "https://www.fflogs.com/reports/hacvwXKb8mFYrAdx",
               "https://www.fflogs.com/reports/vbMftnwLWzHK2prZ"]
-
-    # 2 logs, wipes, valid comp
     links4 = ["https://www.fflogs.com/reports/waNVQPnycRWmf3r8",
               "https://www.fflogs.com/reports/Qxdy8D9tKMcLkRvq"]
-
-    # 8 logs, wipes, valid comp
     links5 = ["https://www.fflogs.com/reports/waNVQPnycRWmf3r8",
               "https://www.fflogs.com/reports/Qxdy8D9tKMcLkRvq",
               "https://www.fflogs.com/reports/vDYT6KryG8QHkpfd",
@@ -111,6 +117,5 @@ def predef_links(num: int) -> list[str]:
               "https://www.fflogs.com/reports/BnKVdNY9M7CgRDfX",
               "https://www.fflogs.com/reports/Wm6THJ1VXDBRvpfQ",
               "https://www.fflogs.com/reports/f4QzaWYpkr7wLJnv"]
-
     links = (links1, links2, links3, links4, links5)
     return links[num-1]
