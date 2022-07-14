@@ -25,7 +25,7 @@ def csv_to_dfs() -> tuple:
 
     for filename in all_csvs:
         df = pd.read_csv(filename, na_values=["-"]).fillna(0)
-        # "Limit Break" contains useless information so we drop it.
+        # "Limit Break" row contains useless information so we drop it.
         df = (df.set_index("Name").drop(labels="Limit Break", errors="ignore")
               .reset_index())
         if "DPS" in df.columns:
@@ -39,7 +39,7 @@ def join_dd_dfs(dd_df_list: list) -> pd.DataFrame:
     """Joins multiple "damage done" dataframes to single dataframe.
 
     Concatenates all dataframes provided into one dataframe, converts all
-    values (except for column "Name") into numeric values, reorder and renames
+    values (except for column "Name") into numeric values, reorders and renames
     columns.
 
     Args:
