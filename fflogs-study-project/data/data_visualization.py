@@ -1,11 +1,8 @@
 """Interactively visualize data using a basic Dash data app."""
 
-from dash import Dash, Input, Output, html, dcc
+from dash import Dash, html
 from dash.dash_table import DataTable as DT
-import plotly.express as px
 import pandas as pd
-
-import dash_bootstrap_components as dbc
 
 
 def data_bars(df: pd.DataFrame, column: str) -> dict:
