@@ -18,21 +18,38 @@ class Scraping:
     """Implementation of all necessary scraping methods.
 
     Attributes:
-      logs: list of logs (urls) to be scraped.
-      enc_type: indicates what encounters should be taken into account.
-      driver: Firefox webdriver object.
-      cookies: bool, True if cookies should be accepted.
-      comp: 8-tuple of job-composition in logs.
+      logs:
+        A list of logs (urls) to be scraped.
+      enc_type:
+        A string indicating what encounters should be taken into account -
+        "all" encounters, only "kills" or only "wipes".
+      driver:
+        Firefox webdriver object.
+      cookies:
+        A boolean that is true if cookies are to be accepted during the
+        scraping operation. This parameter exists because the cookie pop-up
+        could in theory obscure the csv download button we want to click on.
+        (does not happen unless manually induced)
+      comp:
+        8-tuple of strings, representing job(/class)-composition in logs.
     """
 
     def __init__(self, logs, type, headless, cookies=False):
-        """Initialize object with given attributes, start driver.
+        """Initializes object with given attributes, start driver.
 
         Args:
-          logs: list of log links (user input)
-          encounters_type: str, include either wipes, kills or all encounters.
-          headless: bool, True if browser should be invisible.
-          cookies: bool, True if cookies should be accepted.
+          logs:
+            A list of strings (urls); links to logs that have been inputted by
+            the user.
+          encounters_type:
+            A string indicating what encounters should be taken into account,
+            as inputted by the user.
+          headless:
+            A boolean that is true if the Webdriver is to be started headless
+            (-> invisible) and false if not, as inputted by the user.
+          cookies:
+            A boolean that is true if cookies are to be accepted during the
+            scraping operation.
         """
         self.logs = logs
         self.comp = ()
@@ -43,16 +60,15 @@ class Scraping:
         if headless:
             options.headless = True
 
-        # Get relative path to csv folder.
+        # Before scraping new data, we first need to clear out old csv files.
         dirname = os.path.dirname(__file__)
         csv_path = os.path.join(dirname, "csv")
-
-        # Delete previous csv files.
         for filename in os.listdir(csv_path):
             file_path = os.path.join(csv_path, filename)
             os.unlink(file_path)
 
-        # Create FirefoxProfile and adjust download preferences.
+        # In order to automatically download csv files, we need to create a
+        # FirefoxProfile and adjust our download preferences.
         ffprofile = webdriver.FirefoxProfile()
         ffprofile.set_preference("browser.download.folderList", 2)
         ffprofile.set_preference("browser.download.manager.showWhenStarting", False)
@@ -63,12 +79,18 @@ class Scraping:
         self.driver = webdriver.Firefox(ffprofile, options=options,
                                         executable_path="geckodriver.exe")
 
-        # Install and activate ublock origin (adblock) from xpi file.
+        # Since the website loads a large amount of adds, loading can take
+        # pretty long - but we can significantly reduce runtime by installing
+        # an adblocker. This also allows selenium to click on elements, because
+        # we don't risk buttons being obscured by pop-ups, which makes locating
+        # elements much easier.
+        # We install our adblocker (ublock origin) from an xpi file and
+        # activate it by adding it to our FirefoxProfile.
         self.driver.install_addon("ublock_origin-1.43.0.xpi", temporary=True)
         ffprofile.add_extension(extension="ublock_origin-1.43.0.xpi")
 
     def parse_logs(self) -> None:
-        """Parse and scrape all given logs."""
+        """Parses and scrapes all given logs."""
         if self.cookies:
             self.accept_cookies()
         for log in self.logs:
@@ -81,20 +103,27 @@ class Scraping:
         self.quit()
 
     def quit(self) -> None:
-        """Close browser/ quit driver."""
+        """Closes browser/ quits driver."""
         self.driver.quit()
 
     def wait_until(self, xpath: str, timeout=10, type="present"):
-        """Wait till element is loaded (helper function).
+        """Waits till element is loaded.
+
+        This is a helper function, called by most other scraping methods.
+        Elements take inconsistent times to load, so we need some kind of
+        dynamic waiting time which we use WebDriverWait for.
 
         Args:
-          xpath: str, relative xpath of element to be found.
-          timeout: int, amount of maximum seconds to wait till timeout.
-          type: str, 'clickable' if element needs to be clickable, 'present'
-                if presence is sufficient.
+          xpath:
+            A string, the relative xpath of the element to be found.
+          timeout:
+            An integer, the amount of maximum seconds to wait until timeout.
+          type:
+            A string - either "clickable", if the element needs to be clickable
+            or "present", if mere presence of the element is already enough.
 
         Returns:
-          Object of seleniums WebElement class.
+          Object of Seleniums WebElement class.
         """
         ignored_exceptions = (NoSuchElementException, StaleElementReferenceException,)
         if type == "clickable":
@@ -105,24 +134,25 @@ class Scraping:
                     .until(EC.presence_of_element_located((By.XPATH, xpath))))
 
     def accept_cookies(self) -> None:
-        """Accept cookies."""
+        """Accepts cookies."""
         self.driver.get("https://www.fflogs.com/")
         cookies = "//div[@class='cc-compliance']"
         self.wait_until(cookies, type="clickable").click()
 
     def to_summary(self, log_url: str) -> None:
-        """Modify given url and open summary page."""
+        """Modifies given url and opens summary page."""
         url = (log_url + "#boss=-2")
 
         if self.enc_type == "wipes":
             url = (url + "&wipes=1")
         elif self.enc_type == "kills":
             url = (url + "&wipes=2")
-        # "All" encounters is baseline, no need to add anything for that case.
+        # fflogs.com interprets urls without those additions as "all"
+        # encounters, so we don't need to do anything in that case.
         self.driver.get(url)
 
     def get_comp(self) -> str:
-        """Get html of summary page an return the composition table."""
+        """Gets html of summary page an returns the composition table."""
         self.wait_until("//table[@class='composition-table']", type="present")
 
         parsed_summary = BeautifulSoup(self.driver.page_source, "html.parser")
@@ -130,7 +160,7 @@ class Scraping:
         return str(comp_html)
 
     def check_comp(self, comp_html: str) -> None:
-        """Parse html string with regex and check group composition."""
+        """Parses html string with regex and checks group composition."""
         comp = list(re.findall("\"[a-zA-Z]*\"", comp_html))
         comp = [s.strip('"') for s in comp]
 
@@ -142,7 +172,7 @@ class Scraping:
             self.comp = tuple(comp)
 
     def to_damage_dealt(self) -> None:
-        """Navigate from "summary" to "damage dealt" tab."""
+        """Navigates from "summary" to "damage dealt" tab."""
         sum_url = self.driver.current_url
         dd_url = (sum_url + "&type=damage-done")
         self.driver.get(dd_url)
@@ -151,12 +181,12 @@ class Scraping:
         self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
     def get_damage_dealt(self) -> None:
-        """Download csv from damage tab."""
+        """Downloads csv from damage tab."""
         dd_csv_xp = "//button/span[./text()='CSV']"
         self.wait_until(dd_csv_xp, type="clickable").click()
 
     def to_healing_done(self) -> None:
-        """Navigate from "damage dealt" to "healing" tab."""
+        """Navigates from "damage dealt" to "healing" tab."""
         dd_url = self.driver.current_url
         hd_url = dd_url.replace("&type=damage-done", "&type=healing")
         self.driver.get(hd_url)
@@ -164,7 +194,7 @@ class Scraping:
         # No need to scroll down again, we stay at the bottom of the page
 
     def get_healing_done(self) -> None:
-        """Download csv from healing tab."""
+        """Downloads csv from healing tab."""
         time.sleep(0.5)
         hd_csv_xp = "//button/span[./text()='CSV']"
         self.wait_until(hd_csv_xp, type="clickable").click()
