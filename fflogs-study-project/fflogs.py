@@ -8,14 +8,15 @@ from data import data_visualization as dv
 
 def main():
     """Get links from user, scrape data, combine and visualize."""
-    links = ui.user_input(2)
-    spider = ds.Scraping(links, headless=True)
+    # input = ui.user_input()
 
-    spider.parse_logs()
+    # spider = ds.Scraping(input.logs, type=input.type, headless=input.headless)
+    # spider.parse_logs()
 
     df_lists = dc.csv_to_dfs()
 
     dd = dc.join_dd_dfs(df_lists[0])
     hd = dc.join_hd_dfs(df_lists[1])
 
-    dv.dash(dd, hd).run_server(debug=False)
+    # dv.dash(dd, hd).run_server(debug=input.debug, use_reloader=False, port=8055)
+    dv.dash(dd, hd).run_server(debug=True, port=8056)
