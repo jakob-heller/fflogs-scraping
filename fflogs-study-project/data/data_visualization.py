@@ -46,11 +46,6 @@ def data_bars(df: pd.DataFrame, column: str) -> dict:
             'paddingBottom': 2,
             'paddingTop': 2
         })
-        styles.append({
-            "if": {"state": "selected"},
-            "backgroundColor": "#f45060",
-            "border": "inherit !important",
-        })
     return styles
 
 
@@ -162,10 +157,7 @@ def dash(df1: pd.DataFrame, df2: pd.DataFrame) -> Dash():
     Returns:
       Object of Dash class.
     """
-    external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-    # app = Dash(__name__, external_stylesheets=[dbc.themes.DARKLY])
-    app = Dash(__name__, external_stylesheets=external_stylesheets)
-    # app = Dash(__name__)
+    app = Dash(__name__)
 
     style_table_header = {
         'backgroundColor': '#0e1012',
