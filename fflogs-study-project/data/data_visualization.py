@@ -133,7 +133,7 @@ def column_width(df: pd.DataFrame) -> dict:
         {'if': {'column_id': 'Overheal'},
          'width': '5%'}
     ]
-    # The healing table as one column more, I make "amount" smaller there.
+    # The healing table has one column more, I make "amount" smaller there.
     if 'HPS' in df.columns:
         styles.append(
             {'if': {'column_id': 'Amount Total'},
