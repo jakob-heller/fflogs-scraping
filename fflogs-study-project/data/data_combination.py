@@ -91,8 +91,8 @@ def join_dd_dfs(dd_df_list: list) -> pd.DataFrame:
 def join_hd_dfs(hd_df_list: list) -> pd.DataFrame:
     """Joins multiple "healing done" dataframes to single dataframe.
 
-    Mostly identical to join_dd_dfs(); split up because structure is slightly
-    different.
+    Mostly identical to join_dd_dfs(), split up into two functions because the
+    structure of the given dataframes are slightly different in both cases.
 
     Args:
       dd_df_list:
