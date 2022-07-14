@@ -8,8 +8,21 @@ import pandas as pd
 def data_bars(df: pd.DataFrame, column: str) -> dict:
     """Conditional formatting for data bars in cells.
 
-    Taken from dash documentation:
+    Creates a conditional formatting dictionary that shows data bars inside
+    of (data-)table cells. Bar lengths are relative to the highest value.
+
+    Taken from dash documentation and slightly adjusted:
     https://dash.plotly.com/datatable/conditional-formatting
+
+    Args:
+      df:
+        The pandas dataframe in question.
+      column:
+        The name of the column where bars are shown.
+
+    Returns:
+      A dictionary of conditional formatting that can be used to style a
+      dash DataTable.
     """
     bar_color = "#f4d44d" if "DPS" in df.columns else "#91dfd2"
     n_bins = 100
@@ -46,8 +59,22 @@ def data_bars(df: pd.DataFrame, column: str) -> dict:
     return styles
 
 
-def parse_colors(df: pd.DataFrame, column: str) -> dict:
-    """Assign the correct colors to respective parse values."""
+def parse_colors(df: pd.DataFrame) -> dict:
+    """Conditional formatting for parse colors.
+
+    Creates a conditional formatting dictionary that changes the colors of
+    values in the "Parse %" column dependend on their value.
+    I am used to seeing those colors on the original website, that's why we
+    implement them here aswell.
+
+    Args:
+      df:
+        The pandas dataframe in question.
+
+    Returns:
+      A dictionary of conditional formatting that can be used to style a
+      dash DataTable.
+    """
     styles = [
         {
             'if': {
@@ -109,7 +136,7 @@ def parse_colors(df: pd.DataFrame, column: str) -> dict:
 
 
 def column_width(df: pd.DataFrame) -> dict:
-    """Return dictionary for column widths."""
+    """Returns conditional formatting dictionary for column widths."""
     styles = [
         {'if': {'column_id': 'Parse %'},
          'width': '5%'},
@@ -132,30 +159,30 @@ def column_width(df: pd.DataFrame) -> dict:
     ]
     # The healing table has one column more, I make "amount" smaller there.
     if 'HPS' in df.columns:
-        styles.append(
-            {'if': {'column_id': 'Amount Total'},
-             'width': '45%'},
-        )
+        styles.append({'if': {'column_id': 'Amount Total'}, 'width': '45%'})
     else:
-        styles.append(
-            {'if': {'column_id': 'Amount Total'},
-             'width': '50%'},
-        )
+        styles.append({'if': {'column_id': 'Amount Total'}, 'width': '50%'})
     return styles
 
 
 def dash(df1: pd.DataFrame, df2: pd.DataFrame) -> Dash():
-    """Create an interactive Dashboard with 2 tabs.
+    """Creates an interactive Dashboard with 2 sortable tables.
+
+    The style.css in the assets directory sets the dashboards
+    background color and the properties of the html.H2 object.
 
     Args:
-      df1: pd.DataFrame, dataframe of summarized damage done.
-      df2: pd.DataFrame, dataframe of summarized healing done.
+      df1:
+        Pandas dataframe of summarized damage done.
+      df2:
+        Pandas dataframe of summarized healing done.
 
     Returns:
-      Object of Dash class.
+      Object of Dash class which can then be run on a localhost.
     """
     app = Dash(__name__)
 
+    # Some more styles to use later
     style_table_header = {
         'backgroundColor': '#0e1012',
         'color': 'white'
@@ -168,7 +195,8 @@ def dash(df1: pd.DataFrame, df2: pd.DataFrame) -> Dash():
         'font_size': '18px',
         'border': '1px solid #3f3f3f'
     }
-    # Convert dataframes to sortable dash datatables.
+    # We convert our dataframes to sortable dash datatables using the styles
+    # we defined before.
     tbl1 = DT(df1.to_dict('records'),
               [{"name": i, "id": i, "selectable": True} for i in df1.columns],
               id='tbl1',
@@ -180,7 +208,7 @@ def dash(df1: pd.DataFrame, df2: pd.DataFrame) -> Dash():
               style_data_conditional=(
                   data_bars(df1, 'Amount Total') +
                   data_bars(df1, 'rDPS') +
-                  parse_colors(df1, 'Parse %')),
+                  parse_colors(df1)),
               style_cell_conditional=column_width(df1)
               )
     tbl2 = DT(df2.to_dict('records'),
@@ -194,7 +222,7 @@ def dash(df1: pd.DataFrame, df2: pd.DataFrame) -> Dash():
               style_data_conditional=(
                   data_bars(df2, 'Amount Total') +
                   data_bars(df2, 'rHPS') +
-                  parse_colors(df2, 'Parse %')),
+                  parse_colors(df2)),
               style_cell_conditional=column_width(df2)
               )
     app.layout = html.Div([
