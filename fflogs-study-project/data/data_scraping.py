@@ -10,6 +10,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import StaleElementReferenceException
+
 
 class Scraping:
     """Implementation of all necessary scraping methods.
@@ -22,7 +25,7 @@ class Scraping:
       comp: 8-tuple of job-composition in logs.
     """
 
-    def __init__(self, logs, type="all", headless=True, cookies=False):
+    def __init__(self, logs, type, headless, cookies=False):
         """Initialize object with given attributes, start driver.
 
         Args:
@@ -34,11 +37,7 @@ class Scraping:
         self.logs = logs
         self.comp = ()
         self.cookies = cookies
-
-        if type == "wipes" or "kills" or "all":
-            self.enc_type = type
-        else:
-            raise AttributeError("Select a valid encounter type.")
+        self.enc_type = type
 
         options = webdriver.FirefoxOptions()
         if headless:
@@ -97,12 +96,13 @@ class Scraping:
         Returns:
           Object of seleniums WebElement class.
         """
+        ignored_exceptions = (NoSuchElementException, StaleElementReferenceException,)
         if type == "clickable":
-            return WebDriverWait(self.driver, timeout).until(
-                EC.element_to_be_clickable((By.XPATH, xpath)))
+            return (WebDriverWait(self.driver, timeout, ignored_exceptions=ignored_exceptions)
+                    .until(EC.element_to_be_clickable((By.XPATH, xpath))))
         elif type == "present":
-            return WebDriverWait(self.driver, timeout).until(
-                EC.presence_of_element_located((By.XPATH, xpath)))
+            return (WebDriverWait(self.driver, timeout, ignored_exceptions=ignored_exceptions)
+                    .until(EC.presence_of_element_located((By.XPATH, xpath))))
 
     def accept_cookies(self) -> None:
         """Accept cookies."""
@@ -165,6 +165,6 @@ class Scraping:
 
     def get_healing_done(self) -> None:
         """Download csv from healing tab."""
-        time.sleep(0.4)
+        time.sleep(0.5)
         hd_csv_xp = "//button/span[./text()='CSV']"
         self.wait_until(hd_csv_xp, type="clickable").click()
