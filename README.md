@@ -1,5 +1,11 @@
 # fflogs-study-project
-Scrape fflog entries for limited metrics, combine and visualize the data.
+Scrape fflog entries for damage done and healing done tables, combine data from multiple logs and then visualize using a dash dashboard.
+
+## Requirements
+
+* Python 3.10
+
+> This code makes use of the `match-case` syntax ([structural pattern matching](https://> docs.python.org/3/whatsnew/3.10.html)). This was introduced in Python 3.10.
 
 ## (README is still WIP – this is just the preliminary project description)
 
