@@ -59,7 +59,16 @@ def user_input(
                 print("Dash debug mode set.")
                 debug = True
             case "config":
-                print(FullInput(logs, headless, type, debug))
+                print("\nCurrent configuration of parameters:")
+                config = textwrap.dedent(f"""\
+                    headless = {headless}
+                    type = {type}
+                    debug = {debug}
+                """)
+                print(config)
+                print("\nLogs:")
+                for url in logs:
+                    print(url)
             case "run":
                 print("Confirmed.")
                 break
