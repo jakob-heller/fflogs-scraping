@@ -5,10 +5,8 @@ __pycache__/
 *.log
 
 # Ignore downloaded csv files
-csv/
-
-# Don't ignore the placeholder file
-!csv/placeholder.csv
+*.csv
+!placeholder.csv
 
 # Ignore geckodriver.exe inside of module
 fflogs-study-project/geckodriver.exe
