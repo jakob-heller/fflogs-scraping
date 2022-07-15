@@ -28,7 +28,6 @@ The available parameters should be explained sufficiently. Since we want to anal
 ### Scraping
 
 We can now take a look at what the scraping process (implemented in `data_scraping.py`) is going to do. The following will be repeated for every url we provide (2 times in this case). If we open the [first](https://www.fflogs.com/reports/hacvwXKb8mFYrAdx) log and click on "All Kills (2)" we land on this summary page:  
-
 <img src="img/summary_page.png" alt="Summary Page" width="600"/>  
 
 On this page, the contents of the "Raid Composition" table will be fetched to make sure that the group composition in every log is the same. We check classes/jobs instead of player names - these are indicated by the icons and colors (to understand the reasons for this is not important for this project).  
