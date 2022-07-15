@@ -21,7 +21,8 @@ For the example we will look at the predefined logs 2. The set consists of 2 log
 ### User Input
 On run we are prompted with a user input:  
 <img src="img/input_prompt.png" alt="User Input Prompt" width="600"/>  
-The available parameters should be explained sufficiently. Since we want to analyze boss kills from set 2 in this example, we input "2" and "kills". If you want to see the scraping process, you can input "show" and the Webdriver will be visible.  "config" shows the parameters that will be returned.    
+The available parameters should be explained sufficiently. Since we want to analyze boss kills from set 2 in this example, we input "2" and "kills". If you want to see the scraping process, you can input "show" and the Webdriver will be visible.  "config" shows the parameters that will be returned.  
+  
 <img src="img/first_input.gif" alt="Example User Input" width="600"/>  
 
 ### Scraping
