@@ -1,11 +1,12 @@
 """Manages user inputs to get links to log files."""
 
-from collections import namedtuple
 import re
 import textwrap
+from collections import namedtuple
 
 
-def user_input() -> namedtuple:
+def user_input(
+    ) -> namedtuple("FullInput", ["logs", "headless", "type", "debug"]):
     """User-interface.
 
     Utilizes match-case environment, as introduced in python 3.10.

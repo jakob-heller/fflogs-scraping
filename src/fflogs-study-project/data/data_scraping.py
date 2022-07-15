@@ -6,10 +6,10 @@ import re
 
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
 
@@ -34,7 +34,11 @@ class Scraping:
         8-tuple of strings, representing job(/class)-composition in logs.
     """
 
-    def __init__(self, logs, type, headless, cookies=False):
+    def __init__(self,
+                 logs: list[str],
+                 type: str,
+                 headless: bool,
+                 cookies: bool = False):
         """Initializes object with given attributes, start driver.
 
         Args:
@@ -106,7 +110,7 @@ class Scraping:
         """Closes browser/ quits driver."""
         self.driver.quit()
 
-    def wait_until(self, xpath: str, timeout=10, type="present"):
+    def wait_until(self, xpath: str, timeout: int = 10, type: str = "present"):
         """Waits till element is loaded.
 
         This is a helper function, called by most other scraping methods.

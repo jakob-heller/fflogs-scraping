@@ -5,7 +5,7 @@ import glob
 import pandas as pd
 
 
-def csv_to_dfs() -> tuple:
+def csv_to_dfs() -> tuple[list[pd.DataFrame], list[pd.DataFrame]]:
     """Reads csv files.
 
     Reads csv files in csv directory as pandas dataframes and adds them either
@@ -35,7 +35,7 @@ def csv_to_dfs() -> tuple:
     return (dd_dfs, hd_dfs)
 
 
-def join_dd_dfs(dd_df_list: list) -> pd.DataFrame:
+def join_dd_dfs(dd_df_list: list[pd.DataFrame]) -> pd.DataFrame:
     """Joins multiple "damage done" dataframes to single dataframe.
 
     Concatenates all dataframes provided into one dataframe, converts all
@@ -88,7 +88,7 @@ def join_dd_dfs(dd_df_list: list) -> pd.DataFrame:
     return dd_df
 
 
-def join_hd_dfs(hd_df_list: list) -> pd.DataFrame:
+def join_hd_dfs(hd_df_list: list[pd.DataFrame]) -> pd.DataFrame:
     """Joins multiple "healing done" dataframes to single dataframe.
 
     Mostly identical to join_dd_dfs(), split up into two functions because the

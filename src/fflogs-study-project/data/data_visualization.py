@@ -1,8 +1,8 @@
 """Interactively visualize data using a basic Dash data app."""
 
+import pandas as pd
 from dash import Dash, html
 from dash.dash_table import DataTable as DT
-import pandas as pd
 
 
 def data_bars(df: pd.DataFrame, column: str) -> dict:
