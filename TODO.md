@@ -3,6 +3,7 @@
 ## user_input
 
 * Remove match-case from `user_input()`, if it really needs to be compatible with Python 3.7
+* Add option to specify localhost port (maybe)
 
 ## data_scraping
 
