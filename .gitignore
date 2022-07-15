@@ -6,3 +6,6 @@ __pycache__/
 
 # Ignore downloaded csv files
 csv/
+
+# Ignore geckodriver.exe inside of module
+fflogs-study-project/geckodriver.exe
