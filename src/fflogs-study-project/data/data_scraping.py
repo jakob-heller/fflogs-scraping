@@ -216,7 +216,8 @@ class Scraping:
         hd_url = dd_url.replace("&type=damage-done", "&type=healing")
         self.driver.get(hd_url)
 
-        # No need to scroll down again, we stay at the bottom of the page
+        # Scroll down so the cookies don't obscure the field we want to click
+        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
     def get_healing_done(self) -> None:
         """Downloads csv from healing tab."""
