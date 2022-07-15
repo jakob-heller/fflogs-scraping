@@ -8,8 +8,8 @@ import pandas as pd
 def data_bars(df: pd.DataFrame, column: str) -> dict:
     """Conditional formatting for data bars in cells.
 
-    Creates a conditional formatting dictionary that shows data bars inside
-    of (data-)table cells. Bar lengths are relative to the highest value.
+    Creates a conditional formatting dictionary that shows data bars inside of
+    (data-)table cells. Bar lengths are relative to the highest value.
 
     Taken from dash documentation and slightly adjusted:
     https://dash.plotly.com/datatable/conditional-formatting
