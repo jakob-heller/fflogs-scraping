@@ -22,6 +22,8 @@ For the example we will look at the predefined logs 2. The set consists of 2 log
 On run we are prompted with a user input:  
 
 ![](img/input_prompt.png "User Input Prompt")
+![](img/first_input.gif "Example User Input")
+![](img/finished_processing.gif "Dash started")
 
 ## (README is still WIP – this is just the preliminary project description)
 
