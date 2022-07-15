@@ -83,7 +83,8 @@ def user_input(
                         logs.append(user_input)
                     else:
                         print("The log seems to be invalid.")
-                print("This does not seem to be a valid input.")
+                else:
+                    print("This does not seem to be a valid input.")
     full_input = FullInput(logs, headless, type, debug)
     return full_input
 
