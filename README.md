@@ -1,4 +1,6 @@
-# fflogs-study-project
+<img align="right" width="80" height="80" src="img/fflogs_icon.png" alt="Resume application project app icon">
+
+# Resume application project
 Scrape [fflog](https://www.fflogs.com/) entries for damage done and healing done tables, combine data from multiple logs and then visualize using a dash dashboard.
 
 ## Requirements
