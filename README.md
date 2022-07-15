@@ -20,8 +20,7 @@ For the example we will look at the predefined logs 2. The set consists of 2 log
 
 ### User Input
 On run we are prompted with a user input.
-<img src="img/input_prompt.png" alt="User Input Prompt">
-
+![User Input Prompt](img/input_prompt.png "User Input Prompt")
 
 ## (README is still WIP – this is just the preliminary project description)
 
