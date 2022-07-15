@@ -26,7 +26,8 @@ The available parameters should be explained sufficiently. Since we want to anal
 <img src="img/first_input.gif" alt="Example User Input" width="600"/>  
 
 ### Scraping
-We can now take a look at what the scraping process is going to do. The following will be repeated for every url we provide (2 times in this case). If we open the [first](https://www.fflogs.com/reports/hacvwXKb8mFYrAdx) log and click on "All Kills (2)" we land on this summary page:  
+
+We can now take a look at what the scraping process (implemented in `data_scraping.py`) is going to do. The following will be repeated for every url we provide (2 times in this case). If we open the [first](https://www.fflogs.com/reports/hacvwXKb8mFYrAdx) log and click on "All Kills (2)" we land on this summary page:  
 
 <img src="img/summary_page.png" alt="Summary Page" width="600"/>  
 
@@ -41,7 +42,18 @@ Next, the Webdriver navigates do the subpage for "damage done". We can get there
 On this page, the Webdriver is simply going to download the main table as a csv file, using the "CSV" button on the bottom right. It then repeats the same for the "healing done" suppage.  
 
 <img src="img/damage_done_page.png" alt="Damage Done page" width="600"/>  
+
+### Data Summary
+
+In `data_combination.py` the csv files just downloaded will be read into pandas dataframes and summarized.
+
+### Data Visualization
+
+When all this is finished, the terminal will show where the Dash app is running:  
 <img src="img/finished_processing.gif" alt="Dash started" width="600"/>  
+
+Open this (e.g. in your browser) and you will see this dashboard with sortable columns:
+<img src="img/dashboard.gif" alt="Dashboard" width="600"/>  
 
 ## (README is still WIP – this is just the preliminary project description)
 
