@@ -102,7 +102,9 @@ class Scraping:
         for log in self.logs:
             print(f"Beginning log {counter}/{max}... ", flush=True, end=" ")
             self.to_summary(log)
-            self.check_comp(self.get_comp())
+            if not self.check_comp(self.get_comp()):
+                print("...will be left out, group comp is invalid.")
+                continue
             self.to_damage_dealt()
             self.get_damage_dealt()
             self.to_healing_done()
@@ -172,17 +174,27 @@ class Scraping:
         comp_html = parsed_summary.find_all(class_="composition-entry")
         return str(comp_html)
 
-    def check_comp(self, comp_html: str) -> None:
-        """Parses html string with regex and checks group composition."""
+    def check_comp(self, comp_html: str) -> bool:
+        """Parses html string with regex and checks group composition.
+
+        Args:
+          comp_html:
+            A string of everything labeled with class="composition-enrty" in
+            the page html.
+
+        Returns:
+          False if the composition tuple created shows a different group
+          composition than present in the previous logs, true otherwise.
+        """
         comp = list(re.findall("\"[a-zA-Z]*\"", comp_html))
         comp = [s.strip('"') for s in comp]
 
         # Compare given composition with comp attribute.
         if len(self.comp) > 0 and sorted(self.comp) != sorted(tuple(comp)):
-            self.quit()
-            raise AttributeError(("Group comps in provided logs don't match."))
+            return False
         else:
             self.comp = tuple(comp)
+            return True
 
     def to_damage_dealt(self) -> None:
         """Navigates from "summary" to "damage dealt" tab."""
