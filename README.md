@@ -19,8 +19,8 @@ Scrape [fflog](https://www.fflogs.com/) entries for damage done and healing done
 For the example we will look at the predefined logs 2. The set consists of 2 logs that have boss kills in them ([1](https://www.fflogs.com/reports/hacvwXKb8mFYrAdx), [2](https://www.fflogs.com/reports/LnjBh2tfZRyv8rpD)).
 
 ### User Input
-On run we are prompted with a user input.
-<img src="img/input_prompt.png" alt="User Input Prompt" width="400">
+On run we are prompted with a user input. \
+<img src="img/input_prompt.png" alt="User Input Prompt" width="700" align="left">
 
 
 ## (README is still WIP – this is just the preliminary project description)
