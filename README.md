@@ -36,7 +36,7 @@ On this page, the contents of the "Raid Composition" table will be fetched to ma
 
 Next, the Webdriver navigates do the subpage for "damage done". We can get there by clicking on the "Damage Done" tab.  
 
-<img src="img/damage_done_tab1.png" alt="Damage Done tab" width="600"/>  
+<img src="img/damage_done_tab.png" alt="Damage Done tab" width="600"/>  
 
 On this page, the Webdriver is simply going to download the main table as a csv file, using the "CSV" button on the bottom right. It then repeats the same for the "healing done" suppage.  
 
