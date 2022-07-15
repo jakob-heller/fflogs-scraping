@@ -95,15 +95,20 @@ class Scraping:
 
     def parse_logs(self) -> None:
         """Parses and scrapes all given logs."""
+        counter = 1
+        max = len(self.logs)
         if self.cookies:
             self.accept_cookies()
         for log in self.logs:
+            print(f"Beginning log {counter}/{max}... ", flush=True, end=" ")
             self.to_summary(log)
             self.check_comp(self.get_comp())
             self.to_damage_dealt()
             self.get_damage_dealt()
             self.to_healing_done()
             self.get_healing_done()
+            print(f"...log {counter}/{max} finished.")
+            counter += 1
         self.quit()
 
     def quit(self) -> None:
