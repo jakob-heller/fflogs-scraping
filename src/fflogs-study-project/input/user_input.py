@@ -35,7 +35,7 @@ def user_input(
     print(text)
 
     FullInput = namedtuple("FullInput", ["logs", "headless", "type", "debug"])
-    logs = predef_links()
+    logs = []
     type = "all"
     headless = True
     debug = False
