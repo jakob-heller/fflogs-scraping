@@ -9,3 +9,4 @@ csv/
 
 # Ignore geckodriver.exe inside of module
 fflogs-study-project/geckodriver.exe
+fflogs-study-project/ublock_origin-1.43.0.xpi
