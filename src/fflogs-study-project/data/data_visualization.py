@@ -109,6 +109,14 @@ def parse_colors(df: pd.DataFrame) -> dict:
         },
         {
             "if": {
+                "filter_query": "{Parse %} > 94 && {Parse %} < 99",
+                "column_id": "Parse %"
+            },
+            "color": "#ff8000",
+            "fontWeight": "bold"
+        },
+        {
+            "if": {
                 "filter_query": "{Parse %} = 99",
                 "column_id": "Parse %"
             },
