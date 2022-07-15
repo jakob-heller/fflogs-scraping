@@ -2,6 +2,7 @@
 
 from collections import namedtuple
 import re
+import textwrap
 
 
 def user_input() -> namedtuple:
@@ -13,24 +14,23 @@ def user_input() -> namedtuple:
       A namedtuple with either the baseline attributes, or the attributes as
       indicated by the user.
     """
-    text = """
-Input '1-5' to analyze one of the log-sets previously defined.
-(3 is an invalid comp, the rest is valid!)
-(4 and 5 don't have kills)
+    text = textwrap.dedent("""\
+        Input '1-5' to analyze one of the log-sets previously defined.
+        (3 is an invalid comp, the rest is valid!)
+        (4 and 5 don't have kills)
 
-Input full log url to add to the list of logs to be summarized.
+        Input full log url to add to the list of logs to be summarized.
 
-Input parameter to change:
-    'show': Show scraping process (sets headless=False)
-    'hide': Hide scraping process (sets headless=True, baseline)
-    'kills': Summarize only kills in given logs (sets type='kills')
-    'wipes': Summarize only wipes in given logs (sets type='wipes')
-    'all': Summarize both kills and wipes in given logs (baseline)
-    'debug': Start the dash app in debug mode
+        Input parameter to change:
+            'show': Show scraping process (sets headless=False)
+            'hide': Hide scraping process (sets headless=True, baseline)
+            'kills': Summarize only kills in given logs (sets type='kills')
+            'wipes': Summarize only wipes in given logs (sets type='wipes')
+            'all': Summarize both kills and wipes in given logs (baseline)
+            'debug': Start the dash app in debug mode
 
-Input 'config' to show current configuration.
-Input 'y' to start the process, 'q' to abort.
-    """
+        Input 'config' to show current configuration.
+        Input 'y' to start the process, 'q' to abort.""")
     print(text)
 
     FullInput = namedtuple("FullInput", ["logs", "headless", "type", "debug"])
