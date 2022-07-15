@@ -1,5 +1,4 @@
 beautifulsoup4==4.11.1
 dash==2.5.1
 pandas==1.4.2
-plotly==5.8.0
 selenium==4.3.0
