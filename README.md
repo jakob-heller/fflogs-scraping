@@ -16,6 +16,9 @@ Scrape [fflog](https://www.fflogs.com/) entries for damage done and healing done
 
 * Pandas
 
+* Firefox
+> Since we use a Firefox Webdriver we need a full-install of Firefox.
+
 ## Getting Started
 
 To use this package, simply clone the repository and install the dependencies in `requirements.txt` in you environment. Navigate to the `src` directory and run
