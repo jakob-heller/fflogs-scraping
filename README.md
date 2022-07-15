@@ -23,7 +23,22 @@ On run we are prompted with a user input:
 <img src="img/input_prompt.png" alt="User Input Prompt" width="600"/>  
 The available parameters should be explained sufficiently. Since we want to analyze boss kills from set 2 in this example, we input "2" and "kills". If you want to see the scraping process, you can input "show" and the Webdriver will be visible.  "config" shows the parameters that will be returned.    
 <img src="img/first_input.gif" alt="Example User Input" width="600"/>  
-Text.  
+
+### Scraping
+We can now take a look at what the scraping process is going to do. The following will be repeated for every url we provide (2 times in this case). If we open the [first](https://www.fflogs.com/reports/hacvwXKb8mFYrAdx) log and click on "All Kills (2)" we land on this summary page:  
+
+<img src="img/input_prompt.png" alt="Summary Page" width="600"/>  
+
+On this page, the contents of the "Raid Composition" table will be fetched to make sure that the group composition in every log is the same. We check classes/jobs instead of player names - these are indicated by the icons and colors (to understand the reasons for this is not important for this project).  
+
+<img src="img/input_prompt.png" alt="Composition table" width="600"/>  
+
+Next, the Webdriver navigates do the subpage for "damage done". We can get there by clicking on the "Damage Done" tab.  
+
+<img src="img/input_prompt.png" alt="Damage Done tab" width="600"/>  
+
+On this page, the Webdriver is simply going to download the main table as a csv file, using the "CSV" button on the bottom right. It then repeats the same for the "healing done" suppage.  
+
 <img src="img/finished_processing.gif" alt="Dash started" width="600"/>  
 
 ## (README is still WIP – this is just the preliminary project description)
