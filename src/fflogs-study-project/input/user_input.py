@@ -31,7 +31,7 @@ def user_input(
             'debug': Start the dash app in debug mode
 
         Input 'config' to show current configuration.
-        Input 'y' to start the process, 'q' to abort.""")
+        Input 'run' to start the process, 'exit' to abort.""")
     print(text)
 
     FullInput = namedtuple("FullInput", ["logs", "headless", "type", "debug"])
@@ -60,10 +60,10 @@ def user_input(
                 debug = True
             case "config":
                 print(FullInput(logs, headless, type, debug))
-            case "y":
+            case "run":
                 print("Confirmed.")
                 break
-            case "q":
+            case "exit":
                 exit()
             case _:
                 if len(user_input) > 10:
@@ -76,7 +76,6 @@ def user_input(
                         print("The log seems to be invalid.")
                 print("This does not seem to be a valid input.")
     full_input = FullInput(logs, headless, type, debug)
-    print("Processing...")
     return full_input
 
 
