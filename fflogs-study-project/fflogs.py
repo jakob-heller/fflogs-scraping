@@ -1,9 +1,9 @@
 """Main control flow."""
 
-from input import user_input as ui
-from data import data_scraping as ds
-from data import data_combination as dc
-from data import data_visualization as dv
+import input.user_input as ui
+import data.data_scraping as ds
+import data.data_combination as dc
+import data.data_visualization as dv
 
 
 def main():
@@ -19,4 +19,4 @@ def main():
     hd = dc.join_hd_dfs(df_lists[1])
 
     dv.dash(dd, hd).run_server(debug=inpt.debug, use_reloader=False, port=8058)
-    # dv.dash(dd, hd).run_server(debug=True, port=8056)
+    # dv.dash(dd, hd).run_server(debug=True, port=8058)
