@@ -2,7 +2,7 @@
 
 ## README
 
-* Add a "comprehensive overview of the project's goal, motivation and structure".
+* Add a "comprehensive overview of the project's goal, motivation and structure"
 * Add section on how to set up and run the project
 
 ## user_input
