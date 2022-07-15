@@ -16,14 +16,22 @@ Scrape [fflog](https://www.fflogs.com/) entries for damage done and healing done
 
 * Pandas
 
-## Example
+## Getting Started
+
+To use this package, simply clone the repository and install the dependencies in `requirements.txt` in you environment. Navigate to the `src` directory and run
+
+```
+python fflogs-study-project
+```
+
+## Example (screenshots outdated)
 
 For the example we will look at the predefined logs 2. The set consists of 2 logs that have boss kills in them ([1](https://www.fflogs.com/reports/hacvwXKb8mFYrAdx), [2](https://www.fflogs.com/reports/LnjBh2tfZRyv8rpD)).
 
 ### User Input
 On run we are prompted with a user input:  
 <img src="img/input_prompt.png" alt="User Input Prompt" width="600"/>  
-The available parameters should be explained sufficiently. Since we want to analyze boss kills from set 2 in this example, we input "2" and "kills". If you want to see the scraping process, you can input "show" and the Webdriver will be visible.  "config" shows the parameters that will be returned. (Note: 'y' and 'q' in the screenshots have been replaced by 'run' and 'exit', respectively) 
+The available parameters should be explained sufficiently. Since we want to analyze boss kills from set 2 in this example, we input "2" and "kills". If you want to see the scraping process, you can input "show" and the Webdriver will be visible.  "config" shows the parameters that will be returned. (Note: 'y' and 'q' in the screenshots have been replaced by 'run' and 'exit', respectively)
 
 <img src="img/first_input.gif" alt="Example User Input" width="600"/>  
 
