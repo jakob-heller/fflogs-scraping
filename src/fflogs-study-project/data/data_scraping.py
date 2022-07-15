@@ -131,10 +131,14 @@ class Scraping:
         """
         ignored_exceptions = (NoSuchElementException, StaleElementReferenceException,)
         if type == "clickable":
-            return (WebDriverWait(self.driver, timeout, ignored_exceptions=ignored_exceptions)
+            return (WebDriverWait(self.driver,
+                                  timeout,
+                                  ignored_exceptions=ignored_exceptions)
                     .until(EC.element_to_be_clickable((By.XPATH, xpath))))
         elif type == "present":
-            return (WebDriverWait(self.driver, timeout, ignored_exceptions=ignored_exceptions)
+            return (WebDriverWait(self.driver,
+                                  timeout,
+                                  ignored_exceptions=ignored_exceptions)
                     .until(EC.presence_of_element_located((By.XPATH, xpath))))
 
     def accept_cookies(self) -> None:
