@@ -56,9 +56,7 @@ def df_to_dt(df: pd.DataFrame, id: str) -> DT:
               )
 
 
-# The following methods are all related to the dashboard style.
-
-
+# The following 4 methods are all related to the dashboard style.
 def styles(type: str) -> dict:
     """Returns dictionary of styles as specified by "type"."""
     if type == "header":
