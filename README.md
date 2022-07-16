@@ -5,15 +5,15 @@ Scrape [fflog](https://www.fflogs.com/) entries for damage done and healing done
 
 # Table of contents
 1. [Introduction](#introduction)
-    1.1 [Goal and Motivation](#goal)
-    1.2 [Structure](#structure)
+    1. [Goal and Motivation](#goal)
+    2. [Structure](#structure)
 2. [Requirements](#reqs)
 3. [Getting Started](#start)
 4. [Example](#expl)
-    4.1 [User Input](#input)
-    4.2 [Scraping](#scraping)
-    4.3 [Data Summary](#sum)
-    4.4 [Data Visualization](#viz)
+    1. [User Input](#input)
+    2. [Scraping](#scraping)
+    3. [Data Summary](#sum)
+    4. [Data Visualization](#viz)
 
 <a name="introduction"></a>
 ## Introduction
