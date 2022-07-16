@@ -8,6 +8,7 @@
 ## README
 
 * Add a "comprehensive overview of the project's goal, motivation and structure"
+* Update screenshots and gifs in the example walkthrough
 
 ## data_scraping
 
