@@ -78,9 +78,10 @@ def parse_colors(df: pd.DataFrame) -> dict:
     styles = [
         {
             "if": {
-                "filter_query": "{Parse %} > 0 && {Parse %} < 25",
+                "filter_query": "{Parse %} < 25",
                 "column_id": "Parse %"
             },
+            "color": "#666",
             "fontWeight": "bold"
         },
         {
@@ -131,14 +132,6 @@ def parse_colors(df: pd.DataFrame) -> dict:
             "color": "#b29f65",
             "fontWeight": "bold"
         },
-        {
-            "if": {
-                "filter_query": "{Parse %} > 0 && {Parse %} < 26",
-                "column_id": "Parse %"
-            },
-            "color": "#1cd404",
-            "fontWeight": "bold"
-        }
     ]
     return styles
 
