@@ -44,7 +44,7 @@ Scrape [fflog](https://www.fflogs.com/) entries for damage done and healing done
 <a name="start"></a>
 ## Getting Started
 
-To use this package, simply clone the repository and install the dependencies in `requirements.txt` in you environment. Navigate to the `src` directory and run
+To use this package, simply clone the repository and install the dependencies in `requirements.txt` in you environment (at least Python 3.9). Navigate to the `src` directory and run
 
 ```
 python fflogs-study-project
