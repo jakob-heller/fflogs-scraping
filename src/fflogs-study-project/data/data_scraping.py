@@ -26,20 +26,11 @@ class Scraping:
         "all" encounters, only "kills" or only "wipes".
       driver:
         Firefox webdriver object.
-      cookies:
-        A boolean that is true if cookies are to be accepted during the
-        scraping operation. This parameter exists because the cookie pop-up
-        could in theory obscure the csv download button we want to click on.
-        (does not happen unless manually induced)
       comp:
         8-tuple of strings, representing job(/class)-composition in logs.
     """
 
-    def __init__(self,
-                 logs: list[str],
-                 type: str,
-                 headless: bool,
-                 cookies: bool = False):
+    def __init__(self, logs: list[str], type: str, headless: bool):
         """Initializes object with given attributes, start driver.
 
         Args:
@@ -96,25 +87,25 @@ class Scraping:
         max = len(self.logs)
         for log in self.logs:
             print(f"Beginning log {counter}/{max}... ", flush=True, end=" ")
-            self.to_summary(log)
-            if not self.check_comp(self.get_comp()):
+            self._to_summary(log)
+            if not self._check_comp(self._get_comp()):
                 print("...will be left out, group comp is invalid.")
                 continue
-            self.to_damage_dealt()
-            self.get_damage_dealt()
-            self.to_healing_done()
-            self.get_healing_done()
+            self._to_damage_dealt()
+            self._get_damage_dealt()
+            self._to_healing_done()
+            self._get_healing_done()
             print(f"...log {counter}/{max} finished.")
             counter += 1
         # We wait a split second at the end to make sure downloads are finished
         time.sleep(0.5)
-        self.quit()
+        self._quit()
 
-    def quit(self) -> None:
+    def _quit(self) -> None:
         """Closes browser/ quits driver."""
         self.driver.quit()
 
-    def wait_until(self, value: str, timeout: int = 10, by=By.XPATH):
+    def _wait_until(self, value: str, timeout: int = 10, by=By.XPATH):
         """Waits till element is loaded.
 
         This is a helper function, called by most other scraping methods.
@@ -139,7 +130,7 @@ class Scraping:
                               ignored_exceptions=ignored_exceptions)
                 .until(EC.presence_of_element_located((by, value))))
 
-    def to_summary(self, log_url: str) -> None:
+    def _to_summary(self, log_url: str) -> None:
         """Modifies given url and opens summary page."""
         url = (log_url + "#boss=-2")
 
@@ -151,15 +142,15 @@ class Scraping:
         # encounters, so we don't need to do anything in that case.
         self.driver.get(url)
 
-    def get_comp(self) -> str:
+    def _get_comp(self) -> str:
         """Gets html of summary page an returns the composition table."""
-        self.wait_until("//table[@class='composition-table']")
+        self._wait_until("//table[@class='composition-table']")
 
         parsed_summary = BeautifulSoup(self.driver.page_source, "html.parser")
         comp_html = parsed_summary.find_all(class_="composition-entry")
         return str(comp_html)
 
-    def check_comp(self, comp_html: str) -> bool:
+    def _check_comp(self, comp_html: str) -> bool:
         """Parses html string with regex and checks group composition.
 
         Args:
@@ -181,18 +172,18 @@ class Scraping:
             self.comp = tuple(comp)
             return True
 
-    def to_damage_dealt(self) -> None:
+    def _to_damage_dealt(self) -> None:
         """Navigates from "summary" to "damage dealt" tab."""
         sum_url = self.driver.current_url
         dd_url = (sum_url + "&type=damage-done")
         self.driver.get(dd_url)
 
-    def get_damage_dealt(self) -> None:
+    def _get_damage_dealt(self) -> None:
         """Downloads csv from damage tab."""
         html_class = "buttons-csv"
-        self.wait_until(html_class, by=By.CLASS_NAME).send_keys(Keys.ENTER)
+        self._wait_until(html_class, by=By.CLASS_NAME).send_keys(Keys.ENTER)
 
-    def to_healing_done(self) -> None:
+    def _to_healing_done(self) -> None:
         """Navigates from "damage dealt" to "healing" tab."""
         dd_url = self.driver.current_url
         hd_url = dd_url.replace("&type=damage-done", "&type=healing")
@@ -200,8 +191,8 @@ class Scraping:
 
         # self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
-    def get_healing_done(self) -> None:
+    def _get_healing_done(self) -> None:
         """Downloads csv from healing tab."""
         time.sleep(0.5)
         html_class = "buttons-csv"
-        self.wait_until(html_class, by=By.CLASS_NAME).send_keys(Keys.ENTER)
+        self._wait_until(html_class, by=By.CLASS_NAME).send_keys(Keys.ENTER)
