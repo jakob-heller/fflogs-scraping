@@ -180,7 +180,10 @@ class Scraping:
 
     def _get_damage_dealt(self) -> None:
         """Downloads csv from damage tab."""
+        dps_column_xpath = "//*[contains(text(), 'DPS')]"
         html_class = "buttons-csv"
+        # Make sure that the correct table is present, then download as csv.
+        self._wait_until(dps_column_xpath, by=By.XPATH)
         self._wait_until(html_class, by=By.CLASS_NAME).send_keys(Keys.ENTER)
 
     def _to_healing_done(self) -> None:
@@ -189,10 +192,10 @@ class Scraping:
         hd_url = dd_url.replace("&type=damage-done", "&type=healing")
         self.driver.get(hd_url)
 
-        # self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-
     def _get_healing_done(self) -> None:
         """Downloads csv from healing tab."""
-        time.sleep(0.5)
+        hps_column_xpath = "//*[contains(text(), 'HPS')]"
         html_class = "buttons-csv"
+        # Make sure that the correct table is present, then download as csv.
+        self._wait_until(hps_column_xpath, by=By.XPATH)
         self._wait_until(html_class, by=By.CLASS_NAME).send_keys(Keys.ENTER)
