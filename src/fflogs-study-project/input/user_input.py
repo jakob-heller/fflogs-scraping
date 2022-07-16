@@ -6,19 +6,21 @@ from collections import namedtuple
 
 
 def user_input(
-    ) -> namedtuple("FullInput", ["logs", "headless", "type", "debug"]):
+    ) -> namedtuple("FullInput", ["logs", "headless", "type", "debug", "port"]):
     """User-interface.
 
-    Utilizes match-case environment, as introduced in python 3.10.
+    If-else statements to manage different user inputs. Older versions utilized
+    the structural pattern matching (match-case) introduced in python 3.10, but
+    this was reverted to if-else to be compatible with python 3.7.
 
     Returns:
       A namedtuple with either the baseline attributes, or the attributes as
       indicated by the user.
     """
-    text = textwrap.dedent("""\
+    text = textwrap.dedent("""\n
         Input '1-5' to analyze one of the log-sets previously defined.
-        (3 is an invalid comp, the rest is valid!)
-        (4 and 5 don't have kills)
+        Defaults to 1 if ran without providing logs.
+        (3 has an invalid comp, 4 and 5 don't have kills)
 
         Input full log url to add to the list of logs to be summarized.
 
@@ -28,71 +30,86 @@ def user_input(
             'kills': Summarize only kills in given logs (sets type='kills')
             'wipes': Summarize only wipes in given logs (sets type='wipes')
             'all': Summarize both kills and wipes in given logs (baseline)
-            'debug': Start the dash app in debug mode
+            'debug': Switch dash debug mode on/off (off baseline)
+            <port>: Specify localhost port for dash to run on (default: 8050)
 
         Input 'config' to show current configuration.
         Input 'run' to start the process, 'exit' to abort.""")
     print(text)
 
-    FullInput = namedtuple("FullInput", ["logs", "headless", "type", "debug"])
+    FullInput = namedtuple("FullInput", ["logs", "headless", "type", "debug", "port"])
     logs = []
     type = "all"
     headless = True
     debug = False
+    port = 8050
 
     while True:
         user_input = input("Input: ")
-        match user_input:
-            case "1" | "2" | "3" | "4" | "5":
-                logs = predef_links(int(user_input))
-                print(f"Set links to predefined logs {user_input}.")
-            case "kills" | "wipes" | "all":
-                print(f"Set type to {user_input}.")
-                type = user_input
-            case "show":
-                print("Scraping will be shown.")
-                headless = False
-            case "hide":
-                print("Scraping will not be shown.")
-                headless = True
-            case "debug":
-                print("Dash debug mode set.")
+
+        if user_input in ("1", "2", "3", "4", "5"):
+            logs = predef_links(int(user_input))
+            print(f"Set links to predefined logs {user_input}.")
+        elif user_input in ("kills", "wipes", "all"):
+            print(f"Set type to {user_input}.")
+            type = user_input
+        elif user_input == "show":
+            print("Scraping will be shown.")
+            headless = False
+        elif user_input == "hide":
+            print("Scraping will not be shown.")
+            headless = True
+        elif user_input == "debug":
+            if debug:
+                print("Dash debug mode disabled.")
+                debug = False
+            else:
+                print("Dash debug mode enabled.")
                 debug = True
-            case "config":
-                print("\nCurrent configuration of parameters:")
-                config = textwrap.dedent(f"""\
-                    headless = {headless}
-                    type = {type}
-                    debug = {debug}
-                """)
-                print(config)
-                print("\nLogs:")
-                for url in logs:
-                    print(url)
-            case "run":
-                print("Confirmed.")
-                break
-            case "exit":
-                exit()
-            case _:
-                if len(user_input) > 10:
-                    print("Checking url...")
-                    print(user_input)
-                    if check_url(user_input):
-                        print("Link has been added.")
-                        logs.append(user_input)
-                    else:
-                        print("The log seems to be invalid.")
+        elif user_input == "config":
+            print("\nCurrent configuration of parameters:")
+            config = textwrap.dedent(f"""\
+                headless = {headless}
+                type = {type}
+                debug = {debug}
+                port = {port}
+            """)
+            print(config)
+            print("Logs:")
+            for url in logs:
+                print(url)
+        elif user_input == "run":
+            print("Confirmed.")
+            break
+        elif user_input == "exit":
+            exit()
+        else:
+            if len(user_input) == 4:
+                try:
+                    port = int(user_input)
+                    print(f"Port has been changed to {user_input}.")
+                except ValueError:
+                    continue
+            elif len(user_input) > 10:
+                print("Checking url...")
+                print(user_input)
+                if check_url(user_input):
+                    print("Link has been added.")
+                    logs.append(user_input)
                 else:
-                    print("This does not seem to be a valid input.")
-    full_input = FullInput(logs, headless, type, debug)
+                    print("The log seems to be invalid.")
+            else:
+                print("This does not seem to be a valid input.")
+    if not logs:
+        logs = predef_links()
+    full_input = FullInput(logs, headless, type, debug, port)
     return full_input
 
 
 def check_url(url: str) -> bool:
     """Checks str (url) for valid log and returns True if it is valid."""
-    regex = r"https:\/\/www.fflogs.com\/reports\/(a:)?[a-zA-Z0-9]{16}(\/*)?"
-    return re.match(regex, url)
+    pattern = r"https:\/\/www.fflogs.com\/reports\/(a:)?[a-zA-Z0-9]{16}(\/*)?"
+    return re.match(pattern, url)
 
 
 def predef_links(num: int = 1) -> list[str]:
