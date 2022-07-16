@@ -22,7 +22,7 @@ def main():
     print("...combination finished.")
 
     print("\nLaunching Dash application on localhost:\n")
-    dv.dash(dd, hd).run_server(debug=inpt.debug, use_reloader=False)
+    dv.dash(dd, hd).run_server(debug=inpt.debug, use_reloader=False, port=inpt.port)
 
 
 def debug():
