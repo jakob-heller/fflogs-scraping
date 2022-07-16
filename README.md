@@ -27,9 +27,6 @@ Scrape [fflog](https://www.fflogs.com/) entries for damage done and healing done
 <a name="reqs"></a>
 ## Requirements
 
-* Python 3.10
-> `user_input.py` makes use of the `match-case` syntax ([structural pattern matching](https://docs.python.org/3/whatsnew/3.10.html)). This was introduced in Python 3.10.
-
 * Selenium
 * BeautifulSoup4
 > `data_scraping.py` methods make use of both [Selenium](https://www.selenium.dev/documentation/webdriver/) and [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/).
