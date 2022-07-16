@@ -73,9 +73,7 @@ class Scraping:
 
         # Since the website loads a large amount of adds, loading can take
         # pretty long - but we can significantly reduce runtime by installing
-        # an adblocker. This also allows selenium to click on elements, because
-        # we don't risk buttons being obscured by pop-ups, which makes locating
-        # elements much easier.
+        # an adblocker.
         # We install our adblocker (ublock origin) from an xpi file and
         # activate it by adding it to our FirefoxProfile.
         self.driver.install_addon("ublock_origin-1.43.0.xpi", temporary=True)
