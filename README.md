@@ -19,10 +19,10 @@ Scrape [fflog](https://www.fflogs.com/) entries for damage done and healing done
 ## Introduction
 
 <a name="goal"></a>
-# Goal and Motivation
+### Goal and Motivation
 
 <a name="structure"></a>
-# Structure
+### Structure
 
 <a name="reqs"></a>
 ## Requirements
