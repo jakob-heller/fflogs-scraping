@@ -30,7 +30,7 @@ fflogs-study-project
 │   └── fflogs-study-project
 │       ├── data
 │       │   ├── assets
-│       │   │   └── [style.css](#style)
+│       │   │   └── style.css
 │       │   ├── csv
 │       │   │   └── placeholder.csv
 │       │   ├── __init__.py
@@ -52,9 +52,6 @@ fflogs-study-project
 ├── setup.cfg
 └── setup.py
 ```
-
-<a name="style"></a>
-#### style.css
 
 <a name="reqs"></a>
 ## Requirements
