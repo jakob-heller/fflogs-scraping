@@ -36,7 +36,7 @@ Scrape [fflog](https://www.fflogs.com/) entries for damage done and healing done
 * Pandas
 
 * Firefox
-> Since we use a Firefox sebdriver we need a full-install of Firefox.
+> Since we use a Firefox webdriver we need a full-install of Firefox.
 
 <a name="start"></a>
 ## Getting Started
