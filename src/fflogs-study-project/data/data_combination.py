@@ -17,13 +17,7 @@ def csv_to_dfs() -> tuple[list[pd.DataFrame], list[pd.DataFrame]]:
     dd_dfs = []
     hd_dfs = []
 
-    # We get a list of relative paths to csv files in the csv directory to
-    # iterate over.
-    dirname = os.path.dirname(__file__)
-    csv_path = os.path.join(dirname, "csv")
-    all_csvs = glob.glob(os.path.join(csv_path, "*.csv"))
-
-    for filename in all_csvs:
+    for filename in get_csv_paths():
         df = pd.read_csv(filename, na_values=["-"]).fillna(0)
         # "Limit Break" row contains useless information so we drop it.
         df = (df.set_index("Name").drop(labels="Limit Break", errors="ignore")
@@ -33,6 +27,13 @@ def csv_to_dfs() -> tuple[list[pd.DataFrame], list[pd.DataFrame]]:
         else:
             hd_dfs.append(df)
     return (dd_dfs, hd_dfs)
+
+
+def get_csv_paths() -> list[str]:
+    """Returns a list of relative paths to csv files in the csv directory."""
+    dirname = os.path.dirname(__file__)
+    csv_path = os.path.join(dirname, "csv")
+    return glob.glob(os.path.join(csv_path, "*.csv"))
 
 
 def join_dd_dfs(dd_df_list: list[pd.DataFrame]) -> pd.DataFrame:
@@ -52,36 +53,9 @@ def join_dd_dfs(dd_df_list: list[pd.DataFrame]) -> pd.DataFrame:
       to be visualized.
     """
     dd_df = pd.concat(dd_df_list)
-
-    # To be able to summarize the data, all values need to be converted to
-    # numeric first. The "Amount" column has 3 values separated by special
-    # characters, 2 of which get split into their own columns.
-    dd_df["Parse %"] = pd.to_numeric(dd_df["Parse %"])
-    dd_df["DPS"] = pd.to_numeric(dd_df["DPS"].str.replace(",", ""))
-    dd_df["rDPS"] = pd.to_numeric(dd_df["rDPS"].str.replace(",", ""))
-    dd_df["Active"] = pd.to_numeric(dd_df["Active"].str.split("%").str[0])
-    amt_series = dd_df["Amount"].str.split("$")
-    dd_df["amt"] = pd.to_numeric(amt_series.str[0])
-    dd_df["amt_pct"] = pd.to_numeric(amt_series.str[1].str.split("%").str[0])
-
-    dd_df = dd_df.set_index("Name").groupby("Name").agg(
-        parse_pct=("Parse %", "mean"),
-        amount_pct=("amt_pct", "mean"),
-        amount=("amt", "sum"),
-        active_pct=("Active", "mean"),
-        DPS=("DPS", "mean"),
-        rDPS=("rDPS", "mean")
-    ).reset_index()
-
-    # Since we used "Name" as an index for aggregation, we fix the column names
-    # and set better looking column names for later visualization.
-    columns_titles = ["parse_pct", "Name", "amount_pct",
-                      "amount", "active_pct", "DPS", "rDPS"]
-    dd_df = dd_df.reindex(columns=columns_titles)
-    new_titles = {"parse_pct": "Parse %", "Name": "Player Name",
-                  "amount_pct": "Amount %", "amount": "Amount Total",
-                  "active_pct": "Active %", "HPS": "HPS", "rDPS": "rDPS"}
-    dd_df = dd_df.rename(columns=new_titles)
+    dd_df = convert_df(dd_df, "DPS")
+    dd_df = aggregate_dd(dd_df)
+    dd_df = fix_columns_dd(dd_df)
 
     dd_df["Parse %"] = dd_df["Parse %"].round()
     dd_df = dd_df.round(decimals=2)
@@ -104,20 +78,61 @@ def join_hd_dfs(hd_df_list: list[pd.DataFrame]) -> pd.DataFrame:
       to be visualized.
     """
     hd_df = pd.concat(hd_df_list)
+    hd_df = convert_df(hd_df, "HPS")
+    hd_df = aggregate_hd(hd_df)
+    hd_df = fix_columns_hd(hd_df)
 
-    # To be able to summarize the data, all values need to be converted to
-    # numeric first. The "Amount" column has 3 values separated by special
-    # characters, 2 of which get split into their own columns.
-    hd_df["Parse %"] = pd.to_numeric(hd_df["Parse %"])
-    hd_df["HPS"] = pd.to_numeric(hd_df["HPS"].str.replace(",", ""))
-    hd_df["rHPS"] = pd.to_numeric(hd_df["rHPS"].str.replace(",", ""))
-    hd_df["Active"] = pd.to_numeric(hd_df["Active"].str.split("%").str[0])
-    hd_df["Overheal"] = pd.to_numeric(hd_df["Overheal"].str.split("%").str[0])
-    amt_series = hd_df["Amount"].str.split("$")
-    hd_df["amt"] = pd.to_numeric(amt_series.str[0])
-    hd_df["amt_pct"] = pd.to_numeric(amt_series.str[1].str.split("%").str[0])
+    hd_df["Parse %"] = hd_df["Parse %"].round()
+    hd_df = hd_df.round(decimals=2)
+    return hd_df
 
-    hd_df = hd_df.set_index("Name").groupby("Name").agg(
+
+def convert_df(df: pd.DataFrame, type: str) -> pd.DataFrame:
+    """Converts values to numeric values.
+
+    To be able to summarize the data, all values need to be converted to
+    numeric first. The "Amount" column has 3 values separated by special
+    characters, 2 of which get split into their own columns.
+
+    Args:
+      dd_df:
+        Pandas dataframe that has just been concatenated.
+      type:
+        Either "HPS" or "DPS" - both have slightly different columns and thus
+        need to be handled differently.
+
+    Returns:
+      Dataframe where all relevant values have been converted to numeric
+      (except "Name" column).
+    """
+    df["Parse %"] = pd.to_numeric(df["Parse %"])
+    df[type] = pd.to_numeric(df[type].str.replace(",", ""))
+    df[f"r{type}"] = pd.to_numeric(df[f"r{type}"].str.replace(",", ""))
+    df["Active"] = pd.to_numeric(df["Active"].str.split("%").str[0])
+    amt_series = df["Amount"].str.split("$")
+    df["amt"] = pd.to_numeric(amt_series.str[0])
+    df["amt_pct"] = pd.to_numeric(amt_series.str[1].str.split("%").str[0])
+
+    if type == "HPS":
+        df["Overheal"] = pd.to_numeric(df["Overheal"].str.split("%").str[0])
+    return df
+
+
+def aggregate_dd(df: pd.DataFrame) -> pd.DataFrame:
+    """Returns dataframe aggregated by "Name" column."""
+    return df.set_index("Name").groupby("Name").agg(
+        parse_pct=("Parse %", "mean"),
+        amount_pct=("amt_pct", "mean"),
+        amount=("amt", "sum"),
+        active_pct=("Active", "mean"),
+        DPS=("DPS", "mean"),
+        rDPS=("rDPS", "mean")
+    ).reset_index()
+
+
+def aggregate_hd(df: pd.DataFrame) -> pd.DataFrame:
+    """Returns dataframe aggregated by "Name" column."""
+    return df.set_index("Name").groupby("Name").agg(
         parse_pct=("Parse %", "mean"),
         amount_pct=("amt_pct", "mean"),
         amount=("amt", "sum"),
@@ -127,17 +142,23 @@ def join_hd_dfs(hd_df_list: list[pd.DataFrame]) -> pd.DataFrame:
         rHPS=("rHPS", "mean")
     ).reset_index()
 
-    # Since we used "Name" as an index for aggregation, we fix the column names
-    # and set better looking column names for later visualization.
+
+def fix_columns_dd(df: pd.DataFrame) -> pd.DataFrame:
+    """Fixes and sets better looking column names for later visualization."""
+    columns_titles = ["parse_pct", "Name", "amount_pct",
+                      "amount", "active_pct", "DPS", "rDPS"]
+    new_titles = {"parse_pct": "Parse %", "Name": "Player Name",
+                  "amount_pct": "Amount %", "amount": "Amount Total",
+                  "active_pct": "Active %", "HPS": "HPS", "rDPS": "rDPS"}
+    return df.reindex(columns=columns_titles).rename(columns=new_titles)
+
+
+def fix_columns_hd(df: pd.DataFrame) -> pd.DataFrame:
+    """Fixes and sets better looking column names for later visualization."""
     columns_titles = ["parse_pct", "Name", "amount_pct", "amount",
                       "overheal", "active_pct", "HPS", "rHPS"]
-    hd_df = hd_df.reindex(columns=columns_titles)
     new_titles = {"parse_pct": "Parse %", "Name": "Player Name",
                   "amount_pct": "Amount %", "amount": "Amount Total",
                   "overheal": "Overheal", "active_pct": "Active %",
                   "HPS": "HPS", "rHPS": "rHPS"}
-    hd_df = hd_df.rename(columns=new_titles)
-
-    hd_df["Parse %"] = hd_df["Parse %"].round()
-    hd_df = hd_df.round(decimals=2)
-    return hd_df
+    return df.reindex(columns=columns_titles).rename(columns=new_titles)
