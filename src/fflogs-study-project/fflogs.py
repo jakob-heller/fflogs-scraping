@@ -25,7 +25,7 @@ def main():
     dv.dash(dd, hd).run_server(debug=inpt.debug, use_reloader=False, port=inpt.port)
 
 
-def debug():
+def debug_dash():
     """main() without the scraping part to work on the dashboard."""
     df_lists = dc.csv_to_dfs()
     dd = dc.join_dd_dfs(df_lists[0])
