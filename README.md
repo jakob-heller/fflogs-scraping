@@ -3,6 +3,28 @@
 # fflogs-study-project
 Scrape [fflog](https://www.fflogs.com/) entries for damage done and healing done tables, combine data from multiple logs and then visualize using a dash dashboard.
 
+# Table of contents
+1. [Introduction](#introduction)
+    1.1 [Goal and Motivation](#goal)
+    1.2 [Structure](#structure)
+2. [Requirements](#reqs)
+3. [Getting Started](#start)
+4. [Example](#expl)
+    4.1 [User Input](#input)
+    4.2 [Scraping](#scraping)
+    4.3 [Data Summary](#sum)
+    4.4 [Data Visualization](#viz)
+
+<a name="introduction"></a>
+## Introduction
+
+<a name="goal"></a>
+# Goal and Motivation
+
+<a name="structure"></a>
+# Structure
+
+<a name="reqs"></a>
 ## Requirements
 
 * Python 3.10
@@ -19,6 +41,7 @@ Scrape [fflog](https://www.fflogs.com/) entries for damage done and healing done
 * Firefox
 > Since we use a Firefox Webdriver we need a full-install of Firefox.
 
+<a name="start"></a>
 ## Getting Started
 
 To use this package, simply clone the repository and install the dependencies in `requirements.txt` in you environment. Navigate to the `src` directory and run
@@ -27,10 +50,12 @@ To use this package, simply clone the repository and install the dependencies in
 python fflogs-study-project
 ```
 
+<a name="expl"></a>
 ## Example (screenshots outdated)
 
 For the example we will look at the predefined logs 2. The set consists of 2 logs that have boss kills in them ([1](https://www.fflogs.com/reports/hacvwXKb8mFYrAdx), [2](https://www.fflogs.com/reports/LnjBh2tfZRyv8rpD)).
 
+<a name="input"></a>
 ### User Input
 On run we are prompted with a user input:  
 <img src="img/input_prompt.png" alt="User Input Prompt" width="600"/>  
@@ -38,6 +63,7 @@ The available parameters should be explained sufficiently. Since we want to anal
 
 <img src="img/first_input.gif" alt="Example User Input" width="600"/>  
 
+<a name="scraping"></a>
 ### Scraping
 
 We can now take a look at what the scraping process (implemented in `data_scraping.py`) is going to do. The following will be repeated for every url we provide (2 times in this case). If we open the [first](https://www.fflogs.com/reports/hacvwXKb8mFYrAdx) log and click on "All Kills (2)" we land on this summary page:  
@@ -55,10 +81,12 @@ On this page, the Webdriver is simply going to download the main table as a csv 
 
 <img src="img/damage_done_page.png" alt="Damage Done page" width="600"/>  
 
+<a name="sum"></a>
 ### Data Summary
 
 In `data_combination.py` the csv files just downloaded will be read into pandas dataframes and summarized.
 
+<a name="viz"></a>
 ### Data Visualization
 
 When all this is finished, the terminal will show where the Dash app is running:  
