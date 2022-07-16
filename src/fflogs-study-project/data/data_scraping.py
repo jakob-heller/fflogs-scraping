@@ -10,6 +10,7 @@ from selenium import webdriver
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
 
@@ -51,13 +52,9 @@ class Scraping:
           headless:
             A boolean that is true if the Webdriver is to be started headless
             (-> invisible) and false if not, as inputted by the user.
-          cookies:
-            A boolean that is true if cookies are to be accepted during the
-            scraping operation.
         """
         self.logs = logs
         self.comp = ()
-        self.cookies = cookies
         self.enc_type = type
 
         options = webdriver.FirefoxOptions()
@@ -97,8 +94,6 @@ class Scraping:
         """Parses and scrapes all given logs."""
         counter = 1
         max = len(self.logs)
-        if self.cookies:
-            self.accept_cookies()
         for log in self.logs:
             print(f"Beginning log {counter}/{max}... ", flush=True, end=" ")
             self.to_summary(log)
@@ -111,13 +106,15 @@ class Scraping:
             self.get_healing_done()
             print(f"...log {counter}/{max} finished.")
             counter += 1
+        # We wait a split second at the end to make sure downloads are finished
+        time.sleep(0.5)
         self.quit()
 
     def quit(self) -> None:
         """Closes browser/ quits driver."""
         self.driver.quit()
 
-    def wait_until(self, xpath: str, timeout: int = 10, type: str = "present"):
+    def wait_until(self, value: str, timeout: int = 10, by=By.XPATH):
         """Waits till element is loaded.
 
         This is a helper function, called by most other scraping methods.
@@ -125,34 +122,22 @@ class Scraping:
         dynamic waiting time which we use WebDriverWait for.
 
         Args:
-          xpath:
-            A string, the relative xpath of the element to be found.
+          value:
+            A string by which we try locating the element (xpath or class).
           timeout:
             An integer, the amount of maximum seconds to wait until timeout.
-          type:
-            A string - either "clickable", if the element needs to be clickable
-            or "present", if mere presence of the element is already enough.
+          by:
+            Takes attributes of Seleniums By class. We use it to specify by
+            by what value we want to locate our element (xpath or class name).
 
         Returns:
           Object of Seleniums WebElement class.
         """
         ignored_exceptions = (NoSuchElementException, StaleElementReferenceException,)
-        if type == "clickable":
-            return (WebDriverWait(self.driver,
-                                  timeout,
-                                  ignored_exceptions=ignored_exceptions)
-                    .until(EC.element_to_be_clickable((By.XPATH, xpath))))
-        elif type == "present":
-            return (WebDriverWait(self.driver,
-                                  timeout,
-                                  ignored_exceptions=ignored_exceptions)
-                    .until(EC.presence_of_element_located((By.XPATH, xpath))))
-
-    def accept_cookies(self) -> None:
-        """Accepts cookies."""
-        self.driver.get("https://www.fflogs.com/")
-        cookies = "//div[@class='cc-compliance']"
-        self.wait_until(cookies, type="clickable").click()
+        return (WebDriverWait(self.driver,
+                              timeout=timeout,
+                              ignored_exceptions=ignored_exceptions)
+                .until(EC.presence_of_element_located((by, value))))
 
     def to_summary(self, log_url: str) -> None:
         """Modifies given url and opens summary page."""
@@ -168,7 +153,7 @@ class Scraping:
 
     def get_comp(self) -> str:
         """Gets html of summary page an returns the composition table."""
-        self.wait_until("//table[@class='composition-table']", type="present")
+        self.wait_until("//table[@class='composition-table']")
 
         parsed_summary = BeautifulSoup(self.driver.page_source, "html.parser")
         comp_html = parsed_summary.find_all(class_="composition-entry")
@@ -202,13 +187,10 @@ class Scraping:
         dd_url = (sum_url + "&type=damage-done")
         self.driver.get(dd_url)
 
-        # Scroll down so the cookies don't obscure the field we want to click
-        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-
     def get_damage_dealt(self) -> None:
         """Downloads csv from damage tab."""
-        dd_csv_xp = "//button/span[./text()='CSV']"
-        self.wait_until(dd_csv_xp, type="clickable").click()
+        html_class = "buttons-csv"
+        self.wait_until(html_class, by=By.CLASS_NAME).send_keys(Keys.ENTER)
 
     def to_healing_done(self) -> None:
         """Navigates from "damage dealt" to "healing" tab."""
@@ -216,11 +198,10 @@ class Scraping:
         hd_url = dd_url.replace("&type=damage-done", "&type=healing")
         self.driver.get(hd_url)
 
-        # Scroll down so the cookies don't obscure the field we want to click
-        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        # self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
     def get_healing_done(self) -> None:
         """Downloads csv from healing tab."""
         time.sleep(0.5)
-        hd_csv_xp = "//button/span[./text()='CSV']"
-        self.wait_until(hd_csv_xp, type="clickable").click()
+        html_class = "buttons-csv"
+        self.wait_until(html_class, by=By.CLASS_NAME).send_keys(Keys.ENTER)
