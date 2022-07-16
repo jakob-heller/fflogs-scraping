@@ -27,6 +27,9 @@ Scrape [fflog](https://www.fflogs.com/) entries for damage done and healing done
 <a name="reqs"></a>
 ## Requirements
 
+* Python 3.9
+> The type hints of collection items used in this version only work in Python 3.9+.
+
 * Selenium
 * BeautifulSoup4
 > `data_scraping.py` methods make use of both [Selenium](https://www.selenium.dev/documentation/webdriver/) and [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/).
