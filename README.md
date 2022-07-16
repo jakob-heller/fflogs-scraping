@@ -24,6 +24,35 @@ Scrape [fflog](https://www.fflogs.com/) entries for damage done and healing done
 <a name="structure"></a>
 ### Structure
 
+```
+fflogs-study-project
+├── src
+│   └── fflogs-study-project
+│       ├── data
+│       │   ├── assets
+│       │   │   └── style.css
+│       │   ├── csv
+│       │   │   └── placeholder.csv
+│       │   ├── __init__.py
+│       │   ├── data_combination.py
+│       │   ├── data_scraping.py
+│       │   └── data_visualization.py
+│       ├── input
+│       │   ├── __init__.py
+│       │   └── user_input.py
+│       ├── __init__.py
+│       ├── __main__.py
+│       ├── geckodriver.exe
+│       └── ublock_origin-1.43.0.xpi
+├── .gitignore
+├── LICENSE.txt
+├── MANIFEST.in
+├── README.rst
+├── requirements.txt
+├── setup.cfg
+└── setup.py
+```
+
 <a name="reqs"></a>
 ## Requirements
 
