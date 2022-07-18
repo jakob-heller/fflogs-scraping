@@ -15,3 +15,4 @@
 ## data_scraping
 
 * Maaaaaaybe add an option for Chromium Webdriver
+* Maybe go back to html?
