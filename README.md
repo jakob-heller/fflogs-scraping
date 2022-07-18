@@ -34,14 +34,12 @@ fflogs-study-project
 │       │   ├── csv
 │       │   │   └── placeholder.csv
 │       │   ├── __init__.py
-│       │   ├── data_combination.py
-│       │   ├── data_scraping.py
-│       │   └── data_visualization.py
-│       ├── input
-│       │   ├── __init__.py
-│       │   └── user_input.py
+│       │   ├── combination.py
+│       │   ├── scraping.py
+│       │   └── visualization.py
 │       ├── __init__.py
 │       ├── __main__.py
+│       ├── user_input.py
 │       ├── geckodriver.exe
 │       └── ublock_origin-1.43.0.xpi
 ├── .gitignore
@@ -69,6 +67,9 @@ fflogs-study-project
 
 * Firefox
 > Since we use a Firefox webdriver we need a full-install of Firefox.
+
+* Geckodriver
+> For our Firefox webdriver to run, Geckodriver needs to be installed. More on information on this in [Getting Started](#start). (a Chrome Webdriver would need Chromedriver)
 
 <a name="start"></a>
 ## Getting Started
