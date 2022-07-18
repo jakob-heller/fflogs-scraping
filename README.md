@@ -148,5 +148,10 @@ Open this (e.g. in your browser) and you will see this dashboard with sortable c
 
 <a name="selenium"></a>
 ## Why Selenium?
+In hindsight, this is a good question. Since fflogs offers a "Download CSV" functionality for all of its tables, it seemed to be the most intuitive way for me to implement a program that "just clicks on that button". While it is true that you need Selenium for this kind of functionality, just fetching the table data from html would have been much more effective in all terms, but especially runtime.  
+
+If I would start this project now, I would not use Selenium. Setting up a Webdriver, installing an adblocker only to click on some buttons, where you could just have fetched 2 tables instead is kind of "overkill". Even though it hurts, I will probably create a version completely without Selenium in the future.
+
 <a name="dash"></a>
 ## Why Dash?
+When beginning this project I said that I'd like to visualize the merged data, preferably somewhat interactively. I started with using Plotly as introduced in the lecture and while looking something up in its documentation, I read about Dash. It sounded interesting enough to give it a try; in the end it let me visualize the data in exactly the way I wanted (sortable table with an in-cell bar chart, like on fflogs).
