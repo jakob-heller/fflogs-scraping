@@ -12,7 +12,11 @@
 * Add a "comprehensive overview of the project's goal, motivation and structure"
 * Update screenshots and gifs in the example walkthrough
 
-## data_scraping
+## data.scraping
 
 * Maaaaaaybe add an option for Chromium Webdriver
 * Maybe go back to html?
+
+## data.visualization
+
+* Job colors?? (I hate myself)
