@@ -21,6 +21,14 @@ Scrape [fflog](https://www.fflogs.com/) entries for damage done and healing done
 <a name="goal"></a>
 ### Goal and Motivation
 
+The website fflogs.com allows extensive analysis of combat data from the video game Final Fantasy XIV, including metrics like "damage done" and "healing". While you are able to analyze date over whole log files that were uploaded, looking at, and summarizing data across multiple logs is not possible. This project's purpose is to implement this functionality in a limited manner.  
+
+It should be able to
+1. take user inputs, indicating what logs to analyze and other parameters,
+2. scrape "damage" and "healing" data from all logs,
+3. summarize/ merge the data in an appropriate way and
+4. visualize it.
+
 <a name="structure"></a>
 ### Structure
 
@@ -82,7 +90,7 @@ python fflogs-study-project
 ```
 
 ### Others
-As mentioned in the [requirements](#reqs), Geckodriver needs to be installed for the Firefox Webdriver to work. On Windows, it is sufficient for the executable to be in the working directory. On other operating systems that might not work. Please refer to [this](https://askubuntu.com/questions/870530/how-to-install-geckodriver-in-ubuntu) post for solutions. 
+As mentioned in the [requirements](#reqs), Geckodriver needs to be installed for the Firefox Webdriver to work. On Windows, it is sufficient for the executable to be in the working directory. On other operating systems that might not work. Please refer to [this](https://askubuntu.com/questions/870530/how-to-install-geckodriver-in-ubuntu) post for solutions.
 
 After having installed geckodriver, simply clone the repository and install the dependencies in `requirements.txt` in you environment (at least Python 3.9). Navigate to the `src` directory and run
 
