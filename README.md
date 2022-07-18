@@ -59,7 +59,7 @@ fflogs-study-project
 
 * Selenium
 * BeautifulSoup4
-> `data_scraping.py` methods make use of both [Selenium](https://www.selenium.dev/documentation/webdriver/) and [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/).
+> `data.scraping` methods make use of both [Selenium](https://www.selenium.dev/documentation/webdriver/) and [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/).
 > Conveniently, fflog entries offer `download csv` buttons for all their tables. We can utilize those with Selenium so that we don't have to manually fetch table data from html.
 > We still use beautifulsoup to fetch the group composition from html.
 
@@ -74,7 +74,17 @@ fflogs-study-project
 <a name="start"></a>
 ## Getting Started
 
+### Windows
 To use this package, simply clone the repository and install the dependencies in `requirements.txt` in you environment (at least Python 3.9). Navigate to the `src` directory and run
+
+```
+python fflogs-study-project
+```
+
+### Others
+As mentioned in the [requirements](#reqs), Geckodriver needs to be installed for the Firefox Webdriver to work. On Windows, it is sufficient for the executable to be in the working directory. On other operating systems that might not work. Please refer to [this](https://askubuntu.com/questions/870530/how-to-install-geckodriver-in-ubuntu) post for solutions. 
+
+After having installed geckodriver, simply clone the repository and install the dependencies in `requirements.txt` in you environment (at least Python 3.9). Navigate to the `src` directory and run
 
 ```
 python fflogs-study-project
@@ -96,7 +106,7 @@ The available parameters should be explained sufficiently. Since we want to anal
 <a name="scraping"></a>
 ### Scraping
 
-We can now take a look at what the scraping process (implemented in `data_scraping.py`) is going to do. The following will be repeated for every url we provide (2 times in this case). If we open the [first](https://www.fflogs.com/reports/hacvwXKb8mFYrAdx) log and click on "All Kills (2)" we land on this summary page:  
+We can now take a look at what the scraping process (implemented in `data.scraping`) is going to do. The following will be repeated for every url we provide (2 times in this case). If we open the [first](https://www.fflogs.com/reports/hacvwXKb8mFYrAdx) log and click on "All Kills (2)" we land on this summary page:  
 > Note: The webdriver isn't actually clicking anywhere - it navigates by modifying the url. I just explain it like this so you can retrace its steps more easily.
 <img src="docs/img/summary_page.png" alt="Summary Page" width="600"/>  
 
@@ -115,7 +125,7 @@ On this page, the webdriver is simply going to download the main table as a csv 
 <a name="sum"></a>
 ### Data Summary
 
-In `data_combination.py` the csv files just downloaded will be read into pandas dataframes and summarized.
+In `data.combination` the csv files just downloaded will be read into pandas dataframes and summarized.
 
 <a name="viz"></a>
 ### Data Visualization
