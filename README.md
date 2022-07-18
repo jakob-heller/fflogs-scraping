@@ -21,7 +21,7 @@ Scrape [fflog](https://www.fflogs.com/) entries for damage done and healing done
 <a name="goal"></a>
 ### Goal and Motivation
 
-The website fflogs.com allows extensive analysis of combat data from the video game Final Fantasy XIV, including metrics like "damage done" and "healing". While you are able to analyze date over whole log files that were uploaded, looking at, and summarizing data across multiple logs is not possible. This project's purpose is to implement this functionality in a limited manner.  
+The website fflogs.com allows extensive analysis of combat data from the video game Final Fantasy XIV, including metrics like "damage done" and "healing". While you are able to analyze date over whole log files that were uploaded; looking at, and summarizing data across multiple logs is not possible. This project's purpose is to implement this functionality in a limited manner.  
 
 It should be able to
 1. take user inputs, indicating what logs to analyze and other parameters,
