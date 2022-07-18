@@ -14,6 +14,8 @@ Scrape [fflog](https://www.fflogs.com/) entries for damage done and healing done
     2. [Scraping](#scraping)
     3. [Data Summary](#sum)
     4. [Data Visualization](#viz)
+5. [Why Selenium?](#selenium)
+6. [Why Dash?](#dash)
 
 <a name="introduction"></a>
 ## Introduction
@@ -143,3 +145,8 @@ When all this is finished, the terminal will show where the Dash app is running:
 
 Open this (e.g. in your browser) and you will see this dashboard with sortable columns:
 <img src="docs/img/dashboard.gif" alt="Dashboard" width="600"/>  
+
+<a name="selenium"></a>
+## Why Selenium?
+<a name="dash"></a>
+## Why Dash?
