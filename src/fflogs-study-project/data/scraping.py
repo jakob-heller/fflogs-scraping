@@ -13,6 +13,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
+from selenium.common.exceptions import WebDriverException
 
 
 class Scraping:
@@ -68,8 +69,15 @@ class Scraping:
         ffprofile.set_preference("browser.helperApps.neverAsk.saveToDisk", "csv")
 
         # Start Firefox driver with options (headless or not) and profile.
-        self.driver = webdriver.Firefox(ffprofile, options=options,
-                                        executable_path="geckodriver.exe")
+        # Try starting with .exe as driver, works on Windows. On other
+        # operating systems this will throw WebDriverException, it is necessary
+        # to install the driver yourself. In that case, we don't need to
+        # specify executable_path since geckodriver is in PATH.
+        try:
+            self.driver = webdriver.Firefox(ffprofile, options=options,
+                                            executable_path="geckodriver.exe")
+        except WebDriverException:
+            self.driver = webdriver.Firefox(ffprofile, options=options)
 
         # Since the website loads a large amount of adds, loading can take
         # pretty long - but we can significantly reduce runtime by installing
