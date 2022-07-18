@@ -1,9 +1,9 @@
 """Entry point for fflogs-study-project."""
 
-import input.user_input as ui
-import data.data_scraping as ds
-import data.data_combination as dc
-import data.data_visualization as dv
+import user_input as ui
+import data.scraping as ds
+import data.combination as dc
+import data.visualization as dv
 
 
 def main():
