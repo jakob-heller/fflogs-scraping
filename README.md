@@ -171,4 +171,4 @@ If I would start this project now, I would not use Selenium. Setting up a Webdri
 
 <a name="dash"></a>
 ## Why Dash?
-When beginning this project I said that I'd like to visualize the merged data, preferably somewhat interactively. I started with using Plotly as introduced in the lecture and while looking something up in its documentation, I read about Dash. It sounded interesting enough to give it a try; in the end it let me visualize the data in exactly the way I wanted (sortable table with an in-cell bar chart, like on fflogs).
+When beginning this project I said that I'd like to visualize the merged data, preferably somewhat interactively. I started with using Plotly as introduced in the lecture and while looking something up in its documentation, I read about Dash. It sounded interesting enough to give it a try; in the end it let me visualize the data in exactly the way I wanted (sortable table with an in-cell bar chart, like on the original website).
