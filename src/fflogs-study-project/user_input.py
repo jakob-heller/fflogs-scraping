@@ -4,13 +4,10 @@ import re
 import textwrap
 from collections import namedtuple
 
-def user_input(
-    ) -> namedtuple("FullInput", ["logs", "headless", "type", "debug", "port"]):
+def user_input():
     """User-interface.
 
-    If-else statements to manage different user inputs. Older versions utilized
-    the structural pattern matching (match-case) introduced in python 3.10, but
-    this was reverted to if-else to be compatible with python 3.7.
+    Utilizes match-case environment, as introduced in python 3.10.
 
     Returns:
       A namedtuple with either the baseline attributes, or the attributes as
