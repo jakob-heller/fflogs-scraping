@@ -11,10 +11,6 @@
 
 * Update screenshots and gifs in the example walkthrough
 
-## data.scraping
-
-* Maaaaaaybe add an option for Chromium Webdriver
-
 ## data.visualization
 
 * Job colors?? (I hate myself)
