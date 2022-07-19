@@ -108,10 +108,6 @@ Geckodriver needs to be installed for the Firefox Webdriver to work. On Windows,
 
 After having installed geckodriver, continue as described in [Windows](#windows).
 
-```
-python fflogs-study-project
-```
-
 <a name="expl"></a>
 ## Example (screenshots outdated)
 
