@@ -105,7 +105,7 @@ Navigate to the `src` directory and run
 python fflogs-study-project
 ```
 
-To work on this package, please install the dependencies from `requirements.txt` in your (Python 3.10) environment using
+To work on this package, please install the dependencies from `requirements.txt` in your (Python 3.10) environment, using
 
 ```
 pip install -r requirements.txt
