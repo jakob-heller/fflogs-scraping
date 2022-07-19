@@ -84,17 +84,29 @@ fflogs-study-project
 <a name="start"></a>
 ## Getting Started
 
+<a name="windows"></a>
 ### Windows
-To use this package, simply clone the repository and install the dependencies in `requirements.txt` in you environment (at least Python 3.9). Navigate to the `src` directory and run
+To use this package, clone the repository and either install the dependencies in `requirements.txt` in you environment (at least Python 3.9) using
+
+```
+pip install -r requirements.txt
+```
+
+or directly install the conda environment from the .yml, using
+
+```
+conda env create -f environment.yml
+```
+Navigate to the `src` directory and run
 
 ```
 python fflogs-study-project
 ```
 
 ### Others
-As mentioned in the [requirements](#reqs), Geckodriver needs to be installed for the Firefox Webdriver to work. On Windows, it is sufficient for the executable to be in the working directory. On other operating systems that might not work. Please refer to [this](https://askubuntu.com/questions/870530/how-to-install-geckodriver-in-ubuntu) post for solutions.
+Geckodriver needs to be installed for the Firefox Webdriver to work. On Windows, it is sufficient for the executable to be in the working directory. On other operating systems that might not work. Please refer to [this](https://askubuntu.com/questions/870530/how-to-install-geckodriver-in-ubuntu) post for solutions.
 
-After having installed geckodriver, simply clone the repository and install the dependencies in `requirements.txt` in you environment (at least Python 3.9). Navigate to the `src` directory and run
+After having installed geckodriver, continue as described in [Windows](#windows).
 
 ```
 python fflogs-study-project
