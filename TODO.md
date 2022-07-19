@@ -4,7 +4,9 @@
 ## Documentation
 
 * Better module-level docstrings?
-* Create documentation (sphinx)
+
+## User Input
+
 * Proper cli with argparse?
 
 ## README
