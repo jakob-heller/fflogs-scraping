@@ -86,7 +86,7 @@ fflogs-study-project
 
 <a name="windows"></a>
 ### Windows
-To use this package, clone the repository and either install the dependencies in `requirements.txt` in you environment (at least Python 3.9) using
+To use this package, clone the repository and either install the dependencies in `requirements.txt` in you environment (Python 3.10) using
 
 ```
 pip install -r requirements.txt
