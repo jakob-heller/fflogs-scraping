@@ -76,7 +76,7 @@ fflogs-study-project
 * Pandas
 
 * Firefox
-> Since we use a Firefox webdriver we need a full-install of Firefox.
+> Since we use a Firefox webdriver we need a full-install of [Firefox](https://www.mozilla.org/en-US/firefox/new/).
 
 * Geckodriver
 > For our Firefox webdriver to run, Geckodriver needs to be installed. More on information on this in [Getting Started](#start). (a Chrome Webdriver would need Chromedriver)
