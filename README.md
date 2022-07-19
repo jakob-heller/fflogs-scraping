@@ -93,17 +93,30 @@ To use this package, clone the repository and either install the dependencies in
 pip install -r requirements.txt
 ```
 
-or directly install the conda environment from the .yml, using
+To use this package, directly install the conda environment from the .yml, using
 
 ```
 conda env create -f environment.yml
 ```
+
+Activate the environment
+
+```
+conda activate fflogs3.10
+```
+
 Navigate to the `src` directory and run
 
 ```
 python fflogs-study-project
 ```
 
+To work on this package, please install the dependencies from `requirements.txt` in your (Python 3.10) environment using
+
+```
+pip install -r requirements.txt
+```
+This includes `sphinx` for creating the documentation and `tox` for testing.
 ### Others
 Geckodriver needs to be installed for the Firefox Webdriver to work. On Windows, it is sufficient for the executable to be in the working directory. On other operating systems that might not work. Please refer to [this](https://askubuntu.com/questions/870530/how-to-install-geckodriver-in-ubuntu) post for solutions.
 
