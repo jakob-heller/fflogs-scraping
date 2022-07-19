@@ -87,12 +87,6 @@ fflogs-study-project
 
 <a name="windows"></a>
 ### Windows
-To use this package, clone the repository and either install the dependencies in `requirements.txt` in you environment (Python 3.10) using
-
-```
-pip install -r requirements.txt
-```
-
 To use this package, directly install the conda environment from the .yml, using
 
 ```
