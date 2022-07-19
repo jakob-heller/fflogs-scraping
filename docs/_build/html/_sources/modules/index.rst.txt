@@ -1,0 +1,20 @@
+..
+
+Modules
+=======
+
+.. toctree::
+
+   scraping
+   combination
+   visualization
+
+
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`

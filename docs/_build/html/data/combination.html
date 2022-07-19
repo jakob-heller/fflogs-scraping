@@ -1,0 +1,222 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Combination/ Merge &#8212; fflogs-study-project  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Visualization (Dash)" href="visualization.html" />
+    <link rel="prev" title="Scraping" href="scraping.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-data.combination">
+<span id="combination-merge"></span><h1>Combination/ Merge<a class="headerlink" href="#module-data.combination" title="Permalink to this heading">¶</a></h1>
+<p>Includes csv reading, loading and meaningful combination.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="data.combination.aggregate_dd">
+<span class="sig-prename descclassname"><span class="pre">data.combination.</span></span><span class="sig-name descname"><span class="pre">aggregate_dd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#data.combination.aggregate_dd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns dataframe aggregated by “Name” column.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="data.combination.aggregate_hd">
+<span class="sig-prename descclassname"><span class="pre">data.combination.</span></span><span class="sig-name descname"><span class="pre">aggregate_hd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#data.combination.aggregate_hd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns dataframe aggregated by “Name” column.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="data.combination.convert_df">
+<span class="sig-prename descclassname"><span class="pre">data.combination.</span></span><span class="sig-name descname"><span class="pre">convert_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#data.combination.convert_df" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts values to numeric values.</p>
+<p>To be able to summarize the data, all values need to be converted to
+numeric first. The “Amount” column has 3 values separated by special
+characters, 2 of which get split into their own columns.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dd_df</strong> – Pandas dataframe that has just been concatenated.</p></li>
+<li><p><strong>type</strong> – Either “HPS” or “DPS” - both have slightly different columns and thus
+need to be handled differently.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dataframe where all relevant values have been converted to numeric
+(except “Name” column).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="data.combination.csv_to_dfs">
+<span class="sig-prename descclassname"><span class="pre">data.combination.</span></span><span class="sig-name descname"><span class="pre">csv_to_dfs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#data.combination.csv_to_dfs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads csv files.</p>
+<p>Reads csv files in csv directory as pandas dataframes and adds them either
+to a “damage”, or to a “healing” list, depending on their structure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>2-tuple of lists of dataframes, one for damage and one for healing.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="data.combination.fix_columns_dd">
+<span class="sig-prename descclassname"><span class="pre">data.combination.</span></span><span class="sig-name descname"><span class="pre">fix_columns_dd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#data.combination.fix_columns_dd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fixes and sets better looking column names for later visualization.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="data.combination.fix_columns_hd">
+<span class="sig-prename descclassname"><span class="pre">data.combination.</span></span><span class="sig-name descname"><span class="pre">fix_columns_hd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#data.combination.fix_columns_hd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fixes and sets better looking column names for later visualization.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="data.combination.get_csv_paths">
+<span class="sig-prename descclassname"><span class="pre">data.combination.</span></span><span class="sig-name descname"><span class="pre">get_csv_paths</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#data.combination.get_csv_paths" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of relative paths to csv files in the csv directory.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="data.combination.join_dd_dfs">
+<span class="sig-prename descclassname"><span class="pre">data.combination.</span></span><span class="sig-name descname"><span class="pre">join_dd_dfs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dd_df_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#data.combination.join_dd_dfs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Joins multiple “damage done” dataframes to single dataframe.</p>
+<p>Concatenates all dataframes provided into one dataframe, converts all
+values (except for column “Name”) into numeric values, reorders and renames
+columns.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dd_df_list</strong> – A list of pandas dataframes with identical structure and data
+referring to the “damage done” metric.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The returned pd.DataFrame is the summary of the given dataframes, ready
+to be visualized.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="data.combination.join_hd_dfs">
+<span class="sig-prename descclassname"><span class="pre">data.combination.</span></span><span class="sig-name descname"><span class="pre">join_hd_dfs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hd_df_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#data.combination.join_hd_dfs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Joins multiple “healing done” dataframes to single dataframe.</p>
+<p>Mostly identical to join_dd_dfs(), split up into two functions because the
+structure of the given dataframes are slightly different in both cases.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dd_df_list</strong> – A list of pandas dataframes with identical structure and data
+referring to the “healing done” metric.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The returned pd.DataFrame is the summary of the given dataframes, ready
+to be visualized.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">fflogs-study-project</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../main.html">Main</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_input.html">User Input</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Data</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="scraping.html">Scraping</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Combination/ Merge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="visualization.html">Visualization (Dash)</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Data</a><ul>
+      <li>Previous: <a href="scraping.html" title="previous chapter">Scraping</a></li>
+      <li>Next: <a href="visualization.html" title="next chapter">Visualization (Dash)</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Jakob Heller.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/data/combination.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

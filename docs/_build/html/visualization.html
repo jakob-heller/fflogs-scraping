@@ -1,0 +1,196 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Visualization (Dash) &#8212; fflogs-study-project  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Combination/ Merge" href="combination.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-data.visualization">
+<span id="visualization-dash"></span><h1>Visualization (Dash)<a class="headerlink" href="#module-data.visualization" title="Permalink to this heading">¶</a></h1>
+<p>Interactively visualize data using a basic Dash data app.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="data.visualization.column_width">
+<span class="sig-prename descclassname"><span class="pre">data.visualization.</span></span><span class="sig-name descname"><span class="pre">column_width</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#data.visualization.column_width" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns conditional formatting dictionary for column widths.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="data.visualization.dash">
+<span class="sig-prename descclassname"><span class="pre">data.visualization.</span></span><span class="sig-name descname"><span class="pre">dash</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">&lt;dash.dash.Dash</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x000001FFA162FCA0&gt;</span></span></span><a class="headerlink" href="#data.visualization.dash" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates an interactive Dashboard with 2 sortable tables.</p>
+<p>The style.css in the assets directory sets the dashboards
+background color and the properties of the html.H2 object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df1</strong> – Pandas dataframe of summarized damage done.</p></li>
+<li><p><strong>df2</strong> – Pandas dataframe of summarized healing done.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Object of Dash class which can then be run on localhost.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="data.visualization.data_bars">
+<span class="sig-prename descclassname"><span class="pre">data.visualization.</span></span><span class="sig-name descname"><span class="pre">data_bars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#data.visualization.data_bars" title="Permalink to this definition">¶</a></dt>
+<dd><p>Conditional formatting for data bars in cells.</p>
+<p>Creates a conditional formatting dictionary that shows data bars inside of
+(data-)table cells. Bar lengths are relative to the highest value.</p>
+<p>Taken from dash documentation and slightly adjusted:
+<a class="reference external" href="https://dash.plotly.com/datatable/conditional-formatting">https://dash.plotly.com/datatable/conditional-formatting</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> – The pandas dataframe in question.</p></li>
+<li><p><strong>column</strong> – The name of the column where bars are shown.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary of conditional formatting that can be used to style a
+dash DataTable.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="data.visualization.df_to_dt">
+<span class="sig-prename descclassname"><span class="pre">data.visualization.</span></span><span class="sig-name descname"><span class="pre">df_to_dt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataTable</span></span></span><a class="headerlink" href="#data.visualization.df_to_dt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts dataframe into DataTable, using previously defined styles.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="data.visualization.layout">
+<span class="sig-prename descclassname"><span class="pre">data.visualization.</span></span><span class="sig-name descname"><span class="pre">layout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dash</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tbl1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataTable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tbl2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataTable</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">&lt;dash.dash.Dash</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x000001FFA3C6BB20&gt;</span></span></span><a class="headerlink" href="#data.visualization.layout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates the layout of the dash application.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="data.visualization.parse_colors">
+<span class="sig-prename descclassname"><span class="pre">data.visualization.</span></span><span class="sig-name descname"><span class="pre">parse_colors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#data.visualization.parse_colors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Conditional formatting for parse colors.</p>
+<p>Creates a conditional formatting dictionary that changes the colors of
+values in the “Parse %” column dependend on their value.
+I am used to seeing those colors on the original website, that’s why we
+implement them here aswell.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>df</strong> – The pandas dataframe in question.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary of conditional formatting that can be used to style a
+dash DataTable.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="data.visualization.styles">
+<span class="sig-prename descclassname"><span class="pre">data.visualization.</span></span><span class="sig-name descname"><span class="pre">styles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#data.visualization.styles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns dictionary of styles as specified by “type”.</p>
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">fflogs-study-project</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="user_input.html">User Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scraping.html">Scraping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="combination.html">Combination/ Merge</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Visualization (Dash)</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="combination.html" title="previous chapter">Combination/ Merge</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Jakob Heller.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/visualization.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
