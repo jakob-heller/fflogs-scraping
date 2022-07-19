@@ -4,7 +4,6 @@ import re
 import textwrap
 from collections import namedtuple
 
-
 def user_input(
     ) -> namedtuple("FullInput", ["logs", "headless", "type", "debug", "port"]):
     """User-interface.
@@ -46,60 +45,61 @@ def user_input(
 
     while True:
         user_input = input("Input: ")
-
-        if user_input in ("1", "2", "3", "4", "5"):
-            logs = predef_links(int(user_input))
-            print(f"Set links to predefined logs {user_input}.")
-        elif user_input in ("kills", "wipes", "all"):
-            print(f"Set type to {user_input}.")
-            type = user_input
-        elif user_input == "show":
-            print("Scraping will be shown.")
-            headless = False
-        elif user_input == "hide":
-            print("Scraping will not be shown.")
-            headless = True
-        elif user_input == "debug":
-            if debug:
-                print("Dash debug mode disabled.")
-                debug = False
-            else:
-                print("Dash debug mode enabled.")
-                debug = True
-        elif user_input == "config":
-            print("\nCurrent configuration of parameters:")
-            config = textwrap.dedent(f"""\
-                headless = {headless}
-                type = {type}
-                debug = {debug}
-                port = {port}
-            """)
-            print(config)
-            print("Logs:")
-            for url in logs:
-                print(url)
-        elif user_input == "run":
-            print("Confirmed.")
-            break
-        elif user_input == "exit":
-            exit()
-        else:
-            if len(user_input) == 4:
-                try:
-                    port = int(user_input)
-                    print(f"Port has been changed to {user_input}.")
-                except ValueError:
-                    continue
-            elif len(user_input) > 10:
-                print("Checking url...")
-                print(user_input)
-                if check_url(user_input):
-                    print("Link has been added.")
-                    logs.append(user_input)
+        match user_input:
+            case "1" | "2" | "3" | "4" | "5":
+                logs = predef_links(int(user_input))
+                print(f"Set links to predefined logs {user_input}.")
+            case "kills" | "wipes" | "all":
+                print(f"Set type to {user_input}.")
+                type = user_input
+            case "show":
+                print("Scraping will be shown.")
+                headless = False
+            case "hide":
+                print("Scraping will not be shown.")
+                headless = True
+            case "debug":
+                if debug:
+                    print("Dash debug mode disabled.")
+                    debug = False
                 else:
-                    print("The log seems to be invalid.")
-            else:
-                print("This does not seem to be a valid input.")
+                    print("Dash debug mode enabled.")
+                    debug = True
+            case "config":
+                print("\nCurrent configuration of parameters:")
+                config = textwrap.dedent(f"""\
+                    headless = {headless}
+                    type = {type}
+                    debug = {debug}
+                    port = {port}
+                """)
+                print(config)
+                print("Logs:")
+                for url in logs:
+                    print(url)
+            case "run":
+                print("Confirmed.")
+                break
+            case "exit":
+                exit()
+            case _:
+                if len(user_input) == 4:
+                    try:
+                        port = int(user_input)
+                        print(f"Port has been changed to {user_input}.")
+                    except ValueError:
+                        print("This does not seem to be a valid input.")
+                        continue
+                elif len(user_input) > 10:
+                    print("Checking url...")
+                    print(user_input)
+                    if check_url(user_input):
+                        print("Link has been added.")
+                        logs.append(user_input)
+                    else:
+                        print("The log seems to be invalid.")
+                else:
+                    print("This does not seem to be a valid input.")
     if not logs:
         logs = predef_links()
     full_input = FullInput(logs, headless, type, debug, port)

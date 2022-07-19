@@ -64,8 +64,8 @@ fflogs-study-project
 <a name="reqs"></a>
 ## Requirements
 
-* Python 3.9
-> The type hints of collection items used in this version only work in Python 3.9+.
+* Python 3.10
+> `user_input.py` makes use of the `match-case` syntax ([structural pattern matching](https://docs.python.org/3/whatsnew/3.10.html)). This was introduced in Python 3.10.
 
 * Selenium
 * BeautifulSoup4
