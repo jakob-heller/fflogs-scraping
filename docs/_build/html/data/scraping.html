@@ -34,8 +34,14 @@
 
           <div class="body" role="main">
             
-  <section id="scraping">
-<h1>Scraping<a class="headerlink" href="#scraping" title="Permalink to this heading">¶</a></h1>
+  <section id="module-data.scraping">
+<span id="scraping"></span><h1>Scraping<a class="headerlink" href="#module-data.scraping" title="Permalink to this heading">¶</a></h1>
+<p>Includes implementation of Scraping class.</p>
+<p>The Scraping class makes use of a Selenium Firefox Webdriver to scrape the logs
+provided. For every log, it navigates to its subpages, checks the group
+composition and downloads both damage done and healing tables. On every site,
+it waits until the respective elements needed are actually loaded before
+continuing.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="data.scraping.Scraping">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">data.scraping.</span></span><span class="sig-name descname"><span class="pre">Scraping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headless</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#data.scraping.Scraping" title="Permalink to this definition">¶</a></dt>
@@ -89,7 +95,7 @@ as inputted by the user.</p></li>
 <dd><p>Parses html string with regex and checks group composition.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>comp_html</strong> – A string of everything labeled with class=”composition-enrty” in
+<dd class="field-odd"><p><strong>comp_html</strong> – A string of everything labeled with class=”composition-entry” in
 the page html.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
