@@ -1,6 +1,6 @@
 <img align="right" width="80" height="80" src="docs/img/fflogs_icon.png" alt="fflogs icon">
 
-# fflogs-study-project
+# fflogs-scraping
 Scrape [fflog](https://www.fflogs.com/) entries for damage done and healing done tables, combine data from multiple logs and then visualize using a dash dashboard.
 
 # Table of contents
@@ -36,9 +36,9 @@ It should be able to
 ### Structure
 
 ```
-fflogs-study-project
+fflogs-scraping
 ├── src
-│   ├── fflogs-study-project
+│   ├── fflogs-scraping
 │   │   ├── data
 │   │   │   ├── assets
 │   │   │   │   └── style.css
@@ -103,7 +103,7 @@ conda activate fflogs3.10
 Navigate to the `src` directory and run
 
 ```
-python fflogs-study-project
+python fflogs-scraping
 ```
 
 To work on this package, please install the dependencies from `requirements.txt` in your (Python 3.10) environment, using
@@ -169,7 +169,7 @@ The code was written and documented following the [Google Python Style Guide](ht
 > There are 5 single lines where the line length of 80 (as required by both Pep8 and Google Style) was exceeded, because I decided that in those few cases, splitting the line would harm readability more than it would help.
 > Note that docstring conventions in Google Style are slightly different from PEP257 - the first line for example, should be descriptive-style, rather than imperative-style. This may or may not be marked as wrong by your linter.
 
-You can find the documentation [here](https://fflogs-study-project.readthedocs.io/en/latest/index.html). It was built using [Sphinx](https://www.sphinx-doc.org/en/master/index.html) and is hosted on [readthedocs](https://docs.readthedocs.io/en/stable/index.html).
+You can find the documentation [here](https://fflogs-scraping.readthedocs.io/en/latest/index.html). It was built using [Sphinx](https://www.sphinx-doc.org/en/master/index.html) and is hosted on [readthedocs](https://docs.readthedocs.io/en/stable/index.html).
 
 
 <a name="selenium"></a>

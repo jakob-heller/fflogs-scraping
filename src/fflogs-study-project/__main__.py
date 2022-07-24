@@ -1,4 +1,4 @@
-"""Entry point for fflogs-study-project."""
+"""Entry point for fflogs-scraping."""
 
 from main import main
 # from main import debug_dash
