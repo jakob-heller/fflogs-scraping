@@ -1,4 +1,11 @@
-"""Includes implementation of Scraping class."""
+"""Includes implementation of Scraping class.
+
+The Scraping class makes use of a Selenium Firefox Webdriver to scrape the logs
+provided. For every log, it navigates to its subpages, checks the group
+composition and downloads both damage done and healing tables. On every site,
+it waits until the respective elements needed are actually loaded before
+continuing.
+"""
 
 import time
 import os
@@ -161,7 +168,7 @@ class Scraping:
 
         Args:
           comp_html:
-            A string of everything labeled with class="composition-enrty" in
+            A string of everything labeled with class="composition-entry" in
             the page html.
 
         Returns:

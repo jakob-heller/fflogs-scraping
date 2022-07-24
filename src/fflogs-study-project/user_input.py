@@ -1,13 +1,11 @@
-"""Manages user inputs to get links to log files."""
+"""Manages user inputs to get links to log files and options for scraping."""
 
 import re
 import textwrap
 from collections import namedtuple
 
 def user_input():
-    """User-interface.
-
-    Utilizes match-case environment, as introduced in python 3.10.
+    """User-interface utilizing match-case environment.
 
     Returns:
       A namedtuple with either the baseline attributes, or the attributes as
