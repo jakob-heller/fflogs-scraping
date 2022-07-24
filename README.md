@@ -165,7 +165,7 @@ Open this (e.g. in your browser) and you will see this dashboard with sortable c
 <a name="docs"></a>
 ## Documentation
 The code was written and documented following the [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html).
-> There are a few single lines where the line length of 80, as required by both Pep8 and Google Style was exceeded, as it would rather harm readability.
+> There are 5 single lines where the line length of 80 (as required by both Pep8 and Google Style) was exceeded, because I decided that in those few cases, splitting the line would harm readability more than it would help.
 
 You can find the documentation [here](https://fflogs-study-project.readthedocs.io/en/latest/index.html). It was built using [Sphinx](https://www.sphinx-doc.org/en/master/index.html) and is hosted on [readthedocs](https://docs.readthedocs.io/en/stable/index.html).
 
