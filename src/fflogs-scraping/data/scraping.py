@@ -87,7 +87,7 @@ class Scraping:
         except WebDriverException:
             self.driver = webdriver.Firefox(ffprofile, options=options)
 
-        # Since the website loads a large amount of adds, loading can take
+        # Since the website loads a large amount of ads, loading can take
         # pretty long - but we can significantly reduce runtime by installing
         # an adblocker.
         # We install our adblocker (ublock origin) from an xpi file and
