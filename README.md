@@ -111,7 +111,7 @@ To work on this package, please install the dependencies from `requirements.txt`
 ```
 pip install -r requirements.txt
 ```
-This includes `sphinx` for creating the documentation and `tox` for testing.
+This includes `sphinx` for creating the documentation.
 ### Unix/macOS
 Geckodriver needs to be installed for the Firefox Webdriver to work. On Windows, it is sufficient for the executable to be in the working directory. On other operating systems that might not work. Please refer to [this](https://askubuntu.com/questions/870530/how-to-install-geckodriver-in-ubuntu) post for solutions.
 
