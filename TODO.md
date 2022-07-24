@@ -1,9 +1,6 @@
 # TODO
 
 ## Unit tests??
-## Documentation
-
-* Better module-level docstrings?
 
 ## User Input
 
