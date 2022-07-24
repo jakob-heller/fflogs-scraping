@@ -1,11 +1,5 @@
 # TODO
 
-## Unit tests??
-
-## User Input
-
+* Unit tests (tox)?
 * Proper cli with argparse?
-
-## data.visualization
-
-* Job colors?? (I hate myself)
+* Job colors in dashboard?
