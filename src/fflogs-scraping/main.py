@@ -11,7 +11,7 @@ import data.visualization as dv
 
 
 def main():
-    """Get links from user, scrape data, combine and visualize."""
+    """Gets links from user, scrapes data, combines and visualizes."""
     inpt = ui.user_input()
 
     print("\nStarting Webdriver...", flush=True, end=" ")
