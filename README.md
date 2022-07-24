@@ -177,7 +177,7 @@ You can find the documentation [here](https://fflogs-scraping.readthedocs.io/en/
 ## Why Selenium?
 In hindsight, this is a good question. Since fflogs offers a "Download CSV" functionality for all of its tables, it seemed to be the most intuitive way for me to implement a program that "just clicks that button". While it is true that you need Selenium for this kind of functionality, just fetching the table data from html would have been much more effective in all terms, but especially runtime.  
 
-If I would start this project now, I would not use Selenium. Setting up a Webdriver, installing an adblocker only to click on some buttons, where you could just have fetched 2 tables instead is kind of "overkill". Even though it hurts, I will probably create a version completely without Selenium in the future.
+If I would start this project now, I would not use Selenium. Setting up a Webdriver, installing an adblocker only to click on some buttons, where you could just have fetched 2 tables instead is kind of "overkill". I might consider creating a more light-weight version completely without Selenium in the future.
 
 <a name="dash"></a>
 ## Why Dash?
