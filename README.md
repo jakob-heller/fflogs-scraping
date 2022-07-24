@@ -118,7 +118,7 @@ Geckodriver needs to be installed for the Firefox Webdriver to work. On Windows,
 After having installed geckodriver, continue as described in [Windows](#windows).
 
 <a name="expl"></a>
-## Example (screenshots outdated)
+## Example
 
 For the example we will look at the predefined logs 2. The set consists of 2 logs that have boss kills in them ([1](https://www.fflogs.com/reports/hacvwXKb8mFYrAdx), [2](https://www.fflogs.com/reports/LnjBh2tfZRyv8rpD)).
 
@@ -126,7 +126,7 @@ For the example we will look at the predefined logs 2. The set consists of 2 log
 ### User Input
 On run we are prompted with a user input:  
 <img src="docs/img/input_prompt.png" alt="User Input Prompt" width="600"/>  
-The available parameters should be explained sufficiently. Since we want to analyze boss kills from set 2 in this example, we input "2" and "kills". If you want to see the scraping process, you can input "show" and the webdriver will be visible.  "config" shows the parameters that will be returned. (Note: 'y' and 'q' in the screenshots have been replaced by 'run' and 'exit', respectively)
+The available parameters should be explained sufficiently. Since we want to analyze boss kills from set 2 in this example, we input "2" and "kills". If you want to see the scraping process, you can input "show" and the webdriver will be visible.  "config" shows the parameters that will be returned. Input "run" to start the scraping.
 
 <img src="docs/img/first_input.gif" alt="Example User Input" width="600"/>  
 
