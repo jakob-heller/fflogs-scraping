@@ -40,7 +40,7 @@ class Scraping:
     """
 
     def __init__(self, logs: list[str], type: str, headless: bool):
-        """Initializes object with given attributes, start driver.
+        """Initializes object with given attributes, starts driver.
 
         Args:
           logs:
