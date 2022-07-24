@@ -167,7 +167,7 @@ Open this (e.g. in your browser) and you will see this dashboard with sortable c
 ## Documentation
 The code was written and documented following the [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html).
 > There are 5 single lines where the line length of 80 (as required by both Pep8 and Google Style) was exceeded, because I decided that in those few cases, splitting the line would harm readability more than it would help.  
-  
+
 > Note that docstring conventions in Google Style are slightly different from PEP257 - the first line for example, should be descriptive-style, rather than imperative-style. This may or may not be marked as wrong by your linter.
 
 You can find the documentation [here](https://fflogs-scraping.readthedocs.io/en/latest/index.html). It was built using [Sphinx](https://www.sphinx-doc.org/en/master/index.html) and is hosted on [readthedocs](https://docs.readthedocs.io/en/stable/index.html).
@@ -175,7 +175,7 @@ You can find the documentation [here](https://fflogs-scraping.readthedocs.io/en/
 
 <a name="selenium"></a>
 ## Why Selenium?
-In hindsight, this is a good question. Since fflogs offers a "Download CSV" functionality for all of its tables, it seemed to be the most intuitive way for me to implement a program that "just clicks on that button". While it is true that you need Selenium for this kind of functionality, just fetching the table data from html would have been much more effective in all terms, but especially runtime.  
+In hindsight, this is a good question. Since fflogs offers a "Download CSV" functionality for all of its tables, it seemed to be the most intuitive way for me to implement a program that "just clicks that button". While it is true that you need Selenium for this kind of functionality, just fetching the table data from html would have been much more effective in all terms, but especially runtime.  
 
 If I would start this project now, I would not use Selenium. Setting up a Webdriver, installing an adblocker only to click on some buttons, where you could just have fetched 2 tables instead is kind of "overkill". Even though it hurts, I will probably create a version completely without Selenium in the future.
 
