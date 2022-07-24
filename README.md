@@ -38,21 +38,21 @@ It should be able to
 ```
 fflogs-study-project
 ├── src
-│   └── fflogs-study-project
-│       ├── data
-│       │   ├── assets
-│       │   │   └── style.css
-│       │   ├── csv
-│       │   │   └── placeholder.csv
-│       │   ├── __init__.py
-│       │   ├── combination.py
-│       │   ├── scraping.py
-│       │   └── visualization.py
-│       ├── __init__.py
-│       ├── __main__.py
-│       ├── user_input.py
-│       ├── geckodriver.exe
-│       └── ublock_origin-1.43.0.xpi
+│   ├── fflogs-study-project
+│   │   ├── data
+│   │   │   ├── assets
+│   │   │   │   └── style.css
+│   │   │   ├── csv
+│   │   │   │   └── placeholder.csv
+│   │   │   ├── __init__.py
+│   │   │   ├── combination.py
+│   │   │   ├── scraping.py
+│   │   │   └── visualization.py
+│   │   ├── __init__.py
+│   │   ├── __main__.py
+│   │   └── user_input.py
+│   ├── geckodriver.exe
+│   └── ublock_origin-1.43.0.xpi
 ├── .gitignore
 ├── LICENSE.txt
 ├── MANIFEST.in
