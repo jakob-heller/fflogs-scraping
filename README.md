@@ -50,6 +50,7 @@ fflogs-study-project
 │   │   │   └── visualization.py
 │   │   ├── __init__.py
 │   │   ├── __main__.py
+│   │   ├── main.py
 │   │   └── user_input.py
 │   ├── geckodriver.exe
 │   └── ublock_origin-1.43.0.xpi
