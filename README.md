@@ -170,7 +170,7 @@ The code was written and documented following the [Google Python Style Guide](ht
 
 > Note that docstring conventions in Google Style are slightly different from PEP257 - the first line for example, should be descriptive-style, rather than imperative-style. This may or may not be marked as wrong by your linter.
 
-You can find the documentation [here](https://fflogs-scraping.readthedocs.io/en/latest/index.html). It was built using [Sphinx](https://www.sphinx-doc.org/en/master/index.html) and is hosted on [readthedocs](https://docs.readthedocs.io/en/stable/index.html).
+You can find the documentation [here](https://fflogs-study-project.readthedocs.io/en/latest/index.html). It was built using [Sphinx](https://www.sphinx-doc.org/en/master/index.html) and is hosted on [readthedocs](https://docs.readthedocs.io/en/stable/index.html).
 
 
 <a name="selenium"></a>
