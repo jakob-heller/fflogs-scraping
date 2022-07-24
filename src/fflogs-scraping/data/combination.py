@@ -1,4 +1,6 @@
-"""Includes csv reading, loading and meaningful combination."""
+"""
+CSV files are read to pandas dataframes, cleaned, concatenated and summarized.
+"""
 
 import os
 import glob

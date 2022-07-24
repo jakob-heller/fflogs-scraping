@@ -34,8 +34,149 @@
 
           <div class="body" role="main">
             
-  <section id="scraping">
-<h1>Scraping<a class="headerlink" href="#scraping" title="Permalink to this heading">¶</a></h1>
+  <section id="module-data.scraping">
+<span id="scraping"></span><h1>Scraping<a class="headerlink" href="#module-data.scraping" title="Permalink to this heading">¶</a></h1>
+<p>Includes implementation of Scraping class.</p>
+<p>The Scraping class makes use of a <a class="reference external" href="https://www.selenium.dev/documentation/">Selenium</a> Firefox Webdriver to scrape the
+logs provided. For every log, it navigates to its subpages, checks the group
+composition and downloads both damage done and healing tables. On every site,
+it waits until the respective elements needed are actually loaded before
+continuing.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="data.scraping.Scraping">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">data.scraping.</span></span><span class="sig-name descname"><span class="pre">Scraping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headless</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#data.scraping.Scraping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implementation of all necessary scraping methods.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.scraping.Scraping.logs">
+<span class="sig-name descname"><span class="pre">logs</span></span><a class="headerlink" href="#data.scraping.Scraping.logs" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of logs (urls) to be scraped.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.scraping.Scraping.enc_type">
+<span class="sig-name descname"><span class="pre">enc_type</span></span><a class="headerlink" href="#data.scraping.Scraping.enc_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>A string indicating what encounters should be taken into account -
+“all” encounters, only “kills” or only “wipes”.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.scraping.Scraping.driver">
+<span class="sig-name descname"><span class="pre">driver</span></span><a class="headerlink" href="#data.scraping.Scraping.driver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Firefox webdriver object.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="data.scraping.Scraping.comp">
+<span class="sig-name descname"><span class="pre">comp</span></span><a class="headerlink" href="#data.scraping.Scraping.comp" title="Permalink to this definition">¶</a></dt>
+<dd><p>8-tuple of strings, representing job(/class)-composition in logs.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="data.scraping.Scraping.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headless</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#data.scraping.Scraping.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes object with given attributes, start driver.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>logs</strong> – A list of strings (urls); links to logs that have been inputted by
+the user.</p></li>
+<li><p><strong>encounters_type</strong> – A string indicating what encounters should be taken into account,
+as inputted by the user.</p></li>
+<li><p><strong>headless</strong> – A boolean that is true if the Webdriver is to be started headless
+(-&gt; invisible) and false if not, as inputted by the user.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="data.scraping.Scraping._check_comp">
+<span class="sig-name descname"><span class="pre">_check_comp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comp_html</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#data.scraping.Scraping._check_comp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parses html string with regex and checks group composition.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>comp_html</strong> – A string of everything labeled with class=”composition-entry” in
+the page html.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>False if the composition tuple created shows a different group
+composition than present in the previous logs, true otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="data.scraping.Scraping._get_comp">
+<span class="sig-name descname"><span class="pre">_get_comp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#data.scraping.Scraping._get_comp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets html of summary page an returns the composition table.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="data.scraping.Scraping._get_damage_dealt">
+<span class="sig-name descname"><span class="pre">_get_damage_dealt</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#data.scraping.Scraping._get_damage_dealt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Downloads csv from damage tab.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="data.scraping.Scraping._get_healing_done">
+<span class="sig-name descname"><span class="pre">_get_healing_done</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#data.scraping.Scraping._get_healing_done" title="Permalink to this definition">¶</a></dt>
+<dd><p>Downloads csv from healing tab.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="data.scraping.Scraping._quit">
+<span class="sig-name descname"><span class="pre">_quit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#data.scraping.Scraping._quit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Closes browser/ quits driver.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="data.scraping.Scraping._to_damage_dealt">
+<span class="sig-name descname"><span class="pre">_to_damage_dealt</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#data.scraping.Scraping._to_damage_dealt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Navigates from “summary” to “damage dealt” tab.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="data.scraping.Scraping._to_healing_done">
+<span class="sig-name descname"><span class="pre">_to_healing_done</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#data.scraping.Scraping._to_healing_done" title="Permalink to this definition">¶</a></dt>
+<dd><p>Navigates from “damage dealt” to “healing” tab.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="data.scraping.Scraping._to_summary">
+<span class="sig-name descname"><span class="pre">_to_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#data.scraping.Scraping._to_summary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modifies given url and opens summary page.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="data.scraping.Scraping._wait_until">
+<span class="sig-name descname"><span class="pre">_wait_until</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'xpath'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#data.scraping.Scraping._wait_until" title="Permalink to this definition">¶</a></dt>
+<dd><p>Waits till element is loaded.</p>
+<p>This is a helper function, called by most other scraping methods.
+Elements take inconsistent times to load, so we need some kind of
+dynamic waiting time which we use WebDriverWait for.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> – A string by which we try locating the element (xpath or class).</p></li>
+<li><p><strong>timeout</strong> – An integer, the amount of maximum seconds to wait until timeout.</p></li>
+<li><p><strong>by</strong> – Takes attributes of Seleniums By class. We use it to specify by
+by what value we want to locate our element (xpath or class name).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Object of Seleniums WebElement class.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="data.scraping.Scraping.parse_logs">
+<span class="sig-name descname"><span class="pre">parse_logs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#data.scraping.Scraping.parse_logs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parses and scrapes all given logs.</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 

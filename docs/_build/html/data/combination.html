@@ -34,8 +34,111 @@
 
           <div class="body" role="main">
             
-  <section id="combination-merge">
-<h1>Combination/ Merge<a class="headerlink" href="#combination-merge" title="Permalink to this heading">¶</a></h1>
+  <section id="module-data.combination">
+<span id="combination-merge"></span><h1>Combination/ Merge<a class="headerlink" href="#module-data.combination" title="Permalink to this heading">¶</a></h1>
+<p>CSV files are read to pandas dataframes, cleaned, concatenated and summarized.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="data.combination.aggregate_dd">
+<span class="sig-prename descclassname"><span class="pre">data.combination.</span></span><span class="sig-name descname"><span class="pre">aggregate_dd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#data.combination.aggregate_dd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns dataframe aggregated by “Name” column.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="data.combination.aggregate_hd">
+<span class="sig-prename descclassname"><span class="pre">data.combination.</span></span><span class="sig-name descname"><span class="pre">aggregate_hd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#data.combination.aggregate_hd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns dataframe aggregated by “Name” column.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="data.combination.convert_df">
+<span class="sig-prename descclassname"><span class="pre">data.combination.</span></span><span class="sig-name descname"><span class="pre">convert_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#data.combination.convert_df" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts values to numeric values.</p>
+<p>To be able to summarize the data, all values need to be converted to
+numeric first. The “Amount” column has 3 values separated by special
+characters, 2 of which get split into their own columns.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dd_df</strong> – Pandas dataframe that has just been concatenated.</p></li>
+<li><p><strong>type</strong> – Either “HPS” or “DPS” - both have slightly different columns and thus
+need to be handled differently.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dataframe where all relevant values have been converted to numeric
+(except “Name” column).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="data.combination.csv_to_dfs">
+<span class="sig-prename descclassname"><span class="pre">data.combination.</span></span><span class="sig-name descname"><span class="pre">csv_to_dfs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#data.combination.csv_to_dfs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads csv files.</p>
+<p>Reads csv files in csv directory as pandas dataframes and adds them either
+to a “damage”, or to a “healing” list, depending on their structure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>2-tuple of lists of dataframes, one for damage and one for healing.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="data.combination.fix_columns_dd">
+<span class="sig-prename descclassname"><span class="pre">data.combination.</span></span><span class="sig-name descname"><span class="pre">fix_columns_dd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#data.combination.fix_columns_dd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fixes and sets better looking column names for later visualization.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="data.combination.fix_columns_hd">
+<span class="sig-prename descclassname"><span class="pre">data.combination.</span></span><span class="sig-name descname"><span class="pre">fix_columns_hd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#data.combination.fix_columns_hd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fixes and sets better looking column names for later visualization.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="data.combination.get_csv_paths">
+<span class="sig-prename descclassname"><span class="pre">data.combination.</span></span><span class="sig-name descname"><span class="pre">get_csv_paths</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#data.combination.get_csv_paths" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of relative paths to csv files in the csv directory.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="data.combination.join_dd_dfs">
+<span class="sig-prename descclassname"><span class="pre">data.combination.</span></span><span class="sig-name descname"><span class="pre">join_dd_dfs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dd_df_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#data.combination.join_dd_dfs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Joins multiple “damage done” dataframes to single dataframe.</p>
+<p>Concatenates all dataframes provided into one dataframe, converts all
+values (except for column “Name”) into numeric values, reorders and renames
+columns.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dd_df_list</strong> – A list of pandas dataframes with identical structure and data
+referring to the “damage done” metric.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The returned pd.DataFrame is the summary of the given dataframes, ready
+to be visualized.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="data.combination.join_hd_dfs">
+<span class="sig-prename descclassname"><span class="pre">data.combination.</span></span><span class="sig-name descname"><span class="pre">join_hd_dfs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hd_df_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.core.frame.DataFrame</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#data.combination.join_hd_dfs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Joins multiple “healing done” dataframes to single dataframe.</p>
+<p>Mostly identical to join_dd_dfs(), split up into two functions because the
+structure of the given dataframes are slightly different in both cases.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dd_df_list</strong> – A list of pandas dataframes with identical structure and data
+referring to the “healing done” metric.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The returned pd.DataFrame is the summary of the given dataframes, ready
+to be visualized.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 

@@ -1,7 +1,8 @@
 """Includes implementation of Scraping class.
 
-The Scraping class makes use of a Selenium Firefox Webdriver to scrape the logs
-provided. For every log, it navigates to its subpages, checks the group
+The Scraping class makes use of a `Selenium
+<https://www.selenium.dev/documentation/>`_ Firefox Webdriver to scrape the
+logs provided. For every log, it navigates to its subpages, checks the group
 composition and downloads both damage done and healing tables. On every site,
 it waits until the respective elements needed are actually loaded before
 continuing.

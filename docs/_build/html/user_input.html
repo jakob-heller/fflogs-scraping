@@ -34,8 +34,49 @@
 
           <div class="body" role="main">
             
-  <section id="user-input">
-<h1>User Input<a class="headerlink" href="#user-input" title="Permalink to this heading">¶</a></h1>
+  <section id="module-user_input">
+<span id="user-input"></span><h1>User Input<a class="headerlink" href="#module-user_input" title="Permalink to this heading">¶</a></h1>
+<p>Manages user inputs to get links to log files and options for scraping.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="user_input.check_url">
+<span class="sig-prename descclassname"><span class="pre">user_input.</span></span><span class="sig-name descname"><span class="pre">check_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#user_input.check_url" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks str (url) for valid log and returns True if it is valid.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="user_input.predef_links">
+<span class="sig-prename descclassname"><span class="pre">user_input.</span></span><span class="sig-name descname"><span class="pre">predef_links</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#user_input.predef_links" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predefines links to logs for testing purposes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>num</strong> – Integer between 1 and 5, corresponding to 5 different test sets of
+log urls.</p></li>
+<li><p><strong>1</strong> – 1 log, kills, wipes, valid group</p></li>
+<li><p><strong>2</strong> – 2 logs, kills, wipes, valid group</p></li>
+<li><p><strong>3</strong> – 3 logs, kills, wipes, invalid group</p></li>
+<li><p><strong>4</strong> – 2 logs, no kills, wipes, valid group</p></li>
+<li><p><strong>5</strong> – 8 logs, no kills, wipes, valid group</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of strings, each being the url of an fflog.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="user_input.user_input">
+<span class="sig-prename descclassname"><span class="pre">user_input.</span></span><span class="sig-name descname"><span class="pre">user_input</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#user_input.user_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>User-interface utilizing match-case environment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A namedtuple with either the baseline attributes, or the attributes as
+indicated by the user.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 
