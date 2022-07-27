@@ -123,7 +123,7 @@ def data_bars(df: pd.DataFrame, column: str) -> dict:
             "if": {
                 "filter_query": (
                     f"{{{column}}} >= {min_bound}" +
-                    (f" && {{{column}}} < {max_bound}" if (i < len(bounds) - 1) else "")
+                    (f" && {{{column}}} < {max_bound}" if (i < len(bounds) - 1) else "")  # noqa: E501
                 ),
                 "column_id": column
             },

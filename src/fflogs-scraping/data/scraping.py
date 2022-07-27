@@ -72,9 +72,9 @@ class Scraping:
         # FirefoxProfile and adjust our download preferences.
         ffprofile = webdriver.FirefoxProfile()
         ffprofile.set_preference("browser.download.folderList", 2)
-        ffprofile.set_preference("browser.download.manager.showWhenStarting", False)
+        ffprofile.set_preference("browser.download.manager.showWhenStarting", False)  # noqa: E501
         ffprofile.set_preference("browser.download.dir", csv_path)
-        ffprofile.set_preference("browser.helperApps.neverAsk.saveToDisk", "csv")
+        ffprofile.set_preference("browser.helperApps.neverAsk.saveToDisk", "csv")  # noqa: E501
 
         # Start Firefox driver with options (headless or not) and profile.
         # Try starting with .exe as driver, works on Windows. On other
@@ -138,7 +138,7 @@ class Scraping:
         Returns:
           Object of Seleniums WebElement class.
         """
-        ignored_exceptions = (NoSuchElementException, StaleElementReferenceException,)
+        ignored_exceptions = (NoSuchElementException, StaleElementReferenceException,)  # noqa: E501
         return (WebDriverWait(self.driver,
                               timeout=timeout,
                               ignored_exceptions=ignored_exceptions)
