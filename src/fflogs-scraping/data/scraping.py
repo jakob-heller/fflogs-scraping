@@ -39,14 +39,14 @@ class Scraping:
         8-tuple of strings, representing job(/class)-composition in logs.
     """
 
-    def __init__(self, logs: list[str], type: str, headless: bool):
+    def __init__(self, logs: list[str], enc_type: str, headless: bool):
         """Initializes object with given attributes, starts driver.
 
         Args:
           logs:
             A list of strings (urls); links to logs that have been inputted by
             the user.
-          encounters_type:
+          enc_type:
             A string indicating what encounters should be taken into account,
             as inputted by the user.
           headless:
@@ -55,7 +55,7 @@ class Scraping:
         """
         self.logs = logs
         self.comp = ()
-        self.enc_type = type
+        self.enc_type = enc_type
 
         options = webdriver.FirefoxOptions()
         if headless:

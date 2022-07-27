@@ -15,9 +15,9 @@ def main():
     inpt = ui.user_input()
 
     print("\nStarting Webdriver...", flush=True, end=" ")
-    crawler = ds.Scraping(inpt.logs, type=inpt.type, headless=inpt.headless)
+    spider = ds.Scraping(inpt.logs, enc_type=inpt.type, headless=inpt.headless)
     print("...Webdriver started.")
-    crawler.parse_logs()
+    spider.parse_logs()
 
     print("Combining data...", flush=True, end=" ")
     df_lists = dc.csv_to_dfs()
