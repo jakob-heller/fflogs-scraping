@@ -1,8 +1,16 @@
-"""Manages user inputs to get links to log files and options for scraping."""
+"""
+Manages user inputs to get links to log files and options for scraping.
+
+Depending on what linter you use or whether you use Jedi, this file
+might report problems to you (SyntaxErrors, IndentationErrors). Match-
+case (PEP 634, Python 3.10) is still not universally supported.
+"""
+
 
 import re
 import textwrap
 from collections import namedtuple
+
 
 def user_input():
     """User-interface utilizing match-case environment.
