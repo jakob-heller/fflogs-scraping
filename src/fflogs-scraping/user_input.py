@@ -39,7 +39,7 @@ def user_input():
         Input 'run' to start the process, 'exit' to abort.""")
     print(text)
 
-    FullInput = namedtuple("FullInput", ["logs", "headless", "type", "debug", "port"]) # noqa: E501
+    FullInput = namedtuple("FullInput", ["logs", "headless", "type", "debug", "port"])  # noqa: E501
     logs = []
     type = "all"
     headless = True
