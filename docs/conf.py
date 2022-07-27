@@ -12,12 +12,12 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../src/fflogs-study-project'))
+sys.path.insert(0, os.path.abspath('../src/fflogs-scraping'))
 
 
 # -- Project information -----------------------------------------------------
 
-project = 'fflogs-study-project'
+project = 'fflogs-scraping'
 copyright = '2022, Jakob Heller'
 author = 'Jakob Heller'
 

@@ -1,4 +1,12 @@
-"""Includes implementation of Scraping class."""
+"""Includes implementation of Scraping class.
+
+The Scraping class makes use of a `Selenium
+<https://www.selenium.dev/documentation/>`_ Firefox Webdriver to scrape the
+logs provided. For every log, it navigates to its subpages, checks the group
+composition and downloads both damage done and healing tables. On every site,
+it waits until the respective elements needed are actually loaded before
+continuing.
+"""
 
 import time
 import os
@@ -32,7 +40,7 @@ class Scraping:
     """
 
     def __init__(self, logs: list[str], type: str, headless: bool):
-        """Initializes object with given attributes, start driver.
+        """Initializes object with given attributes, starts driver.
 
         Args:
           logs:
@@ -79,7 +87,7 @@ class Scraping:
         except WebDriverException:
             self.driver = webdriver.Firefox(ffprofile, options=options)
 
-        # Since the website loads a large amount of adds, loading can take
+        # Since the website loads a large amount of ads, loading can take
         # pretty long - but we can significantly reduce runtime by installing
         # an adblocker.
         # We install our adblocker (ublock origin) from an xpi file and
@@ -161,7 +169,7 @@ class Scraping:
 
         Args:
           comp_html:
-            A string of everything labeled with class="composition-enrty" in
+            A string of everything labeled with class="composition-entry" in
             the page html.
 
         Returns:

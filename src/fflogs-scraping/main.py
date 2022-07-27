@@ -1,4 +1,8 @@
-"""Entry point for fflogs-study-project."""
+"""Main control flow in main() method.
+
+Submodules are imported and their methods are called in main() to implement the
+entire process of scraping, summarization and visualization.
+"""
 
 import user_input as ui
 import data.scraping as ds
@@ -7,13 +11,13 @@ import data.visualization as dv
 
 
 def main():
-    """Get links from user, scrape data, combine and visualize."""
+    """Gets links from user, scrapes data, combines and visualizes."""
     inpt = ui.user_input()
 
     print("\nStarting Webdriver...", flush=True, end=" ")
-    spider = ds.Scraping(inpt.logs, type=inpt.type, headless=inpt.headless)
+    crawler = ds.Scraping(inpt.logs, type=inpt.type, headless=inpt.headless)
     print("...Webdriver started.")
-    spider.parse_logs()
+    crawler.parse_logs()
 
     print("Combining data...", flush=True, end=" ")
     df_lists = dc.csv_to_dfs()
@@ -22,7 +26,9 @@ def main():
     print("...combination finished.")
 
     print("\nLaunching Dash application on localhost:\n")
-    dv.dash(dd, hd).run_server(debug=inpt.debug, use_reloader=False, port=inpt.port)
+    dv.dash(dd, hd).run_server(debug=inpt.debug,
+                               use_reloader=False,
+                               port=inpt.port)
 
 
 def debug_dash():
@@ -35,3 +41,4 @@ def debug_dash():
 
 if __name__ == "__main__":
     main()
+    # debug_dash()

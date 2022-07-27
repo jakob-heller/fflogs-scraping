@@ -1,4 +1,13 @@
-"""Interactively visualize data using a basic Dash data app."""
+"""Interactively visualize data using a basic Dash data app.
+
+`Dash <https://dash.plotly.com/>`_ is a framework for rapidly building data
+apps in Python (and other languages). It is built on top of Plotly.
+
+The Dashboard is built by first converting the two dataframes to Dash
+datatables. We then define the layout of our Dash app and return it.
+There also are multiple methods returning "style dictionaries" that
+are used as parameters to customize parts of the Dash dashboard.
+"""
 
 import pandas as pd
 from dash import Dash, html
@@ -56,7 +65,8 @@ def df_to_dt(df: pd.DataFrame, id: str) -> DT:
               )
 
 
-# The following 4 methods are all related to the dashboard style.
+# The following 4 methods are all only relevant for the dashboards style.
+
 def styles(type: str) -> dict:
     """Returns dictionary of styles as specified by "type"."""
     if type == "header":
@@ -82,8 +92,10 @@ def data_bars(df: pd.DataFrame, column: str) -> dict:
     Creates a conditional formatting dictionary that shows data bars inside of
     (data-)table cells. Bar lengths are relative to the highest value.
 
-    Taken from dash documentation and slightly adjusted:
-    https://dash.plotly.com/datatable/conditional-formatting
+    .. note::
+        This method was taken from the `official dash documentation
+        <https://dash.plotly.com/datatable/conditional-formatting>`_ and
+        slightly adjusted.
 
     Args:
       df:

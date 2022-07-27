@@ -1,6 +1,6 @@
 <img align="right" width="80" height="80" src="docs/img/fflogs_icon.png" alt="fflogs icon">
 
-# fflogs-study-project
+# fflogs-scraping
 Scrape [fflog](https://www.fflogs.com/) entries for damage done and healing done tables, combine data from multiple logs and then visualize using a dash dashboard.
 
 # Table of contents
@@ -36,23 +36,24 @@ It should be able to
 ### Structure
 
 ```
-fflogs-study-project
+fflogs-scraping
 ├── src
-│   └── fflogs-study-project
-│       ├── data
-│       │   ├── assets
-│       │   │   └── style.css
-│       │   ├── csv
-│       │   │   └── placeholder.csv
-│       │   ├── __init__.py
-│       │   ├── combination.py
-│       │   ├── scraping.py
-│       │   └── visualization.py
-│       ├── __init__.py
-│       ├── __main__.py
-│       ├── user_input.py
-│       ├── geckodriver.exe
-│       └── ublock_origin-1.43.0.xpi
+│   ├── fflogs-scraping
+│   │   ├── data
+│   │   │   ├── assets
+│   │   │   │   └── style.css
+│   │   │   ├── csv
+│   │   │   │   └── placeholder.csv
+│   │   │   ├── __init__.py
+│   │   │   ├── combination.py
+│   │   │   ├── scraping.py
+│   │   │   └── visualization.py
+│   │   ├── __init__.py
+│   │   ├── __main__.py
+│   │   ├── main.py
+│   │   └── user_input.py
+│   ├── geckodriver.exe
+│   └── ublock_origin-1.43.0.xpi
 ├── .gitignore
 ├── LICENSE.txt
 ├── MANIFEST.in
@@ -102,7 +103,7 @@ conda activate fflogs3.10
 Navigate to the `src` directory and run
 
 ```
-python fflogs-study-project
+python fflogs-scraping
 ```
 
 To work on this package, please install the dependencies from `requirements.txt` in your (Python 3.10) environment, using
@@ -110,22 +111,22 @@ To work on this package, please install the dependencies from `requirements.txt`
 ```
 pip install -r requirements.txt
 ```
-This includes `sphinx` for creating the documentation and `tox` for testing.
+This includes `sphinx` for creating the documentation.
 ### Unix/macOS
 Geckodriver needs to be installed for the Firefox Webdriver to work. On Windows, it is sufficient for the executable to be in the working directory. On other operating systems that might not work. Please refer to [this](https://askubuntu.com/questions/870530/how-to-install-geckodriver-in-ubuntu) post for solutions.
 
 After having installed geckodriver, continue as described in [Windows](#windows).
 
 <a name="expl"></a>
-## Example (screenshots outdated)
+## Example
 
 For the example we will look at the predefined logs 2. The set consists of 2 logs that have boss kills in them ([1](https://www.fflogs.com/reports/hacvwXKb8mFYrAdx), [2](https://www.fflogs.com/reports/LnjBh2tfZRyv8rpD)).
 
 <a name="input"></a>
 ### User Input
 On run we are prompted with a user input:  
-<img src="docs/img/input_prompt.png" alt="User Input Prompt" width="600"/>  
-The available parameters should be explained sufficiently. Since we want to analyze boss kills from set 2 in this example, we input "2" and "kills". If you want to see the scraping process, you can input "show" and the webdriver will be visible.  "config" shows the parameters that will be returned. (Note: 'y' and 'q' in the screenshots have been replaced by 'run' and 'exit', respectively)
+<img src="docs/img/input_prompt2.png" alt="User Input Prompt" width="600"/>  
+The available parameters should be explained sufficiently. Since we want to analyze boss kills from set 2 in this example, we input "2" and "kills". If you want to see the scraping process, you can input "show" and the webdriver will be visible.  "config" shows the parameters that will be returned. Input "run" to start the scraping.
 
 <img src="docs/img/first_input.gif" alt="Example User Input" width="600"/>  
 
@@ -165,17 +166,19 @@ Open this (e.g. in your browser) and you will see this dashboard with sortable c
 <a name="docs"></a>
 ## Documentation
 The code was written and documented following the [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html).
-> There are a few single lines where the line length of 80, as required by both Pep8 and Google Style was exceeded, as it would rather harm readability.
+> There are 5 single lines where the line length of 80 (as required by both Pep8 and Google Style) was exceeded, because I decided that in those few cases, splitting the line would harm readability more than it would help.  
+
+> Note that docstring conventions in Google Style are slightly different from PEP257 - the first line for example, should be descriptive-style, rather than imperative-style. This may or may not be marked as wrong by your linter.
 
 You can find the documentation [here](https://fflogs-study-project.readthedocs.io/en/latest/index.html). It was built using [Sphinx](https://www.sphinx-doc.org/en/master/index.html) and is hosted on [readthedocs](https://docs.readthedocs.io/en/stable/index.html).
 
 
 <a name="selenium"></a>
 ## Why Selenium?
-In hindsight, this is a good question. Since fflogs offers a "Download CSV" functionality for all of its tables, it seemed to be the most intuitive way for me to implement a program that "just clicks on that button". While it is true that you need Selenium for this kind of functionality, just fetching the table data from html would have been much more effective in all terms, but especially runtime.  
+In hindsight, this is a good question. Since fflogs offers a "Download CSV" functionality for all of its tables, it seemed to be the most intuitive way for me to implement a program that "just clicks that button". While it is true that you need Selenium for this kind of functionality, just fetching the table data from html would have been much more effective in all terms, but especially runtime.  
 
-If I would start this project now, I would not use Selenium. Setting up a Webdriver, installing an adblocker only to click on some buttons, where you could just have fetched 2 tables instead is kind of "overkill". Even though it hurts, I will probably create a version completely without Selenium in the future.
+If I would start this project now, I would not use Selenium. Setting up a Webdriver, installing an adblocker only to click on some buttons, where you could just have fetched 2 tables instead is kind of "overkill". I might consider creating a more light-weight version completely without Selenium in the future.
 
 <a name="dash"></a>
 ## Why Dash?
-When beginning this project I said that I'd like to visualize the merged data, preferably somewhat interactively. I started with using Plotly as introduced in the lecture and while looking something up in its documentation, I read about Dash. It sounded interesting enough to give it a try; in the end it let me visualize the data in exactly the way I wanted (sortable table with an in-cell bar chart, like on the original website).
+When beginning this project I said that I'd like to visualize the merged data, preferably somewhat interactively. I started by using Plotly as introduced in the lecture and while looking something up in its documentation, I read about Dash. It sounded interesting enough to give it a try; in the end it let me visualize the data in exactly the way I wanted (sortable table with an in-cell bar chart, like on the original website).
