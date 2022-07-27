@@ -54,32 +54,32 @@ def df_to_dt(df: pd.DataFrame, id: str) -> DT:
               id=id,
               sort_action="native",
               style_as_list_view=True,
-              style_cell=styles("cell"),
-              style_header=styles("header"),
-              style_data=styles("table_data"),
+              style_cell=table_styles("cell"),
+              style_header=table_styles("header"),
+              style_data=table_styles("table_data"),
               style_data_conditional=(
                   data_bars(df, "Amount Total") +
                   data_bars(df, r_column) +
-                  parse_colors(df)),
+                  parse_colors()),
               style_cell_conditional=column_width(df)
               )
 
 
 # The following 4 methods are all only relevant for the dashboards style.
 
-def styles(type: str) -> dict:
+def table_styles(part: str) -> dict:
     """Returns dictionary of styles as specified by "type"."""
-    if type == "header":
+    if part == "header":
         return {
             "backgroundColor": "#0e1012",
             "color": "white"
         }
-    elif type == "table_data":
+    elif part == "table_data":
         return {
                 "backgroundColor": "#161a1d",
                 "color": "white"
         }
-    elif type == "cell":
+    elif part == "cell":
         return {
             "font_size": "18px",
             "border": "1px solid #3f3f3f"
@@ -172,7 +172,7 @@ def column_width(df: pd.DataFrame) -> dict:
     return styles
 
 
-def parse_colors(df: pd.DataFrame) -> dict:
+def parse_colors() -> dict:
     """Conditional formatting for parse colors.
 
     Creates a conditional formatting dictionary that changes the colors of
