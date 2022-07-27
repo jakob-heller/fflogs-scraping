@@ -2,8 +2,8 @@
 Manages user inputs to get links to log files and options for scraping.
 
 Depending on what linter you use or whether you use Jedi, this file
-might report problems to you (SyntaxErrors, IndentationErrors). Match-
-case (PEP 634, Python 3.10) is still not universally supported.
+might report problems to you (SyntaxErrors, IndentationErrors). Match-case
+(PEP 634, Python 3.10) is still not universally supported.
 """
 
 
