@@ -1,92 +1,165 @@
-"""Interactively visualize data using a basic Dash data app.
+"""Nerv nicht."""
 
-`Dash <https://dash.plotly.com/>`_ is a framework for rapidly building data
-apps in Python (and other languages). It is built on top of Plotly.
-
-The Dashboard is built by first converting the two dataframes to Dash
-datatables. We then define the layout of our Dash app and return it.
-There also are multiple methods returning "style dictionaries" that
-are used as parameters to customize parts of the Dash dashboard.
-"""
-
+import re
+import data.combination as dc
 import pandas as pd
-from dash import Dash, html
+from dash import Dash, html, dcc
 from dash.dash_table import DataTable as DT
+from dash.dependencies import Input, Output, State
 
 
-def dash(df1: pd.DataFrame, df2: pd.DataFrame) -> Dash():
+def main():
+    """Nerv nicht."""
+
+    print("Combining data...", flush=True, end=" ")
+    df_lists = dc.csv_to_dfs()
+    dmg = dc.join_dd_dfs(df_lists[0])
+    heal = dc.join_hd_dfs(df_lists[1])
+    print("...combination finished.", flush=True)
+
+    dash(dmg, heal).run_server(debug=True, port=8051)
+
+
+def dash(dfr1: pd.DataFrame, dfr2: pd.DataFrame) -> Dash():
     """Creates an interactive Dashboard with 2 sortable tables.
 
     The style.css in the assets directory sets the dashboards
     background color and the properties of the html.H2 object.
 
     Args:
-      df1:
+      dfr1:
         Pandas dataframe of summarized damage done.
-      df2:
+      dfr2:
         Pandas dataframe of summarized healing done.
 
     Returns:
       Object of Dash class which can then be run on localhost.
     """
     app = Dash(__name__)
-    tbl1 = df_to_dt(df1, "tbl1")
-    tbl2 = df_to_dt(df2, "tbl2")
-    return layout(app, tbl1, tbl2)
+    tbl1 = dfr_to_dt(dfr1, "tbl1")
+    tbl2 = dfr_to_dt(dfr2, "tbl2")
+    layout(app, tbl1, tbl2)
+
+    return app
 
 
 def layout(app: Dash, tbl1: DT, tbl2: DT) -> Dash():
     """Creates the layout of the dash application."""
     app.layout = html.Div([
-        html.H2("Damage Done"),
-        tbl1,
-        html.H2("Healing Done"),
-        tbl2,
+        html.Div([
+            html.Div([
+                DT(
+                    id='adding-rows-table',
+                    columns=[{
+                        'name': 'URLs',
+                        'id': 'url-column'
+                    }],
+                    data=[],
+                    editable=True,
+                    row_deletable=True,
+                    style_as_list_view=True,
+                    style_cell=(table_styles("cell") | {'textAlign': 'left'}),
+                    style_header=(table_styles("header") | {'textAlign': 'left'}),
+                    style_data=table_styles("table_data"),
+                    style_data_conditional=[                
+                        {
+                            "if": {"state": "selected"},
+                            "color": "inherit",              # 'active' | 'selected'
+                            "backgroundColor": "inherit",
+                            "border": "1px solid #bb592c",
+                            'textAlign': 'left'
+                        },
+                    ]
+                ),
+                html.Div([
+                    dcc.Input(
+                        id="inpt",
+                        type="url",
+                        placeholder="Input Log URL",
+                        debounce=True,
+                        name="Please enter a valid log URL.",
+                        size="40",
+                        style=table_styles("table_data")
+                    ),
+                    html.Div(id="output")
+                ], id="styled-input", style={"width": "30%"}),
+            ], style={'width': '30% 520px', 'display': 'inline-block'}),
+            html.Div([
+                dcc.Dropdown(
+                    ["All Encounters", "Kills only", "Wipes only"],
+                    "All Encounters",
+                    clearable=False,
+                    style=table_styles("table_data")
+                )
+            ], style={'width': '49%', 'display': 'inline-block'}),
+        ]),
+        html.Div([
+            html.H2("Damage Done"),
+            tbl1,
+            html.H2("Healing Done"),
+            tbl2,
+        ])
     ], style={"backgroundColor": "#161a1d", "padding": 40})
-    return app
 
+    @app.callback(
+        Output('adding-rows-table', 'data'),
+        Output('inpt','value'),
+        Output("output", "children"),
+        Input("inpt", "value"),
+        State('adding-rows-table', 'data'),
+        State('adding-rows-table', 'columns'))
+    def add_url_row(value, rows, columns):
+        pattern = r"https:\/\/www.fflogs.com\/reports\/(a:)?[a-zA-Z0-9]{16}(\/*)?"
+        invalid = ""
+        if value is not None:
+            if re.match(pattern, value):
+                rows.append({c['id']: value for c in columns})
+                value = ""
+            else:
+                invalid = "The URL needs to be a valid log."
+        return (rows, value, invalid)
 
-def df_to_dt(df: pd.DataFrame, id: str) -> DT:
+def dfr_to_dt(dfr: pd.DataFrame, table_id: str) -> DT:
     """Converts dataframe into DataTable, using previously defined styles."""
-    r_column = "rDPS" if "rDPS" in df.columns else "rHPS"
-    return DT(df.to_dict("records"),
-              [{"name": i, "id": i, "selectable": True} for i in df.columns],
-              id=id,
+    r_column = "rDPS" if "rDPS" in dfr.columns else "rHPS"
+    return DT(dfr.to_dict("records"),
+              [{"name": i, "id": i, "selectable": True} for i in dfr.columns],
+              id=table_id,
               sort_action="native",
               style_as_list_view=True,
-              style_cell=styles("cell"),
-              style_header=styles("header"),
-              style_data=styles("table_data"),
+              style_cell=table_styles("cell"),
+              style_header=table_styles("header"),
+              style_data=table_styles("table_data"),
               style_data_conditional=(
-                  data_bars(df, "Amount Total") +
-                  data_bars(df, r_column) +
-                  parse_colors(df)),
-              style_cell_conditional=column_width(df)
+                  data_bars(dfr, "Amount Total") +
+                  data_bars(dfr, r_column) +
+                  parse_colors()),
+              style_cell_conditional=column_width(dfr)
               )
 
 
 # The following 4 methods are all only relevant for the dashboards style.
 
-def styles(type: str) -> dict:
-    """Returns dictionary of styles as specified by "type"."""
-    if type == "header":
+def table_styles(part: str) -> dict:
+    """Returns dictionary of styles as specified by "part"."""
+    if part == "header":
         return {
             "backgroundColor": "#0e1012",
             "color": "white"
         }
-    elif type == "table_data":
+    elif part == "table_data":
         return {
                 "backgroundColor": "#161a1d",
                 "color": "white"
         }
-    elif type == "cell":
+    elif part == "cell":
         return {
             "font_size": "18px",
             "border": "1px solid #3f3f3f"
         }
 
 
-def data_bars(df: pd.DataFrame, column: str) -> dict:
+def data_bars(dfr: pd.DataFrame, column: str) -> dict:
     """Conditional formatting for data bars in cells.
 
     Creates a conditional formatting dictionary that shows data bars inside of
@@ -98,7 +171,7 @@ def data_bars(df: pd.DataFrame, column: str) -> dict:
         slightly adjusted.
 
     Args:
-      df:
+      dfr:
         The pandas dataframe in question.
       column:
         The name of the column where bars are shown.
@@ -107,11 +180,11 @@ def data_bars(df: pd.DataFrame, column: str) -> dict:
       A dictionary of conditional formatting that can be used to style a
       dash DataTable.
     """
-    bar_color = "#f4d44d" if "DPS" in df.columns else "#91dfd2"
+    bar_color = "#f4d44d" if "DPS" in dfr.columns else "#91dfd2"
     n_bins = 100
     bounds = [i * (1.0 / n_bins) for i in range(n_bins + 1)]
     ranges = [
-        ((df[column].max() - df[column].min()) * i) + df[column].min()
+        ((dfr[column].max() - dfr[column].min()) * i) + dfr[column].min()
         for i in bounds
     ]
     styles = []
@@ -142,7 +215,7 @@ def data_bars(df: pd.DataFrame, column: str) -> dict:
     return styles
 
 
-def column_width(df: pd.DataFrame) -> dict:
+def column_width(dfr: pd.DataFrame) -> dict:
     """Returns conditional formatting dictionary for column widths."""
     styles = [
         {"if": {"column_id": "Parse %"},
@@ -165,14 +238,14 @@ def column_width(df: pd.DataFrame) -> dict:
          "width": "5%"}
     ]
     # The healing table has one column more, We make "amount" smaller there.
-    if "HPS" in df.columns:
+    if "HPS" in dfr.columns:
         styles.append({"if": {"column_id": "Amount Total"}, "width": "45%"})
     else:
         styles.append({"if": {"column_id": "Amount Total"}, "width": "50%"})
     return styles
 
 
-def parse_colors(df: pd.DataFrame) -> dict:
+def parse_colors() -> dict:
     """Conditional formatting for parse colors.
 
     Creates a conditional formatting dictionary that changes the colors of
@@ -181,7 +254,7 @@ def parse_colors(df: pd.DataFrame) -> dict:
     implement them here aswell.
 
     Args:
-      :
+      df:
         The pandas dataframe in question.
 
     Returns:
@@ -247,3 +320,7 @@ def parse_colors(df: pd.DataFrame) -> dict:
         },
     ]
     return styles
+
+
+if __name__ == "__main__":
+    main()
