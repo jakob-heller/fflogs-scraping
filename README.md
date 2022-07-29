@@ -42,7 +42,7 @@ It should be able to
 ```
 fflogs-scraping
 ├── src
-│   ├── fflogs_scraping
+│   ├── fflogs-scraping
 │   │   ├── data
 │   │   │   ├── assets
 │   │   │   │   └── style.css
@@ -107,7 +107,7 @@ conda activate fflogs3.10
 Navigate to the `src` directory and run
 
 ```
-python fflogs_scraping
+python fflogs-scraping
 ```
 
 To work on this package, please install the dependencies from `requirements.txt` in your (Python 3.10) environment, using
