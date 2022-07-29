@@ -4,19 +4,23 @@
 Scrape [fflog](https://www.fflogs.com/) entries for damage done and healing done tables, combine data from multiple logs and then visualize using a dash dashboard.
 
 # Table of contents
-1. [Introduction](#introduction)
-    1. [Goal and Motivation](#goal)
-    2. [Structure](#structure)
-2. [Requirements](#reqs)
-3. [Getting Started](#start)
-4. [Example](#expl)
-    1. [User Input](#input)
-    2. [Scraping](#scraping)
-    3. [Data Summary](#sum)
-    4. [Data Visualization](#viz)
-5. [Documentation](#docs)
-6. [Why Selenium?](#selenium)
-7. [Why Dash?](#dash)
+- [fflogs-scraping](#fflogs-scraping)
+- [Table of contents](#table-of-contents)
+  - [Introduction](#introduction)
+    - [Goal and Motivation](#goal-and-motivation)
+    - [Structure](#structure)
+  - [Requirements](#requirements)
+  - [Getting Started](#getting-started)
+    - [Windows](#windows)
+    - [Unix/macOS](#unixmacos)
+  - [Example](#example)
+    - [User Input](#user-input)
+    - [Scraping](#scraping)
+    - [Data Summary](#data-summary)
+    - [Data Visualization](#data-visualization)
+  - [Documentation](#documentation)
+  - [Why Selenium?](#why-selenium)
+  - [Why Dash?](#why-dash)
 
 <a name="introduction"></a>
 ## Introduction
@@ -38,7 +42,7 @@ It should be able to
 ```
 fflogs-scraping
 ├── src
-│   ├── fflogs-scraping
+│   ├── fflogs_scraping
 │   │   ├── data
 │   │   │   ├── assets
 │   │   │   │   └── style.css
@@ -103,7 +107,7 @@ conda activate fflogs3.10
 Navigate to the `src` directory and run
 
 ```
-python fflogs-scraping
+python fflogs_scraping
 ```
 
 To work on this package, please install the dependencies from `requirements.txt` in your (Python 3.10) environment, using
