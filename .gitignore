@@ -12,5 +12,5 @@ __pycache__/
 src/fflogs-scraping/geckodriver.exe
 src/fflogs-scraping/ublock_origin-1.43.0.xpi
 
-# Ignore .vscode directory
-.vscode
+# Ignore settings file in .vscode directory
+.vscode/settings.json
