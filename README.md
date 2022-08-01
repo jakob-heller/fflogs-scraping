@@ -1,8 +1,10 @@
 <img align="right" width="80" height="80" src="docs/img/fflogs_icon.png" alt="fflogs icon">
 
+<a name="fflogs-scraping"></a>
 # fflogs-scraping
 Scrape [fflog](https://www.fflogs.com/) entries for damage done and healing done tables, combine data from multiple logs and then visualize using a dash dashboard.
 
+<a name="table-of-contents"></a>
 # Table of contents
 - [fflogs-scraping](#fflogs-scraping)
 - [Table of contents](#table-of-contents)
