@@ -94,7 +94,7 @@ fflogs-scraping
 
 <a name="windows"></a>
 ### Windows
-To use this package, directly install the conda environment from the .yml, using
+To use this project, directly install the conda environment from the .yml, using
 
 ```
 conda env create -f environment.yml
@@ -112,7 +112,7 @@ Navigate to the `src` directory and run
 python fflogs-scraping
 ```
 
-To work on this package, please install the dependencies from `requirements.txt` in your (Python 3.10) environment, using
+To work on this project, please install the dependencies from `requirements.txt` in your (Python 3.10) environment, using
 
 ```
 pip install -r requirements.txt
@@ -171,10 +171,8 @@ Open this (e.g. in your browser) and you will see this dashboard with sortable c
 
 <a name="docs"></a>
 ## Documentation
-The code was written and documented following the [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html).
+The code was written and documented following the [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html). It was linted using Flake8 (not pylint).
 > There are 5 single lines where the line length of 80 (as required by both Pep8 and Google Style) was exceeded, because I decided that in those few cases, splitting the line would harm readability more than it would help.  
-
-> Note that docstring conventions in Google Style are slightly different from PEP257 - the first line for example, should be descriptive-style, rather than imperative-style. This may or may not be marked as wrong by your linter.
 
 You can find the documentation [here](https://fflogs-study-project.readthedocs.io/en/latest/index.html). It was built using [Sphinx](https://www.sphinx-doc.org/en/master/index.html) and is hosted on [readthedocs](https://docs.readthedocs.io/en/stable/index.html).
 
