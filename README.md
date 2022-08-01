@@ -5,9 +5,9 @@
 Scrape [fflog](https://www.fflogs.com/) entries for damage done and healing done tables, combine data from multiple logs and then visualize using a dash dashboard.
 
 <a name="table-of-contents"></a>
-# Table of contents
+## Table of contents
 - [fflogs-scraping](#fflogs-scraping)
-- [Table of contents](#table-of-contents)
+  - [Table of contents](#table-of-contents)
   - [Introduction](#introduction)
     - [Goal and Motivation](#goal-and-motivation)
     - [Structure](#structure)
