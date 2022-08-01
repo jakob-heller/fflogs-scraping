@@ -65,6 +65,7 @@ fflogs-scraping
 ├── LICENSE.txt
 ├── MANIFEST.in
 ├── README.rst
+├── readthedocs.yaml
 ├── requirements.txt
 ├── setup.cfg
 └── setup.py
