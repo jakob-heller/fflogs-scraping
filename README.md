@@ -129,7 +129,7 @@ After having installed geckodriver, continue as described in [Windows](#windows)
 <a name="example"></a>
 ## Example
 
-For the example we will look at the predefined logs 2. The set consists of 2 logs that have boss kills in them ([1](https://www.fflogs.com/reports/hacvwXKb8mFYrAdx), [2](https://www.fflogs.com/reports/LnjBh2tfZRyv8rpD)).
+For the example we will look at the predefined logs 2. The set consists of links to 2 logs that have boss kills in them ([1](https://www.fflogs.com/reports/hacvwXKb8mFYrAdx), [2](https://www.fflogs.com/reports/LnjBh2tfZRyv8rpD)).
 
 <a name="user-input"></a>
 ### User Input
