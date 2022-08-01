@@ -11,3 +11,6 @@ __pycache__/
 # Ignore geckodriver.exe inside of module
 src/fflogs-scraping/geckodriver.exe
 src/fflogs-scraping/ublock_origin-1.43.0.xpi
+
+# Ignore .vscode directory
+.vscode
