@@ -1,20 +1,20 @@
 <img align="right" width="80" height="80" src="docs/img/fflogs_icon.png" alt="fflogs icon">
 
+<a name="fflogs-scraping"></a>
 # fflogs-scraping
 Scrape [fflog](https://www.fflogs.com/) entries for damage done and healing done tables, combine data from multiple logs and then visualize using a dash dashboard.
 
-Side branch for all-in-one dashboard.
-
-# Table of contents
+<a name="table-of-contents"></a>
+## Table of contents
 - [fflogs-scraping](#fflogs-scraping)
-- [Table of contents](#table-of-contents)
+  - [Table of contents](#table-of-contents)
   - [Introduction](#introduction)
     - [Goal and Motivation](#goal-and-motivation)
     - [Structure](#structure)
   - [Requirements](#requirements)
   - [Getting Started](#getting-started)
     - [Windows](#windows)
-    - [Unix/macOS](#unixmacos)
+    - [Others](#others)
   - [Example](#example)
     - [User Input](#user-input)
     - [Scraping](#scraping)
@@ -23,11 +23,12 @@ Side branch for all-in-one dashboard.
   - [Documentation](#documentation)
   - [Why Selenium?](#why-selenium)
   - [Why Dash?](#why-dash)
+  - [Possible Additions/ Changes](#possible-additions-changes)
 
 <a name="introduction"></a>
 ## Introduction
 
-<a name="goal"></a>
+<a name="goal-and-motivation"></a>
 ### Goal and Motivation
 
 The website fflogs.com allows extensive analysis of combat data from the video game Final Fantasy XIV, including metrics like "damage done" and "healing". While you are able to analyze date over whole log files that were uploaded; looking at, and summarizing data across multiple logs is not possible. This project's purpose is to implement this functionality in a limited manner.  
@@ -64,12 +65,13 @@ fflogs-scraping
 ├── LICENSE.txt
 ├── MANIFEST.in
 ├── README.rst
+├── readthedocs.yaml
 ├── requirements.txt
 ├── setup.cfg
 └── setup.py
 ```
 
-<a name="reqs"></a>
+<a name="requirements"></a>
 ## Requirements
 
 * Python 3.10
@@ -82,6 +84,8 @@ fflogs-scraping
 > We still use beautifulsoup to fetch the group composition from html.
 
 * Pandas
+  
+* Dash
 
 * Firefox
 > Since we use a Firefox webdriver we need a full-install of [Firefox](https://www.mozilla.org/en-US/firefox/new/).
@@ -89,12 +93,12 @@ fflogs-scraping
 * Geckodriver
 > For our Firefox webdriver to run, Geckodriver needs to be installed. More on information on this in [Getting Started](#start). (a Chrome Webdriver would need Chromedriver)
 
-<a name="start"></a>
+<a name="getting-started"></a>
 ## Getting Started
 
 <a name="windows"></a>
 ### Windows
-To use this package, directly install the conda environment from the .yml, using
+To use this project, directly install the conda environment from the .yml, using
 
 ```
 conda env create -f environment.yml
@@ -112,23 +116,24 @@ Navigate to the `src` directory and run
 python fflogs-scraping
 ```
 
-To work on this package, please install the dependencies from `requirements.txt` in your (Python 3.10) environment, using
+To work on this project, please instead install the dependencies from `requirements.txt` in your (Python 3.10) environment, using
 
 ```
 pip install -r requirements.txt
 ```
 This includes `sphinx` for creating the documentation.
-### Unix/macOS
+<a name="others"></a>
+### Others
 Geckodriver needs to be installed for the Firefox Webdriver to work. On Windows, it is sufficient for the executable to be in the working directory. On other operating systems that might not work. Please refer to [this](https://askubuntu.com/questions/870530/how-to-install-geckodriver-in-ubuntu) post for solutions.
 
 After having installed geckodriver, continue as described in [Windows](#windows).
 
-<a name="expl"></a>
+<a name="example"></a>
 ## Example
 
-For the example we will look at the predefined logs 2. The set consists of 2 logs that have boss kills in them ([1](https://www.fflogs.com/reports/hacvwXKb8mFYrAdx), [2](https://www.fflogs.com/reports/LnjBh2tfZRyv8rpD)).
+For the example we will look at the predefined logs 2. The set consists of links to 2 logs that have boss kills in them ([1](https://www.fflogs.com/reports/hacvwXKb8mFYrAdx), [2](https://www.fflogs.com/reports/LnjBh2tfZRyv8rpD)).
 
-<a name="input"></a>
+<a name="user-input"></a>
 ### User Input
 On run we are prompted with a user input:  
 <img src="docs/img/input_prompt2.png" alt="User Input Prompt" width="600"/>  
@@ -155,12 +160,12 @@ On this page, the webdriver is simply going to download the main table as a csv 
 
 <img src="docs/img/damage_done_page.png" alt="Damage Done page" width="600"/>  
 
-<a name="sum"></a>
+<a name="data-summary"></a>
 ### Data Summary
 
 In `data.combination` the csv files just downloaded will be read into pandas dataframes and summarized.
 
-<a name="viz"></a>
+<a name="data-visualization"></a>
 ### Data Visualization
 
 When all this is finished, the terminal will show where the Dash app is running:  
@@ -169,22 +174,29 @@ When all this is finished, the terminal will show where the Dash app is running:
 Open this (e.g. in your browser) and you will see this dashboard with sortable columns:
 <img src="docs/img/dashboard.gif" alt="Dashboard" width="600"/>  
 
-<a name="docs"></a>
+<a name="documentation"></a>
 ## Documentation
-The code was written and documented following the [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html).
+The code was written and documented following the [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html). It was linted using Flake8 (not pylint).
 > There are 5 single lines where the line length of 80 (as required by both Pep8 and Google Style) was exceeded, because I decided that in those few cases, splitting the line would harm readability more than it would help.  
-
-> Note that docstring conventions in Google Style are slightly different from PEP257 - the first line for example, should be descriptive-style, rather than imperative-style. This may or may not be marked as wrong by your linter.
 
 You can find the documentation [here](https://fflogs-study-project.readthedocs.io/en/latest/index.html). It was built using [Sphinx](https://www.sphinx-doc.org/en/master/index.html) and is hosted on [readthedocs](https://docs.readthedocs.io/en/stable/index.html).
 
 
-<a name="selenium"></a>
+<a name="why-selenium"></a>
 ## Why Selenium?
 In hindsight, this is a good question. Since fflogs offers a "Download CSV" functionality for all of its tables, it seemed to be the most intuitive way for me to implement a program that "just clicks that button". While it is true that you need Selenium for this kind of functionality, just fetching the table data from html would have been much more effective in all terms, but especially runtime.  
 
 If I would start this project now, I would not use Selenium. Setting up a Webdriver, installing an adblocker only to click on some buttons, where you could just have fetched 2 tables instead is kind of "overkill". I might consider creating a more light-weight version completely without Selenium in the future.
 
-<a name="dash"></a>
+<a name="why-dash"></a>
 ## Why Dash?
 When beginning this project I said that I'd like to visualize the merged data, preferably somewhat interactively. I started by using Plotly as introduced in the lecture and while looking something up in its documentation, I read about Dash. It sounded interesting enough to give it a try; in the end it let me visualize the data in exactly the way I wanted (sortable table with an in-cell bar chart, like on the original website).
+
+<a name="possible-additions-changes"></a>
+## Possible Additions/ Changes
+
+* Proper command-line interface, e.g. with argparse
+* Unittests, possibly utilizing tox
+* Class-/Job-colors on Dashboard
+* html-scraping for all tables (get rid of Selenium)
+* all-in-one dashboard (with inputs, settings, etc)

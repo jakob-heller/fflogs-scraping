@@ -48,41 +48,8 @@ def layout(app: Dash, tbl1: DT, tbl2: DT) -> Dash():
     app.layout = html.Div([
         html.Div([
             html.Div([
-                DT(
-                    id='adding-rows-table',
-                    columns=[{
-                        'name': 'URLs',
-                        'id': 'url-column'
-                    }],
-                    data=[],
-                    editable=True,
-                    row_deletable=True,
-                    style_as_list_view=True,
-                    style_cell=(table_styles("cell") | {'textAlign': 'left'}),
-                    style_header=(table_styles("header") | {'textAlign': 'left'}),
-                    style_data=table_styles("table_data"),
-                    style_data_conditional=[                
-                        {
-                            "if": {"state": "selected"},
-                            "color": "inherit",              # 'active' | 'selected'
-                            "backgroundColor": "inherit",
-                            "border": "1px solid #bb592c",
-                            'textAlign': 'left'
-                        },
-                    ]
-                ),
-                html.Div([
-                    dcc.Input(
-                        id="inpt",
-                        type="url",
-                        placeholder="Input Log URL",
-                        debounce=True,
-                        name="Please enter a valid log URL.",
-                        size="40",
-                        style=table_styles("table_data")
-                    ),
-                    html.Div(id="output")
-                ], id="styled-input", style={"width": "30%"}),
+                url_data_table(),
+                input_field(),
             ], style={'width': '30% 520px', 'display': 'inline-block'}),
             html.Div([
                 dcc.Dropdown(
@@ -118,6 +85,45 @@ def layout(app: Dash, tbl1: DT, tbl2: DT) -> Dash():
             else:
                 invalid = "The URL needs to be a valid log."
         return (rows, value, invalid)
+
+def input_field() -> html.Div:
+    """Returns Input field for input of log urls."""
+    return html.Div([
+                dcc.Input(
+                    id="inpt",
+                    type="url",
+                    placeholder="Input Log URL",
+                    debounce=True,
+                    name="Please enter a valid log URL.",
+                    size="40",
+                    style=table_styles("table_data")
+                ), html.Div(id="output")
+            ], id="styled-input", style={"width": "30%"})
+
+def url_data_table() -> DT:
+    """Returns the datatable used for storing log urls."""
+    return DT(id='adding-rows-table',
+                columns=[{
+                    'name': 'URLs',
+                    'id': 'url-column'
+                }],
+                data=[],
+                editable=True,
+                row_deletable=True,
+                style_as_list_view=True,
+                style_cell=(table_styles("cell") | {'textAlign': 'left'}),
+                style_header=(table_styles("header") | {'textAlign': 'left'}),
+                style_data=table_styles("table_data"),
+                style_data_conditional=[              
+                    {
+                        "if": {"state": "selected"},
+                        "color": "inherit",              # 'active' | 'selected'
+                        "backgroundColor": "inherit",
+                        "border": "1px solid #bb592c",
+                        'textAlign': 'left'
+                    },
+                ]
+                )
 
 def dfr_to_dt(dfr: pd.DataFrame, table_id: str) -> DT:
     """Converts dataframe into DataTable, using previously defined styles."""
