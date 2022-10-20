@@ -1,6 +1,9 @@
 <img align="right" width="80" height="80" src="docs/img/fflogs_icon.png" alt="fflogs icon">
-
 <a name="fflogs-scraping"></a>
+
+> Important Note (10/2022)
+> fflogs.com underwent major design changes. If the code/ scraping is to be testet now, it is very likely to not work.
+
 # fflogs-scraping
 Scrape [fflog](https://www.fflogs.com/) entries for damage done and healing done tables, combine data from multiple logs and then visualize using a dash dashboard.
 
